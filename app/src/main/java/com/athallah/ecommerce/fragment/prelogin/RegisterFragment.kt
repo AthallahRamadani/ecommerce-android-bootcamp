@@ -13,14 +13,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.databinding.FragmentRegisterBinding
+import com.athallah.ecommerce.*
 
 
 class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: RegisterViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -134,12 +137,20 @@ class RegisterFragment : Fragment() {
 
     private fun pindahFragment() {
         binding.btMasuk.setOnClickListener {
-            findNavController().navigate(com.athallah.ecommerce.R.id.action_registerFragment_to_loginFragment)
+//            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+            makeRegister()
         }
 
         binding.btDaftar.setOnClickListener {
             findNavController().navigate(R.id.action_global_main_navigation)
         }
     }
+
+    private fun makeRegister() {
+        val email = binding.etEmail.text.toString()
+        val password = binding.etPassword.text.toString()
+//        viewModel.makeRegister(email, password)
+    }
+
 
 }

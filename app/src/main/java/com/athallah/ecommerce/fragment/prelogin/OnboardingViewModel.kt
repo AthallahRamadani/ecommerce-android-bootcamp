@@ -1,16 +1,30 @@
 package com.athallah.ecommerce.fragment.prelogin
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.athallah.ecommerce.data.AppRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import com.athallah.ecommerce.data.ImpAppRepository
+import kotlinx.coroutines.launch
 
-@HiltViewModel
-class OnboardingViewModel @Inject constructor(
-    private val appRepository: com.athallah.ecommerce.data.AppRepository
+
+class OnboardingViewModel (
+    private val appRepository: ImpAppRepository
 ) : ViewModel() {
-    fun setFirstTimeRunApp() {
-            appRepository.setIsFirstLaunchToFalse()
+
+    fun prefGetIsOnboard(): LiveData<Boolean> = appRepository.getIsOnboard().asLiveData()
+    fun prefSetIsOnboard(value: Boolean) {
+        viewModelScope.launch {
+            appRepository.setIsOnBoard(value)
+        }
     }
+
+
+
+
+//    fun setFirstTimeRunApp() {
+//            appRepository.setIsOnBoard()
+//    }
 }
 

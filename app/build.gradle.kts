@@ -1,13 +1,13 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
-    id("com.google.dagger.hilt.android")
+//    kotlin("kapt")
+//    id("com.google.dagger.hilt.android")
 }
 
-kapt {
-    correctErrorTypes = true
-}
+//kapt {
+//    correctErrorTypes = true
+//}
 
 
 
@@ -67,19 +67,32 @@ dependencies {
 
     implementation ("androidx.core:core-splashscreen:1.1.0-alpha02")
 
+    //fragment & activity
+    implementation("androidx.activity:activity-ktx:1.8.0")
+    implementation("androidx.fragment:fragment-ktx:1.6.1")
+
+
     //circle
     implementation ("me.relex:circleindicator:2.1.6")
 
     //hilt
-    implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-android-compiler:2.48")
+//    implementation("com.google.dagger:hilt-android:2.48")
+//    kapt("com.google.dagger:hilt-android-compiler:2.48")
 
     //gambar lingkar
     implementation ("de.hdodenhof:circleimageview:3.1.0")
 
-    //retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+
+    //koin
+    implementation("io.insert-koin:koin-core:3.4.3")
+    implementation("io.insert-koin:koin-android:3.4.3")
+
+
 
 }
 

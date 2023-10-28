@@ -6,6 +6,7 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.util.Patterns
 import android.util.TypedValue
 import androidx.fragment.app.Fragment
@@ -14,24 +15,31 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.source.local.preference.SharedPref
 import com.athallah.ecommerce.databinding.FragmentLoginBinding
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
+
+
 class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
-    private val viewModel : LoginViewModel by viewModels()
+    private val viewModel : LoginViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (viewModel.isFirstLaunch()){
-            findNavController().navigate(R.id.action_loginFragment_to_onboardingFragment)
-        }
+//        if (viewModel.isFirstLaunch()){
+//            findNavController().navigate(R.id.action_loginFragment_to_onboardingFragment)
+//        }
+//        viewModel.prefGetIsOnboard().observe(viewLifecycleOwner) {
+//            if (it == false) {
+//                findNavController().navigate(R.id.action_loginFragment_to_onboardingFragment)
+//            }
+//        }
     }
 
     override fun onCreateView(
@@ -39,7 +47,15 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
+
+        viewModel.prefGetIsOnboard().observe(viewLifecycleOwner) {
+            if (it == false) {
+                findNavController().navigate(R.id.action_loginFragment_to_onboardingFragment)
+            }
+        }
+
         return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -109,6 +125,7 @@ class LoginFragment : Fragment() {
 
     private fun pindahFragment() {
         binding.btDaftar.setOnClickListener {
+//            login()
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
@@ -116,6 +133,26 @@ class LoginFragment : Fragment() {
             findNavController().navigate(R.id.action_global_main_navigation)
         }
     }
+
+//    private fun login(){
+//        val request = Request()
+//        request.email = binding.etEmail.text.toString().trim()
+//        request.password = binding.etPassword.text.toString().trim()
+//
+//        val retro = Retro().getRetroClientInstance().create(UserApi::class.java)
+//        retro.login(request).enqueue(object : Callback<Response>{
+//            override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+//                val user = response.body()
+//                user!!.data?.email?.let { Log.e("email", it) }
+//                user.data?.password?.let { Log.e("password", it) }
+//            }
+//
+//            override fun onFailure(call: Call<Response>, t: Throwable) {
+//                t.message?.let { Log.e("Error", it) }
+//            }
+//
+//        })
+//    }
 
     private fun ubahWarna() {
         val typedValue = TypedValue()

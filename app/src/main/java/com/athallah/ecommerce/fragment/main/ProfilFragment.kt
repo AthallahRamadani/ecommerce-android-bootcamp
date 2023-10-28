@@ -30,9 +30,7 @@ import com.athallah.ecommerce.R
 import com.athallah.ecommerce.databinding.FragmentLoginBinding
 import com.athallah.ecommerce.databinding.FragmentProfilBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class ProfilFragment : Fragment() {
 
     private var _binding: FragmentProfilBinding? = null
@@ -79,7 +77,7 @@ class ProfilFragment : Fragment() {
                 R.style.ThemeOverlay_App_MaterialAlertDialog
             )
                 .setTitle(resources.getString(R.string.title_dialog))
-                .setItems(items) { dialog, which ->
+                .setItems(items) { _, which ->
                     when (which) {
                         0 -> {
 
