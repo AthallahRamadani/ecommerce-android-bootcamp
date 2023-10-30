@@ -122,8 +122,6 @@ class ProfilFragment : Fragment() {
 
     private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-            // Callback is invoked after the user selects a media item or closes the
-            // photo picker.
             if (uri != null) {
                 viewModel.currentImageUri = uri
                 showImage()
@@ -132,20 +130,6 @@ class ProfilFragment : Fragment() {
             }
         }
 
-    private fun uploadProfileData() {
-        Log.d("UplodProfil", "uploadprofil")
-    }
-
-
-    private fun dispatchTakePictureIntent() {
-        val REQUEST_IMAGE_CAPTURE = 1
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        try {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-        } catch (e: ActivityNotFoundException) {
-            // display error state to the user
-        }
-    }
 
 
     private fun updateButtonState() {

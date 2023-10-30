@@ -6,6 +6,7 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.util.Patterns
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -13,15 +14,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.databinding.FragmentRegisterBinding
-import com.athallah.ecommerce.*
 import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.utils.showSnackbar
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -30,8 +27,29 @@ class RegisterFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: RegisterViewModel by viewModel()
 
-    private fun initView() {
-        ubahWarna()
+    private fun initViewModel() {
+        viewModel.registerLiveData.observe(viewLifecycleOwner) { state ->
+            Log.d("TAG", state::class.java.simpleName)
+            if (state != null) {
+                when (state) {
+                    is ResultState.Error -> {
+                        binding.root.showSnackbar(state.message)
+                        binding.progressBar.visibility = View.INVISIBLE
+                        binding.btDaftar.text = "Daftar"
+                    }
+
+                    is ResultState.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                        binding.btDaftar.text = ""
+                    }
+
+                    is ResultState.Success -> findNavController().navigate(R.id.action_global_main_navigation)
+                }
+            }
+        }
+    }
+
+    private fun initViewBtnValid() {
         binding.btDaftar.isEnabled = false
         binding.etEmail.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -66,43 +84,25 @@ class RegisterFragment : Fragment() {
         })
     }
 
-    private fun initViewModelRegister() {
-        lifecycleScope.launch {
-            viewModel.registerState.collect { resultState ->
-                if (resultState != null)
-                    when (resultState) {
-                        is ResultState.Loading -> {
-                            binding.progressBar.visibility = View.INVISIBLE
-                            binding.btMasuk.text = ""
-                        }
-
-                        is ResultState.Success -> {
-                            binding.progressBar.visibility = View.INVISIBLE
-
-                        }
-                        is ResultState.Error -> {
-                            binding.progressBar.visibility = View.INVISIBLE
-                            binding.root.showSnackbar(resultState.message)
-                        }
-                    }
-            }
-        }
-    }
-
-    private fun initViewModel() {
-        val email = binding.etEmail.text.toString()
-        val password = binding.etPassword.text.toString()
-        viewModel.register(email, password)
-
+    private fun initView() {
+        initViewBtnValid()
+        ubahWarna()
         binding.btMasuk.setOnClickListener {
             findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
 
         binding.btDaftar.setOnClickListener {
-            initViewModelRegister()
-            findNavController().navigate(R.id.action_global_main_navigation)
+            val email = binding.etEmail.text.toString()
+            val pass = binding.etPassword.text.toString()
+            viewModel.register(
+                    password = pass,
+                    email = email
+            )
+            initViewModel()
         }
     }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -115,7 +115,6 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        initViewModel()
     }
 
     private fun isPasswordValid(password: String): Boolean {

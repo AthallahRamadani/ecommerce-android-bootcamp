@@ -10,7 +10,6 @@ plugins {
 //}
 
 
-
 android {
     namespace = "com.athallah.ecommerce"
     compileSdk = 34
@@ -47,7 +46,6 @@ android {
     }
 
 
-
 }
 
 dependencies {
@@ -65,7 +63,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.4")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.4")
 
-    implementation ("androidx.core:core-splashscreen:1.1.0-alpha02")
+    implementation("androidx.core:core-splashscreen:1.1.0-alpha02")
 
     //fragment & activity
     implementation("androidx.activity:activity-ktx:1.8.0")
@@ -73,25 +71,24 @@ dependencies {
 
 
     //circle
-    implementation ("me.relex:circleindicator:2.1.6")
+    implementation("me.relex:circleindicator:2.1.6")
 
     //button hilang
-    implementation ("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.appcompat:appcompat:1.6.1")
 
 
     //gambar lingkar
-    implementation ("de.hdodenhof:circleimageview:3.1.0")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
-
-    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+//live
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
 
     //koin
     implementation("io.insert-koin:koin-core:3.4.3")
     implementation("io.insert-koin:koin-android:3.4.3")
-
 
 
 }

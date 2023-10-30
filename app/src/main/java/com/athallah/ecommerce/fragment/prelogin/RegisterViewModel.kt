@@ -10,18 +10,28 @@ import com.athallah.ecommerce.data.repo.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 
-class RegisterViewModel (
+class RegisterViewModel(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
-    private val _registerState = MutableStateFlow<ResultState<User>?>(null)
-    val registerState: StateFlow<ResultState<User>?> = _registerState
-    fun register(email: String, password: String){
+    val registerLiveData: LiveData<ResultState<User>> = MutableLiveData()
+
+    fun register(email: String, password: String) {
+        val liveData = registerLiveData as MutableLiveData
+        liveData.postValue(ResultState.Loading)
         viewModelScope.launch {
-            userRepository.register(email, password).collect(){ resultState->
-                _registerState.value = resultState
+            try {
+                val user = userRepository.register(
+                    email = email,
+                    password = password
+                )
+                liveData.postValue(ResultState.Success(user))
+            } catch (e: Exception) {
+                e.printStackTrace()
+                liveData.postValue(ResultState.Error(e.message ?: "Error"))
             }
         }
     }

@@ -16,5 +16,4 @@ val vmModule = module {
     viewModel { OnboardingViewModel(get()) }
     viewModel { LoginViewModel(get(),get() ) }
     viewModel { RegisterViewModel(get()) }
-
 }
