@@ -75,9 +75,9 @@ dependencies {
     //circle
     implementation ("me.relex:circleindicator:2.1.6")
 
-    //hilt
-//    implementation("com.google.dagger:hilt-android:2.48")
-//    kapt("com.google.dagger:hilt-android-compiler:2.48")
+    //button hilang
+    implementation ("androidx.appcompat:appcompat:1.6.1")
+
 
     //gambar lingkar
     implementation ("de.hdodenhof:circleimageview:3.1.0")

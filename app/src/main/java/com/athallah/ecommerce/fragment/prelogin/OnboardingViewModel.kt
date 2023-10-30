@@ -1,30 +1,31 @@
 package com.athallah.ecommerce.fragment.prelogin
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.athallah.ecommerce.data.AppRepository
-import com.athallah.ecommerce.data.ImpAppRepository
+import com.athallah.ecommerce.data.repo.AppRepository
 import kotlinx.coroutines.launch
 
+enum class Action {
+    LOGIN,
+    REGISTER
+}
 
-class OnboardingViewModel (
-    private val appRepository: ImpAppRepository
+class OnboardingViewModel(
+    private val appRepository: AppRepository
 ) : ViewModel() {
 
-    fun prefGetIsOnboard(): LiveData<Boolean> = appRepository.getIsOnboard().asLiveData()
-    fun prefSetIsOnboard(value: Boolean) {
+
+    val prefSetIsOnBoard: LiveData<Action> = MutableLiveData()
+
+    fun setAlreadyOnboard(action: Action) {
+        val liveData = prefSetIsOnBoard as MutableLiveData
         viewModelScope.launch {
-            appRepository.setIsOnBoard(value)
+            appRepository.setIsOnBoard(true)
+            liveData.postValue(action)
         }
     }
-
-
-
-
-//    fun setFirstTimeRunApp() {
-//            appRepository.setIsOnBoard()
-//    }
 }
+
 

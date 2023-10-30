@@ -1,7 +1,8 @@
-package com.athallah.ecommerce.data.source.remote.service
+package com.athallah.ecommerce.data.datasource.api.service
 
-import com.athallah.ecommerce.data.source.remote.request.AuthRequest
-import com.athallah.ecommerce.data.source.remote.response.AuthResponse
+import com.athallah.ecommerce.data.datasource.api.request.AuthRequest
+import com.athallah.ecommerce.data.datasource.api.response.ApiResponse
+import com.athallah.ecommerce.data.datasource.api.response.AuthDataResponse
 import com.athallah.ecommerce.utils.Constant
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -16,13 +17,13 @@ interface ApiService {
     suspend fun register(
         @Body authRequest: AuthRequest,
         @Header("API_KEY") apiKey: String = Constant.API_KEY
-    ): AuthResponse
+    ): ApiResponse<AuthDataResponse>
 
     @POST("login")
     suspend fun login(
         @Body authRequest: AuthRequest,
         @Header("API_KEY") apiKey: String = Constant.API_KEY
-    ): AuthResponse
+    ): ApiResponse<AuthDataResponse>
 
     @Multipart
     @POST("profile")
@@ -30,5 +31,5 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Part("userName") userName: RequestBody,
         @Part userImage: MultipartBody.Part
-    ): AuthResponse
+    ): ApiResponse<Any>
 }

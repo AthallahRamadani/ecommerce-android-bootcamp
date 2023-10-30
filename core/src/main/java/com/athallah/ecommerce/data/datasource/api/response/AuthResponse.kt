@@ -1,17 +1,18 @@
-package com.athallah.ecommerce.data.source.remote.response
+package com.athallah.ecommerce.data.datasource.api.response
 
 import com.google.gson.annotations.SerializedName
 
-data class AuthResponse(
+data class ApiResponse<T>(
 
     @field:SerializedName("code")
     val code: Int? = null,
 
-    @field:SerializedName("data")
-    val data: AuthDataResponse? = null,
-
     @field:SerializedName("message")
-    val message: String? = null
+    val message: String? = null,
+
+    @field:SerializedName("data")
+    val data: T? = null
+
 )
 
 data class AuthDataResponse(
@@ -31,3 +32,4 @@ data class AuthDataResponse(
     @field:SerializedName("refreshToken")
     val refreshToken: String? = null
 )
+

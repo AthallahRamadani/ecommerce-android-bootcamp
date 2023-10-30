@@ -1,8 +1,8 @@
 package com.athallah.ecommerce.utils.extension
 
 import android.view.View
-import com.athallah.ecommerce.data.model.User
-import com.athallah.ecommerce.data.source.remote.response.AuthDataResponse
+import com.athallah.ecommerce.data.datasource.api.model.User
+import com.athallah.ecommerce.data.datasource.api.response.AuthDataResponse
 import com.google.android.material.snackbar.Snackbar
 import okhttp3.MultipartBody
 import okhttp3.MediaType.Companion.toMediaType

@@ -1,4 +1,4 @@
-package com.athallah.ecommerce.data.model
+package com.athallah.ecommerce.data.datasource.api.model
 
 data class User(
     val userName: String? = null,

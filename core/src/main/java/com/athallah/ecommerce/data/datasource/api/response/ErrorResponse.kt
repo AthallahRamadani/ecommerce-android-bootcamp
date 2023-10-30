@@ -1,4 +1,4 @@
-package com.athallah.ecommerce.data.source.remote.response
+package com.athallah.ecommerce.data.datasource.api.response
 
 import com.google.gson.annotations.SerializedName
 

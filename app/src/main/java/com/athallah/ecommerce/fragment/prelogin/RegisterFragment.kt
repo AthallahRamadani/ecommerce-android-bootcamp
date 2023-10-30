@@ -14,55 +14,43 @@ import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.databinding.FragmentRegisterBinding
 import com.athallah.ecommerce.*
+import com.athallah.ecommerce.data.ResultState
+import com.athallah.ecommerce.utils.showSnackbar
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: RegisterViewModel by viewModels()
+    private val viewModel: RegisterViewModel by viewModel()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentRegisterBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        pindahFragment()
+    private fun initView() {
         ubahWarna()
-
         binding.btDaftar.isEnabled = false
-
-
         binding.etEmail.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 val text = p0.toString()
                 binding.tilEmail.error =
-                if (!isEmailValid(text) && text.isNotEmpty()) getString(R.string.email_invalid) else null
+                    if (!isEmailValid(text) && text.isNotEmpty()) getString(R.string.email_invalid) else null
                 binding.btDaftar.isEnabled = true
             }
 
             override fun afterTextChanged(p0: Editable?) {
                 updateButtonState()
             }
-
         })
 
         binding.etPassword.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -75,13 +63,63 @@ class RegisterFragment : Fragment() {
             override fun afterTextChanged(p0: Editable?) {
                 updateButtonState()
             }
-
         })
+    }
 
+    private fun initViewModelRegister() {
+        lifecycleScope.launch {
+            viewModel.registerState.collect { resultState ->
+                if (resultState != null)
+                    when (resultState) {
+                        is ResultState.Loading -> {
+                            binding.progressBar.visibility = View.INVISIBLE
+                            binding.btMasuk.text = ""
+                        }
+
+                        is ResultState.Success -> {
+                            binding.progressBar.visibility = View.INVISIBLE
+
+                        }
+                        is ResultState.Error -> {
+                            binding.progressBar.visibility = View.INVISIBLE
+                            binding.root.showSnackbar(resultState.message)
+                        }
+                    }
+            }
+        }
+    }
+
+    private fun initViewModel() {
+        val email = binding.etEmail.text.toString()
+        val password = binding.etPassword.text.toString()
+        viewModel.register(email, password)
+
+        binding.btMasuk.setOnClickListener {
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+        }
+
+        binding.btDaftar.setOnClickListener {
+            initViewModelRegister()
+            findNavController().navigate(R.id.action_global_main_navigation)
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        initViewModel()
     }
 
     private fun isPasswordValid(password: String): Boolean {
-        return password.length >=8
+        return password.length >= 8
     }
 
     private fun isEmailValid(email: String): Boolean {
@@ -105,7 +143,8 @@ class RegisterFragment : Fragment() {
         theme.resolveAttribute(android.R.attr.colorPrimary, typedValue, true)
         @ColorInt val color = typedValue.data
 
-        val fullText = "Dengan masuk disini, kamu menyetujui Syarat & Ketentuan serta Kebijakan Privasi TokoPhincon"
+        val fullText =
+            "Dengan masuk disini, kamu menyetujui Syarat & Ketentuan serta Kebijakan Privasi TokoPhincon"
         val spannable = SpannableStringBuilder(fullText)
 
         val textToHighlight1 = "Syarat & Ketentuan"
@@ -134,23 +173,4 @@ class RegisterFragment : Fragment() {
 
         binding.tvAgree.text = spannable
     }
-
-    private fun pindahFragment() {
-        binding.btMasuk.setOnClickListener {
-//            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
-            makeRegister()
-        }
-
-        binding.btDaftar.setOnClickListener {
-            findNavController().navigate(R.id.action_global_main_navigation)
-        }
-    }
-
-    private fun makeRegister() {
-        val email = binding.etEmail.text.toString()
-        val password = binding.etPassword.text.toString()
-//        viewModel.makeRegister(email, password)
-    }
-
-
 }
