@@ -1,11 +1,10 @@
 package com.athallah.ecommerce.fragment.prelogin
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.athallah.ecommerce.R
@@ -20,6 +19,25 @@ class OnboardingFragment : Fragment() {
     private lateinit var viewPager2: ViewPager2
     private val viewModel: OnboardingViewModel by viewModel()
 
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentOnboardingBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        initViewModel()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
     private fun initViewPager() {
         val images = listOf(
@@ -54,39 +72,19 @@ class OnboardingFragment : Fragment() {
                 }
             }
         }
-        binding.btLewati.setOnClickListener { viewModel.setAlreadyOnboard(Action.LOGIN) }
-        binding.btGabung.setOnClickListener { viewModel.setAlreadyOnboard(Action.REGISTER) }
+        binding.btLewati.setOnClickListener { viewModel.setAlreadyOnboard(ActionOnboard.LOGIN) }
+        binding.btGabung.setOnClickListener { viewModel.setAlreadyOnboard(ActionOnboard.REGISTER) }
     }
 
     private fun initViewModel() {
         viewModel.prefSetIsOnBoard.observe(viewLifecycleOwner) { nextNav ->
             if (nextNav != null) {
-                when (nextNav){
-                    Action.LOGIN -> findNavController().navigate(R.id.action_onboardingFragment_to_loginFragment)
-                    Action.REGISTER -> findNavController().navigate(R.id.action_onboardingFragment_to_registerFragment)
+                when (nextNav) {
+                    ActionOnboard.LOGIN -> findNavController().navigate(R.id.action_onboardingFragment_to_loginFragment)
+                    ActionOnboard.REGISTER -> findNavController().navigate(R.id.action_onboardingFragment_to_registerFragment)
                 }
             }
-
         }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentOnboardingBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
-        initViewModel()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
 }

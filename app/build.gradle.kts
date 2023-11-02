@@ -90,6 +90,9 @@ dependencies {
     implementation("io.insert-koin:koin-core:3.4.3")
     implementation("io.insert-koin:koin-android:3.4.3")
 
+    //lottie
+    implementation ("com.airbnb.android:lottie:6.1.0")
+
 
 }
 

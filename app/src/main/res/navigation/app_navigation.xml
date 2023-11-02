@@ -2,11 +2,11 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/app_navigation"
-    app:startDestination="@id/app_navigation_prelogin">
+    app:startDestination="@id/app_navigation_main">
 
-    <include app:graph="@navigation/app_navigation_prelogin" />
+    <include app:graph="@navigation/prelogin_navigation" />
 
-    <include app:graph="@navigation/app_navigation_main" />
+    <include app:graph="@navigation/main_navigation" />
 
     <action
         android:id="@+id/action_global_main_navigation"

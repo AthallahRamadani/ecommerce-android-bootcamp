@@ -23,7 +23,7 @@
 
         </com.google.android.material.appbar.MaterialToolbar>
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_gravity="center_vertical"
@@ -40,9 +40,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
+        app:errorIconDrawable="@null"
         app:helperText="Contoh: test@gmail.com"
-        app:layout_constraintTop_toBottomOf="@id/app_bar"
-        app:errorIconDrawable="@null">
+        app:layout_constraintTop_toBottomOf="@id/app_bar">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_email"
@@ -60,9 +60,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
+        app:errorIconDrawable="@null"
         app:helperText="Minimal 8 karakter"
-        app:layout_constraintTop_toBottomOf="@id/til_email"
-        app:errorIconDrawable="@null">
+        app:layout_constraintTop_toBottomOf="@id/til_email">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_password"
@@ -79,21 +79,18 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginRight="16dp"
-        android:background="@drawable/button_reg"
-        android:text="@string/masuk"
+        android:text="@string/login"
         app:layout_constraintTop_toBottomOf="@id/til_password" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/bt_masuk"
-        app:layout_constraintTop_toTopOf="@id/bt_masuk"
-        app:layout_constraintEnd_toEndOf="@id/bt_masuk"
-        app:layout_constraintBottom_toBottomOf="@id/bt_masuk"
-        android:indeterminateTint="@color/white"
         android:visibility="invisible"
-        />
+        app:layout_constraintBottom_toBottomOf="@id/bt_masuk"
+        app:layout_constraintEnd_toEndOf="@id/bt_masuk"
+        app:layout_constraintStart_toStartOf="@id/bt_masuk"
+        app:layout_constraintTop_toTopOf="@id/bt_masuk" />
 
     <View
         android:layout_width="99dp"
@@ -127,14 +124,13 @@
 
     <Button
         android:id="@+id/bt_daftar"
+        style="?materialButtonOutlinedStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
-        android:background="@drawable/button_logi"
-        android:text="@string/daftar"
-        android:textColor="@color/md_theme_light_primary"
+        android:text="@string/register"
         app:layout_constraintTop_toBottomOf="@id/tv_another" />
 
     <TextView

@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.athallah.ecommerce.data.repo.AppRepository
 import kotlinx.coroutines.launch
 
-enum class Action {
+enum class ActionOnboard {
     LOGIN,
     REGISTER
 }
@@ -17,9 +17,9 @@ class OnboardingViewModel(
 ) : ViewModel() {
 
 
-    val prefSetIsOnBoard: LiveData<Action> = MutableLiveData()
+    val prefSetIsOnBoard: LiveData<ActionOnboard> = MutableLiveData()
 
-    fun setAlreadyOnboard(action: Action) {
+    fun setAlreadyOnboard(action: ActionOnboard) {
         val liveData = prefSetIsOnBoard as MutableLiveData
         viewModelScope.launch {
             appRepository.setIsOnBoard(true)
@@ -27,5 +27,3 @@ class OnboardingViewModel(
         }
     }
 }
-
-

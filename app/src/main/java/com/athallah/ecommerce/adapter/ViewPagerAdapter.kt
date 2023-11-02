@@ -1,19 +1,16 @@
 package com.athallah.ecommerce.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.athallah.ecommerce.R
+import com.athallah.ecommerce.databinding.ItemPageBinding
 
 class ViewPagerAdapter(private var images: List<Int>) :
     RecyclerView.Adapter<ViewPagerAdapter.Pager2ViewHolder>() {
 
-    inner class Pager2ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class Pager2ViewHolder(binding: ItemPageBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        val itemImage: ImageView = itemView.findViewById(R.id.iv_image)
-
+        val itemImage = binding.ivImage
     }
 
     override fun onCreateViewHolder(
@@ -21,7 +18,7 @@ class ViewPagerAdapter(private var images: List<Int>) :
         viewType: Int
     ): Pager2ViewHolder {
         return Pager2ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_page, parent, false)
+            ItemPageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 

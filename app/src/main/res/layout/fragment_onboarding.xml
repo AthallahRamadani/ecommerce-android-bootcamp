@@ -10,26 +10,24 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp_onboard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="75dp"
-        app:layout_constraintBottom_toTopOf="@id/bt_gabung"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="0dp"
+        android:layout_marginVertical="32dp"
         android:scaleType="center"
-        />
+        app:layout_constraintBottom_toTopOf="@id/bt_gabung"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/bt_gabung"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="37.5dp"
         android:layout_marginEnd="16dp"
-        android:text="@string/gabung_sekarang"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/button_join"
+        android:text="@string/join_now"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vp_onboard"
-        android:background="@drawable/button_join"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <Button
@@ -40,19 +38,18 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/lewati"
+        android:text="@string/skip"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_gabung"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/bt_gabung" />
 
     <me.relex.circleindicator.CircleIndicator3
         android:id="@+id/indicator"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         app:ci_drawable="@drawable/dot"
         app:ci_margin="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -68,10 +65,9 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/selanjutnya"
+        android:text="@string/next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bt_gabung" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

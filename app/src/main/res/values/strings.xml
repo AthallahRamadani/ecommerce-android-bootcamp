@@ -2,14 +2,14 @@
     <string name="app_name">Ecommerce</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="lewati">Lewati</string>
-    <string name="gabung_sekarang">Gabung Sekarang</string>
-    <string name="selanjutnya">Selanjutnya</string>
+    <string name="skip">Lewati</string>
+    <string name="join_now">Gabung Sekarang</string>
+    <string name="next">Selanjutnya</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="masuk">Masuk</string>
+    <string name="login">Masuk</string>
     <string name="another">atau daftar dengan</string>
-    <string name="daftar">Daftar</string>
+    <string name="register">Daftar</string>
     <string name="agree1">"Dengan masuk disini, kamu menyetujui "</string>
     <string name="agree2"><![CDATA["Syarat & Ketentuan "]]></string>
     <string name="agree3">"serta "</string>
@@ -20,8 +20,23 @@
     <string name="password_invalid">Password tidak valid.</string>
     <string name="another2">atau masuk dengan</string>
     <string name="nama">Nama</string>
-    <string name="selesai">Selesai</string>
+    <string name="finish">Selesai</string>
     <string name="title_dialog">Pilih Gambar</string>
+    <string name="term_condition"><![CDATA[Syarat & Ketentuan]]></string>
+    <string name="privacy_policy">Kebijakan Privasi</string>
+    <string name="notification">notification</string>
+    <string name="cart">cart</string>
+    <string name="menu">menu</string>
+    <string name="home">Home</string>
+    <string name="store">Store</string>
+    <string name="wishlist">Wishlist</string>
+    <string name="transaction">Transaction</string>
+    <string name="logout">Logout</string>
+    <string name="en">EN</string>
+    <string name="id">ID</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="search">Search</string>
 
 
 </resources>

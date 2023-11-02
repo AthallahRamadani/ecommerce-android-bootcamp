@@ -6,18 +6,33 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.data.datasource.api.model.User
+import com.athallah.ecommerce.data.repo.AppRepository
 import com.athallah.ecommerce.data.repo.UserRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import com.athallah.ecommerce.utils.getApiErrorMessage
 import kotlinx.coroutines.launch
-import java.lang.Exception
+import kotlinx.coroutines.runBlocking
 
 
 class RegisterViewModel(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val appRepository: AppRepository
 ) : ViewModel() {
 
     val registerLiveData: LiveData<ResultState<User>> = MutableLiveData()
+
+    fun prefSetAccToken(value: String) {
+        runBlocking {
+            appRepository.setAccToken(value)
+        }
+    }
+
+    fun prefSetRefToken(value: String) {
+        runBlocking {
+            appRepository.setRefToken(value)
+        }
+    }
+
+
 
     fun register(email: String, password: String) {
         val liveData = registerLiveData as MutableLiveData
@@ -30,8 +45,8 @@ class RegisterViewModel(
                 )
                 liveData.postValue(ResultState.Success(user))
             } catch (e: Exception) {
-                e.printStackTrace()
-                liveData.postValue(ResultState.Error(e.message ?: "Error"))
+                val error = getApiErrorMessage(e)
+                liveData.postValue(ResultState.Error(error ?: e.message.toString()))
             }
         }
     }

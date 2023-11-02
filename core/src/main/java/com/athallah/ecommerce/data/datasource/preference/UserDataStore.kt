@@ -4,11 +4,13 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.athallah.ecommerce.data.datasource.api.model.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class UserDataStore(private val dataStore: DataStore<Preferences> ) {
+class UserDataStore(private val dataStore: DataStore<Preferences>) {
 
     private val language = stringPreferencesKey("language")
     private val refToken = stringPreferencesKey("ref_token")
@@ -17,6 +19,12 @@ class UserDataStore(private val dataStore: DataStore<Preferences> ) {
     private val light = booleanPreferencesKey("light_theme")
     private val username = stringPreferencesKey("username")
     private val isLogin = booleanPreferencesKey("is_login")
+    private val userImage = stringPreferencesKey("user_image")
+    private val userExpires = intPreferencesKey("user_expires")
+
+
+
+
 
     fun getLanguage(): Flow<String> {
         return dataStore.data.map {
@@ -102,6 +110,25 @@ class UserDataStore(private val dataStore: DataStore<Preferences> ) {
         }
     }
 
+    suspend fun setUserDataSession(user: User) {
+        dataStore.edit { preferences ->
+            user.userName?.let { preferences[username] = it }
+            user.accessToken?.let { preferences[accToken] = it }
+            user.refreshToken?.let { preferences[refToken] = it }
+            user.userImage?.let { preferences[userImage] = it }
+            user.expiresAt?.let { preferences[userExpires] = it.toInt() }
+        }
+    }
+
+    suspend fun clearAllDataSession() {
+        dataStore.edit { preferences ->
+            preferences.remove(username)
+            preferences.remove(accToken)
+            preferences.remove(refToken)
+            preferences.remove(userImage)
+            preferences.remove(userExpires)
+        }
+    }
 
 
 

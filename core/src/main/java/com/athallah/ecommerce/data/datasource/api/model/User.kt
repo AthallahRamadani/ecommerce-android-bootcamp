@@ -5,5 +5,7 @@ data class User(
     val userImage: String? = null,
     val accessToken: String? = null,
     val refreshToken: String? = null,
-    val expiresAt: Int? = null
+    val expiresAt: Long? = null
 )
+
+

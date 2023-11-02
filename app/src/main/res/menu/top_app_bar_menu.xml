@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_notification"
+        android:icon="@drawable/baseline_notifications_24"
+        android:title="@string/notification"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_cart"
+        android:icon="@drawable/baseline_shopping_cart_24"
+        android:title="@string/cart"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_option"
+        android:icon="@drawable/baseline_menu_24"
+        android:title="@string/menu"
+        app:showAsAction="ifRoom" />
+</menu>

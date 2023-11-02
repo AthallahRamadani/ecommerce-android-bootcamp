@@ -1,0 +1,51 @@
+package com.athallah.ecommerce.data.repo
+
+import android.util.Log
+import com.athallah.ecommerce.data.datasource.preference.UserDataStore
+import kotlinx.coroutines.flow.Flow
+
+class AppRepositoryImpl(
+    private val sharedPref: UserDataStore
+): AppRepository {
+    //pref
+    override fun getLanguage(): Flow<String> = sharedPref.getLanguage()
+    override suspend fun setLanguage(value: String) {
+        sharedPref.setLanguage(value)
+    }
+
+    override fun getRefToken(): Flow<String> = sharedPref.getRefToken()
+    override suspend fun setRefToken(value: String) {
+        sharedPref.setRefToken(value)
+    }
+
+    override fun getAccToken(): Flow<String> = sharedPref.getAccToken()
+    override suspend fun setAccToken(value: String) {
+        sharedPref.setAccToken(value)
+    }
+
+    override fun getIsOnboard(): Flow<Boolean> = sharedPref.getIsOnboard()
+    override suspend fun setIsOnBoard(value: Boolean) {
+        sharedPref.setIsOnBoard(value)
+    }
+
+    override fun getLight(): Flow<Boolean> = sharedPref.getLight()
+    override suspend fun setLight(value: Boolean) {
+        sharedPref.setLight(value)
+    }
+
+    override fun getUsername(): Flow<String> = sharedPref.getUsername()
+    override suspend fun setUsername(value: String) {
+        sharedPref.setUsername(value)
+    }
+
+    override fun getIsLogin(): Flow<Boolean> = sharedPref.getIsLogin()
+    override suspend fun setIsLogin(value: Boolean) {
+        sharedPref.setIsLogin(value)
+    }
+
+    override suspend fun logout() {
+        Log.d("TAG", "logout: ")
+        sharedPref.clearAllDataSession()
+    }
+
+}

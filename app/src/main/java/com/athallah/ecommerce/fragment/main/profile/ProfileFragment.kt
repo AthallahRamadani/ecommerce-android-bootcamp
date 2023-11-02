@@ -1,12 +1,7 @@
-package com.athallah.ecommerce.fragment.main
+package com.athallah.ecommerce.fragment.main.profile
 
-import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -18,29 +13,29 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.viewModels
+import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.athallah.ecommerce.R
-import com.athallah.ecommerce.databinding.FragmentLoginBinding
+import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.databinding.FragmentProfilBinding
+import com.athallah.ecommerce.fragment.main.`object`.PhotoLoaderManager
+import com.athallah.ecommerce.utils.showSnackbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class ProfilFragment : Fragment() {
+class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfilBinding? = null
     private val binding get() = _binding!!
     private lateinit var tempUri: Uri
-    private val viewModel: ProfilViewModel by viewModels()
+    private val viewModel: ProfileViewModel by viewModel()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfilBinding.inflate(inflater, container, false)
         return binding.root
@@ -49,7 +44,8 @@ class ProfilFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ubahWarna()
+
+        changeColor()
 
         binding.btSelesai.isEnabled = false
 
@@ -65,38 +61,53 @@ class ProfilFragment : Fragment() {
             override fun afterTextChanged(p0: Editable?) {
                 updateButtonState()
             }
-
         })
-
-
         binding.ivImage.setOnClickListener {
             val items = arrayOf("Kamera", "Galeri")
 
             MaterialAlertDialogBuilder(
-                requireContext(),
-                R.style.ThemeOverlay_App_MaterialAlertDialog
-            )
-                .setTitle(resources.getString(R.string.title_dialog))
-                .setItems(items) { _, which ->
-                    when (which) {
-                        0 -> {
+                requireContext(), R.drawable.background_dialog
+            ).setBackground(
+                ContextCompat.getDrawable(
+                    requireActivity(), R.drawable.background_dialog
+                )
+            ).setTitle(resources.getString(R.string.title_dialog)).setItems(items) { _, which ->
+                when (which) {
+                    0 -> {
 
-                            actionOpenCamera()
-                        }
+                        actionOpenCamera()
+                    }
 
-                        1 -> {
-                            actionOpenGallery()
-                        }
+                    1 -> {
+                        actionOpenGallery()
                     }
                 }
-                .show()
+            }.show()
         }
+        observeUpload()
+
+        binding.btSelesai.setOnClickListener {
+            uploadProfileData()
+        }
+    }
+
+    private fun uploadProfileData() {
+        val imageFile = viewModel.currentImageUri?.let { uri ->
+            PhotoLoaderManager.uriToFile(
+                uri,
+                requireActivity(),
+                requireActivity().contentResolver
+            )
+        }
+        val name = binding.etNama.text.toString()
+        viewModel.uploadProfile(name, imageFile)
     }
 
     private fun actionOpenCamera() {
         tempUri = PhotoLoaderManager.buildNewUri(requireActivity())
         cameraIntentLauncher.launch(tempUri)
     }
+
 
     private val cameraIntentLauncher = registerForActivityResult(
         ActivityResultContracts.TakePicture()
@@ -131,7 +142,6 @@ class ProfilFragment : Fragment() {
         }
 
 
-
     private fun updateButtonState() {
         val nama = binding.etNama.text.toString()
 
@@ -146,18 +156,18 @@ class ProfilFragment : Fragment() {
     }
 
 
-    private fun ubahWarna() {
+    private fun changeColor() {
         val typedValue = TypedValue()
         val theme = requireContext().theme
         theme.resolveAttribute(android.R.attr.colorPrimary, typedValue, true)
         @ColorInt val color = typedValue.data
 
-        val fullText =
-            "Dengan masuk disini, kamu menyetujui Syarat & Ketentuan serta Kebijakan Privasi TokoPhincon"
+        val fullText = getString(R.string.agree)
+
         val spannable = SpannableStringBuilder(fullText)
 
-        val textToHighlight1 = "Syarat & Ketentuan"
-        val textToHighlight2 = "Kebijakan Privasi"
+        val textToHighlight1 = getString(R.string.term_condition)
+        val textToHighlight2 = getString(R.string.privacy_policy)
 
         val start1 = fullText.indexOf(textToHighlight1)
         val start2 = fullText.indexOf(textToHighlight2)
@@ -181,6 +191,32 @@ class ProfilFragment : Fragment() {
         }
 
         binding.tvAgree.text = spannable
+    }
+
+    private fun observeUpload() {
+        viewModel.uploadState.observe(viewLifecycleOwner){ state ->
+            if (state != null) {
+                when (state) {
+                    is ResultState.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                        binding.btSelesai.visibility = View.INVISIBLE
+                    }
+
+                    is ResultState.Error -> {
+                        binding.root.showSnackbar(state.message)
+                        binding.progressBar.visibility = View.INVISIBLE
+                        binding.btSelesai.visibility = View.VISIBLE
+                    }
+
+                    is ResultState.Success -> {
+//                        viewModel.prefSetUsername(state.data.userName?:"")
+                        viewModel.prefSetUsername(binding.etNama.text.toString())
+                        val isSuccessful = state.data
+                        if (isSuccessful) findNavController().navigate(R.id.action_profilFragment_to_mainFragment)
+                    }
+                }
+            }
+        }
     }
 
 }
