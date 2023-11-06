@@ -21,10 +21,10 @@ import kotlinx.coroutines.flow.map
 class StoreRepositoryImpl(
     private val apiService: ApiService,
     private val preferences: UserDataStore
-) : StoreRepository{
+) : StoreRepository {
     override fun getProducts(query: ProductsQuery): Flow<PagingData<Product>> {
         return Pager(
-            config = PagingConfig(pageSize = 5),
+            config = PagingConfig(pageSize = 10, prefetchDistance = 1, initialLoadSize = 10),
             pagingSourceFactory = {
                 ProductsPagingSource(apiService, query, preferences)
             },

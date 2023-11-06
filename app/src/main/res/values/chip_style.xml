@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="BottomSheet.Chip" parent="Widget.Material3.Chip.Suggestion">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Chip</item>
+        <item name="android:textAppearance">@style/TextAppearance.Medium</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Chip" parent="">
+        <item name="elevation">0dp</item>
+        <item name="elevationOverlayEnabled">false</item>
+    </style>
+</resources>

@@ -5,10 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.athallah.ecommerce.R
@@ -27,6 +29,9 @@ class StoreFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: StoreViewModel by viewModel()
     private val productAdapter = ProductAdapter()
+    private val gridLayoutManager: GridLayoutManager by lazy {
+        GridLayoutManager(requireActivity(), 1)
+    }
 
 
     override fun onCreateView(
@@ -56,27 +61,37 @@ class StoreFragment : Fragment() {
     }
 
     private fun setAdapter() {
-        binding.rvStore.adapter =
+        binding.includeContent.rvStore.adapter =
             productAdapter.withLoadStateFooter(LoadingAdapter())
         productAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
                 super.onItemRangeMoved(fromPosition, toPosition, itemCount)
-                binding.rvStore.scrollToPosition(0)
+                binding.includeContent.rvStore.scrollToPosition(0)
+
             }
         })
+
+        binding.includeContent.rvStore.layoutManager = gridLayoutManager
     }
 
     private fun setRecyclerView() {
         if (viewModel.recyclerViewType == ProductAdapter.ONE_COLUMN_VIEW_TYPE) {
             productAdapter.viewType = ProductAdapter.ONE_COLUMN_VIEW_TYPE
-            binding.rvStore.layoutManager = GridLayoutManager(requireActivity(), 1)
+            gridLayoutManager.spanCount = 1
+
         } else {
             productAdapter.viewType = ProductAdapter.MORE_COLUMN_VIEW_TYPE
-            binding.rvStore.layoutManager = GridLayoutManager(requireActivity(), 2)
+            gridLayoutManager.spanCount = 2
+
         }
     }
 
     private fun observeProducts() {
+        productAdapter.addLoadStateListener { loadState ->
+            val state = loadState.refresh
+            showShimmerLoading(state is LoadState.Loading)
+            if (state is LoadState.Error) showErrorView(state.error)
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.productsData.collect { pagingData ->
@@ -87,12 +102,38 @@ class StoreFragment : Fragment() {
         }
     }
 
+    private fun showErrorView(error: Throwable) {
+        TODO("Not yet implemented")
+    }
+
+    private fun showShimmerLoading(isLoading: Boolean) {
+        with(binding) {
+            includeLoading.shimmerList.isVisible =
+                viewModel.recyclerViewType == ProductAdapter.ONE_COLUMN_VIEW_TYPE
+            includeLoading.shimmerGrid.isVisible =
+                viewModel.recyclerViewType == ProductAdapter.MORE_COLUMN_VIEW_TYPE
+
+            includeLoading.loadingShimmer.isVisible = isLoading
+            includeContent.layoutContent.isVisible = !isLoading
+
+            if(isLoading){
+                includeLoading.loadingShimmer.startShimmer()
+            } else if (includeLoading.loadingShimmer.isShimmerStarted)
+                includeLoading.loadingShimmer.stopShimmer()
+
+        }
+    }
+
     private fun actionSetup() {
-        binding.ivList.setOnClickListener {
+        binding.includeContent.ivList.setOnClickListener {
             actionChangeToGridView()
         }
-        binding.chipFilter.setOnClickListener {
+        binding.includeContent.chipFilter.setOnClickListener {
             openFilter()
+        }
+        binding.swipeRefresh.setOnRefreshListener {
+            productAdapter.refresh()
+            binding.swipeRefresh.isRefreshing = false
         }
     }
 
@@ -112,12 +153,13 @@ class StoreFragment : Fragment() {
             } else {
                 ProductAdapter.ONE_COLUMN_VIEW_TYPE
             }
+
         setRecyclerView()
         setImageChange()
     }
 
     private fun setImageChange() {
-        binding.ivList.setImageResource(
+        binding.includeContent.ivList.setImageResource(
             if (viewModel.recyclerViewType == ProductAdapter.ONE_COLUMN_VIEW_TYPE)
                 R.drawable.baseline_grid_view_24
             else
@@ -130,8 +172,14 @@ class StoreFragment : Fragment() {
             FilterSheetFragment.FRAGMENT_REQUEST_KEY,
             viewLifecycleOwner
         ) { _, bundle ->
-            Log.d("TAG", "getFilterFragmentResult: ${bundle.getString(FilterSheetFragment.BUNDLE_BRAND_KEY)}")
-            Log.d("TAG", "getFilterFragmentResult: ${bundle.getString(FilterSheetFragment.BUNDLE_SORT_KEY)}")
+            Log.d(
+                "TAG",
+                "getFilterFragmentResult: ${bundle.getString(FilterSheetFragment.BUNDLE_BRAND_KEY)}"
+            )
+            Log.d(
+                "TAG",
+                "getFilterFragmentResult: ${bundle.getString(FilterSheetFragment.BUNDLE_SORT_KEY)}"
+            )
             val productFilter = ProductsQuery(
                 sort = bundle.getString(FilterSheetFragment.BUNDLE_SORT_KEY),
                 brand = bundle.getString(FilterSheetFragment.BUNDLE_BRAND_KEY),
@@ -149,7 +197,7 @@ class StoreFragment : Fragment() {
                 chip.setChipBackgroundColorResource(R.color.white)
                 chip.isCloseIconVisible = false
                 chip.setTextColor(resources.getColor(android.R.color.black, requireContext().theme))
-                binding.chipFilterGroup.addView(chip)
+                binding.includeContent.chipFilterGroup.addView(chip)
             }
 
             if (brand != null) {
@@ -158,7 +206,7 @@ class StoreFragment : Fragment() {
                 chip.setChipBackgroundColorResource(R.color.white)
                 chip.isCloseIconVisible = false
                 chip.setTextColor(resources.getColor(android.R.color.black, requireContext().theme))
-                binding.chipFilterGroup.addView(chip)
+                binding.includeContent.chipFilterGroup.addView(chip)
             }
 
             viewModel.resSortFilterProduct =
@@ -174,7 +222,7 @@ class StoreFragment : Fragment() {
     }
 
     private fun setChipView() {
-        binding.chipFilterGroup.removeAllViews()
+        binding.includeContent.chipFilterGroup.removeAllViews()
 
         val filterList = arrayListOf<String>()
         Log.d("TAG", "setChipView: ${viewModel.resSortFilterProduct}")
@@ -187,12 +235,12 @@ class StoreFragment : Fragment() {
 //        filterList.add(bundle)
 
         for (filter in filterList) {
-            val chip = Chip(binding.chipFilterGroup.context)
+            val chip = Chip(binding.includeContent.chipFilterGroup.context)
             chip.setTextAppearanceResource(R.style.TextAppearance_Medium)
             chip.text = filter
             chip.isClickable = false
             chip.isCheckable = false
-            binding.chipFilterGroup.addView(chip)
+            binding.includeContent.chipFilterGroup.addView(chip)
         }
     }
 }

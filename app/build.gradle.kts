@@ -102,6 +102,9 @@ dependencies {
     //coil photo online loader
     implementation("io.coil-kt:coil:2.4.0")
 
+    //swiperefreshlayout
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
 
 }
 

@@ -58,6 +58,7 @@
     <string name="show_product">Tampilkan Produk</string>
     <string name="dell">Dell</string>
     <string name="lenovo">Lenovo</string>
+    <string name="filter">Filter</string>
 
 
 </resources>

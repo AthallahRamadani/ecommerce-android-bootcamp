@@ -52,7 +52,7 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_review"
-            style="@style/Widget.Material3.Chip.Suggestion"
+            style="@style/BottomSheet.Chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/review"
@@ -60,7 +60,7 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_sale"
-            style="@style/Widget.Material3.Chip.Suggestion"
+            style="@style/BottomSheet.Chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sale"
@@ -68,7 +68,7 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_low"
-            style="@style/Widget.Material3.Chip.Suggestion"
+            style="@style/BottomSheet.Chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/low_price"
@@ -76,7 +76,7 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_high"
-            style="@style/Widget.Material3.Chip.Suggestion"
+            style="@style/BottomSheet.Chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/high_price"
@@ -106,7 +106,7 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_apple"
-            style="@style/Widget.Material3.Chip.Suggestion"
+            style="@style/BottomSheet.Chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/apple"
@@ -114,7 +114,7 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_asus"
-            style="@style/Widget.Material3.Chip.Suggestion"
+            style="@style/BottomSheet.Chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/asus"
@@ -122,7 +122,7 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_dell"
-            style="@style/Widget.Material3.Chip.Suggestion"
+            style="@style/BottomSheet.Chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/dell"
@@ -130,7 +130,7 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_lenovo"
-            style="@style/Widget.Material3.Chip.Suggestion"
+            style="@style/BottomSheet.Chip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/lenovo"
