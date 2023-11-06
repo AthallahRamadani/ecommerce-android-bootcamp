@@ -1,0 +1,42 @@
+package com.athallah.ecommerce.data.repo
+
+import android.content.SharedPreferences
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
+import androidx.paging.map
+import com.athallah.ecommerce.data.ResultState
+import com.athallah.ecommerce.data.datasource.ProductsPagingSource
+import com.athallah.ecommerce.data.datasource.api.model.Product
+import com.athallah.ecommerce.data.datasource.api.request.ProductsQuery
+import com.athallah.ecommerce.data.datasource.api.service.ApiService
+import com.athallah.ecommerce.data.datasource.preference.UserDataStore
+import com.athallah.ecommerce.utils.extension.toProduct
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+
+class StoreRepositoryImpl(
+    private val apiService: ApiService,
+    private val preferences: UserDataStore
+) : StoreRepository{
+    override fun getProducts(query: ProductsQuery): Flow<PagingData<Product>> {
+        return Pager(
+            config = PagingConfig(pageSize = 5),
+            pagingSourceFactory = {
+                ProductsPagingSource(apiService, query, preferences)
+            },
+        ).flow.map {
+            it.map { productsResponseItem ->
+                productsResponseItem.toProduct()
+            }
+        }
+    }
+
+    override fun searchProducts(query: String): Flow<ResultState<List<String>>> {
+        TODO("Not yet implemented")
+    }
+
+}

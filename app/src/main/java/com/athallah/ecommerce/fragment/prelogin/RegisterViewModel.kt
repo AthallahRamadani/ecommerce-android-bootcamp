@@ -9,6 +9,7 @@ import com.athallah.ecommerce.data.datasource.api.model.User
 import com.athallah.ecommerce.data.repo.AppRepository
 import com.athallah.ecommerce.data.repo.UserRepository
 import com.athallah.ecommerce.utils.getApiErrorMessage
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -31,6 +32,8 @@ class RegisterViewModel(
             appRepository.setRefToken(value)
         }
     }
+
+    fun prefGetUsername(): String = runBlocking { appRepository.getUsername().first() }
 
 
 

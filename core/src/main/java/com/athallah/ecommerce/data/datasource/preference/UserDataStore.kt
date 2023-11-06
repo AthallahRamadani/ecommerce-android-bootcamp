@@ -5,7 +5,9 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.lifecycle.LiveData
 import com.athallah.ecommerce.data.datasource.api.model.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -20,7 +22,7 @@ class UserDataStore(private val dataStore: DataStore<Preferences>) {
     private val username = stringPreferencesKey("username")
     private val isLogin = booleanPreferencesKey("is_login")
     private val userImage = stringPreferencesKey("user_image")
-    private val userExpires = intPreferencesKey("user_expires")
+    private val userExpires = longPreferencesKey("user_expires")
 
 
 
@@ -116,7 +118,7 @@ class UserDataStore(private val dataStore: DataStore<Preferences>) {
             user.accessToken?.let { preferences[accToken] = it }
             user.refreshToken?.let { preferences[refToken] = it }
             user.userImage?.let { preferences[userImage] = it }
-            user.expiresAt?.let { preferences[userExpires] = it.toInt() }
+            user.expiresAt?.let { preferences[userExpires] = it }
         }
     }
 
@@ -130,6 +132,19 @@ class UserDataStore(private val dataStore: DataStore<Preferences>) {
         }
     }
 
+    fun getUserDataSession(): Flow<User> = dataStore.data.map { preferences ->
+        User(
+            preferences[username],
+            preferences[userImage],
+            preferences[accToken],
+            preferences[refToken],
+            preferences[userExpires]
+        )
+    }
 
-
+    suspend fun setUserTokenSession(token: String) {
+        dataStore.edit { preferences ->
+            token.let { preferences[accToken] = it }
+        }
+    }
 }

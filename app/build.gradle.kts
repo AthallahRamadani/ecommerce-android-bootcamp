@@ -83,7 +83,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
-//live
+    //live
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
 
     //koin
@@ -91,7 +91,16 @@ dependencies {
     implementation("io.insert-koin:koin-android:3.4.3")
 
     //lottie
-    implementation ("com.airbnb.android:lottie:6.1.0")
+    implementation("com.airbnb.android:lottie:6.1.0")
+
+    //shimmer
+    implementation ("com.facebook.shimmer:shimmer:0.5.0")
+
+    //paging
+    implementation("androidx.paging:paging-runtime-ktx:3.2.1")
+
+    //coil photo online loader
+    implementation("io.coil-kt:coil:2.4.0")
 
 
 }

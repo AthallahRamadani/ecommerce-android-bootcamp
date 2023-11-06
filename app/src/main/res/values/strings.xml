@@ -37,6 +37,27 @@
     <string name="light">Light</string>
     <string name="dark">Dark</string>
     <string name="search">Search</string>
+    <string name="empty_title">Empty</string>
+    <string name="empty_subtitle">Your requested data is unavailable</string>
+    <string name="connection_title">Connection</string>
+    <string name="connection_subtitle">Your connection is unavailable</string>
+    <string name="refresh">Refresh</string>
+    <string name="reset">Reset</string>
+    <string name="server_subtitle">Internal Server Error</string>
+    <string name="server_title">500</string>
+    <string name="product_rating_and_sales">%1$.1f | Terjual %2$d</string>
+    <string name="review">Ulasan</string>
+    <string name="sale">Penjualan</string>
+    <string name="low_price">Harga Terendah</string>
+    <string name="high_price">Harga Tertinggi</string>
+    <string name="apple">Apple</string>
+    <string name="asus">Asus</string>
+    <string name="price">Harga</string>
+    <string name="lowest">Terendah</string>
+    <string name="highest">Tertinggi</string>
+    <string name="show_product">Tampilkan Produk</string>
+    <string name="dell">Dell</string>
+    <string name="lenovo">Lenovo</string>
 
 
 </resources>

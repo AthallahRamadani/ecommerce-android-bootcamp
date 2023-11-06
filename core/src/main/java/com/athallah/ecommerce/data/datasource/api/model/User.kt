@@ -1,6 +1,6 @@
 package com.athallah.ecommerce.data.datasource.api.model
 
-data class User(
+data class  User(
     val userName: String? = null,
     val userImage: String? = null,
     val accessToken: String? = null,

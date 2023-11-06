@@ -7,4 +7,9 @@
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/news_avd_v02</item>
         <item name="postSplashScreenTheme">@style/Base.Theme.Ecommerce</item>
     </style>
+
+    <style name="Theme_Ecommerce" parent="Base.Theme.Ecommerce">
+        <item name="android:windowSoftInputMode">adjustPan</item>
+    </style>
+
 </resources>

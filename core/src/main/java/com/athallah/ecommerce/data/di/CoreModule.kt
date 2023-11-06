@@ -8,9 +8,13 @@ import com.athallah.ecommerce.data.datasource.api.service.ApiService
 import com.athallah.ecommerce.data.repo.AppRepository
 import com.athallah.ecommerce.data.repo.AppRepositoryImpl
 import com.athallah.ecommerce.data.datasource.preference.UserDataStore
+import com.athallah.ecommerce.data.repo.StoreRepository
+import com.athallah.ecommerce.data.repo.StoreRepositoryImpl
 import com.athallah.ecommerce.data.repo.UserRepository
 import com.athallah.ecommerce.data.repo.UserRepositoryImpl
 import com.athallah.ecommerce.utils.Constant
+import com.athallah.ecommerce.utils.extension.HeaderInterceptor
+import com.athallah.ecommerce.utils.extension.SupportAuthenticator
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import okhttp3.OkHttp
@@ -28,6 +32,7 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "AP
 val repositoryModule = module {
     single{AppRepositoryImpl(get())} bind AppRepository::class
     factory<UserRepository> { UserRepositoryImpl(get(),get()) }
+    factory<StoreRepository> {StoreRepositoryImpl(get(),get())}
 }
 
 val preferenceModule = module {
@@ -44,9 +49,14 @@ val apiModule = module {
             .build()
     }
 
+    single {HeaderInterceptor(get())}
+    single { SupportAuthenticator(androidContext(), get()) }
+
     single {
         OkHttpClient.Builder().apply {
             addInterceptor(get<ChuckerInterceptor>())
+            addInterceptor(get<HeaderInterceptor>())
+            authenticator(get<SupportAuthenticator>())
         }.build()
     }
 
