@@ -47,7 +47,22 @@ class StoreViewModel(
         }
     }
 
+    fun getSearchData(query: String?) {
+        viewModelScope.launch {
+            productsQuery.update {
+                it.copy(search = query)
+            }
+        }
+    }
+
     fun prefGetAccToken(): LiveData<String> = appRepository.getAccToken().asLiveData()
+    fun resetData() {
+        viewModelScope.launch {
+            productsQuery.value = ProductsQuery()
+            resSortFilterProduct = null
+            resBrandFilterProduct = null
+        }
+    }
 
 
 }

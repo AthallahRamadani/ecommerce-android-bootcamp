@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:paddingHorizontal="16dp"
     tools:context=".fragment.main.store.FilterSheetFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -12,23 +12,27 @@
         android:id="@+id/tv_filter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Filter"
+        android:text="@string/filter"
         android:textFontWeight="700"
+        android:layout_marginTop="25dp"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-
         android:id="@+id/bt_reset"
-        style="@style/Widget.AppCompat.Button.Borderless"
+        style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Reset"
+        android:visibility="gone"
         android:textColor="@color/md_theme_light_primary"
         android:textSize="14sp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:fontFamily="@font/poppinsmedium"
+        />
 
     <TextView
         android:id="@+id/tv_sort"
@@ -164,6 +168,7 @@
                 android:id="@+id/et_lowest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/lowest" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -181,6 +186,7 @@
                 android:id="@+id/et_highest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/highest" />
 
         </com.google.android.material.textfield.TextInputLayout>

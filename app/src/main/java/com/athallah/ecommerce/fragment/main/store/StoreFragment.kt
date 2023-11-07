@@ -1,5 +1,6 @@
 package com.athallah.ecommerce.fragment.main.store
 
+import android.net.http.HttpException
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,12 +17,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.datasource.api.request.ProductsQuery
 import com.athallah.ecommerce.databinding.FragmentStoreBinding
+import com.athallah.ecommerce.fragment.main.store.search.SearchFragment
 import com.athallah.ecommerce.fragment.main.store.storeadapter.LoadingAdapter
 import com.athallah.ecommerce.fragment.main.store.storeadapter.ProductAdapter
 import com.google.android.material.chip.Chip
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.IOException
 
 
 class StoreFragment : Fragment() {
@@ -29,6 +32,7 @@ class StoreFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: StoreViewModel by viewModel()
     private val productAdapter = ProductAdapter()
+    private val loadingAdapter = LoadingAdapter()
     private val gridLayoutManager: GridLayoutManager by lazy {
         GridLayoutManager(requireActivity(), 1)
     }
@@ -54,7 +58,25 @@ class StoreFragment : Fragment() {
         getAccToken()
         actionSetup()
         getFilterFragmentResult()
+        getSearchFragmentResult()
+        setSearchView()
     }
+
+    private fun setSearchView() {
+        binding.etSearch.setText(viewModel.productsQuery.value.search ?: "")
+    }
+
+    private fun getSearchFragmentResult() {
+        childFragmentManager.setFragmentResultListener(
+            SearchFragment.FRAGMENT_REQUEST_KEY,
+            viewLifecycleOwner
+        ){_,bundle ->
+            val query = bundle.getString(SearchFragment.BUNDLE_QUERY_KEY)
+            viewModel.getSearchData(query)
+            setSearchView()
+        }
+    }
+
 
     private fun getAccToken() {
         viewModel.prefGetAccToken()
@@ -62,7 +84,8 @@ class StoreFragment : Fragment() {
 
     private fun setAdapter() {
         binding.includeContent.rvStore.adapter =
-            productAdapter.withLoadStateFooter(LoadingAdapter())
+            productAdapter.withLoadStateFooter(loadingAdapter)
+        binding.includeContent.rvStore.layoutManager = gridLayoutManager
         productAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
                 super.onItemRangeMoved(fromPosition, toPosition, itemCount)
@@ -70,6 +93,14 @@ class StoreFragment : Fragment() {
 
             }
         })
+        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if (viewModel.recyclerViewType == ProductAdapter.MORE_COLUMN_VIEW_TYPE) {
+                    if (position == productAdapter.itemCount && loadingAdapter.itemCount > 0) 2
+                    else 1
+                } else 1
+            }
+        }
 
         binding.includeContent.rvStore.layoutManager = gridLayoutManager
     }
@@ -103,8 +134,49 @@ class StoreFragment : Fragment() {
     }
 
     private fun showErrorView(error: Throwable) {
-        TODO("Not yet implemented")
+        when(error) {
+            is retrofit2.HttpException -> {
+                if (error.response()?.code() == 404) {
+                    binding.layoutEmpty.isVisible = true
+                    binding.includeContent.layoutContent.isVisible = false
+                } else {
+                    binding.layoutConnection.isVisible = true
+                    binding.includeContent.layoutContent.isVisible = false
+                    binding.tvTitleConnection.text = error.code().toString()
+                    binding.tvSubtitleConnection.text = error.response()?.message().toString()
+                }
+            }
+
+            is IOException -> {
+                binding.layoutConnection.isVisible = true
+                binding.includeContent.layoutContent.isVisible = false
+            }
+
+            else -> {
+                binding.layoutServer.isVisible = true
+                binding.includeContent.layoutContent.isVisible = false
+            }
+        }
+
+        binding.btEmpty.setOnClickListener {
+            viewModel.resetData()
+            setChipView()
+            binding.layoutEmpty.isVisible = false
+            setSearchView()
+        }
+
+        binding.btServer.setOnClickListener {
+            productAdapter.refresh()
+            binding.btServer.isVisible = false
+        }
+
+        binding.btConnection.setOnClickListener {
+            productAdapter.refresh()
+            binding.layoutConnection.isVisible = false
+        }
+
     }
+
 
     private fun showShimmerLoading(isLoading: Boolean) {
         with(binding) {
@@ -131,10 +203,18 @@ class StoreFragment : Fragment() {
         binding.includeContent.chipFilter.setOnClickListener {
             openFilter()
         }
+        binding.etSearch.setOnClickListener{
+            openSearch()
+        }
         binding.swipeRefresh.setOnRefreshListener {
             productAdapter.refresh()
             binding.swipeRefresh.isRefreshing = false
         }
+    }
+
+    private fun openSearch() {
+        val searchFragment = SearchFragment.newInstance(viewModel.productsQuery.value.search)
+        searchFragment.show(childFragmentManager, SearchFragment.TAG)
     }
 
     private fun openFilter() {

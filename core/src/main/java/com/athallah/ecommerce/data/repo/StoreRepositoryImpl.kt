@@ -14,8 +14,10 @@ import com.athallah.ecommerce.data.datasource.api.model.Product
 import com.athallah.ecommerce.data.datasource.api.request.ProductsQuery
 import com.athallah.ecommerce.data.datasource.api.service.ApiService
 import com.athallah.ecommerce.data.datasource.preference.UserDataStore
+import com.athallah.ecommerce.utils.extension.getErrorMessage
 import com.athallah.ecommerce.utils.extension.toProduct
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 class StoreRepositoryImpl(
@@ -35,8 +37,20 @@ class StoreRepositoryImpl(
         }
     }
 
-    override fun searchProducts(query: String): Flow<ResultState<List<String>>> {
-        TODO("Not yet implemented")
+    override fun searchProducts(query: String): Flow<ResultState<List<String>>> = flow {
+        emit(ResultState.Loading)
+        try {
+            if (query.isNotEmpty()) {
+                val response = apiService.search(query)
+                val listSearch = response.data ?: emptyList()
+                emit(ResultState.Success(listSearch))
+            } else {
+                emit(ResultState.Success(emptyList()))
+            }
+        } catch (e: Exception) {
+            val message = e.getErrorMessage()
+            emit(ResultState.Error(message.toString()))
+        }
     }
 
 }

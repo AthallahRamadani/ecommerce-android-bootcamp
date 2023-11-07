@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.core.view.accessibility.AccessibilityEventCompat.setAction
+import androidx.core.view.isInvisible
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.setFragmentResult
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.databinding.FragmentFilterSheetBinding
@@ -66,6 +68,7 @@ class FilterSheetFragment : BottomSheetDialogFragment() {
         binding.etHighest.setText(highest ?: "")
         setSortChipView()
         setBrandChipView()
+        changeResetButtonVisibility()
     }
 
     private fun setSortChipView() {
@@ -88,6 +91,20 @@ class FilterSheetFragment : BottomSheetDialogFragment() {
             binding.chipHigh.isChecked = true
             brandResId = R.string.highest
         }
+
+        val listSortChips = mapOf(
+            binding.chipReview to R.string.review,
+            binding.chipSale to R.string.sale,
+            binding.chipLow to R.string.lowest,
+            binding.chipHigh to R.string.highest
+        )
+
+        listSortChips.forEach { (chip) ->
+            chip.setOnClickListener {
+                changeResetButtonVisibility()
+            }
+        }
+
     }
 
     private fun setBrandChipView() {
@@ -113,6 +130,19 @@ class FilterSheetFragment : BottomSheetDialogFragment() {
             brandResId = R.string.lenovo
         }
 
+        val listBrandChips = mapOf(
+            binding.chipApple to R.string.apple,
+            binding.chipAsus to R.string.asus,
+            binding.chipDell to R.string.dell,
+            binding.chipLenovo to R.string.lenovo
+        )
+
+        listBrandChips.forEach{(chip)->
+            chip.setOnClickListener {
+                changeResetButtonVisibility()
+            }
+        }
+
     }
 
 
@@ -123,6 +153,8 @@ class FilterSheetFragment : BottomSheetDialogFragment() {
         binding.btShow.setOnClickListener {
             actionReturnFilterData()
         }
+        binding.etLowest.doOnTextChanged { _, _, _, _ -> changeResetButtonVisibility() }
+        binding.etHighest.doOnTextChanged { _, _, _, _ -> changeResetButtonVisibility() }
     }
 
     private fun actionReturnFilterData() {
@@ -221,7 +253,6 @@ class FilterSheetFragment : BottomSheetDialogFragment() {
             }
         }
 
-
         val bundle = bundleOf(
             BUNDLE_SORT_KEY to sort,
             BUNDLE_SORT_RES_ID_KEY to sortResId,
@@ -252,6 +283,18 @@ class FilterSheetFragment : BottomSheetDialogFragment() {
         _binding = null
     }
 
+    private fun changeResetButtonVisibility() {
+        with(binding) {
+            val isSortChipExisted = cgSort.checkedChipId == -1
+            val isBrandChipExisted = cgCategory.checkedChipId == -1
+            val isLowestPriceTextEmpty = etLowest.text.toString().isEmpty()
+            val isHighestPriceTextEmpty = etHighest.text.toString().isEmpty()
+
+            btReset.isInvisible =
+                isSortChipExisted && isBrandChipExisted && isLowestPriceTextEmpty && isHighestPriceTextEmpty
+        }
+    }
+
 
     companion object {
         private const val ARG_SORT = "arg_sort"
@@ -280,4 +323,6 @@ class FilterSheetFragment : BottomSheetDialogFragment() {
                 }
             }
     }
+
+
 }

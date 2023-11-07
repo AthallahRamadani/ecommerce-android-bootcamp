@@ -12,6 +12,7 @@ import com.athallah.ecommerce.data.datasource.api.response.ProfileResponse
 import com.athallah.ecommerce.data.datasource.api.response.RefreshResponse
 import com.athallah.ecommerce.data.datasource.api.response.RegisterDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.RegisterResponse
+import com.athallah.ecommerce.data.datasource.api.response.SearchResponse
 import com.athallah.ecommerce.utils.Constant
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -54,6 +55,11 @@ interface ApiService {
     suspend fun refresh(
         @Body refreshRequest: RefreshRequest
     ): RefreshResponse
+
+    @POST("search")
+    suspend fun search(
+        @Query("query") query: String
+    ): SearchResponse
 
 
 }
