@@ -4,6 +4,7 @@ import com.athallah.ecommerce.data.datasource.api.model.DetailProduct
 import com.athallah.ecommerce.data.datasource.api.model.Product
 import com.athallah.ecommerce.data.datasource.api.model.Review
 import com.athallah.ecommerce.data.datasource.api.model.User
+import com.athallah.ecommerce.data.datasource.api.model.Wishlist
 import com.athallah.ecommerce.data.datasource.api.request.ProductsQuery
 import com.athallah.ecommerce.data.datasource.api.response.LoginDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.ProductVariantItem
@@ -12,6 +13,7 @@ import com.athallah.ecommerce.data.datasource.api.response.ProductsResponseItem
 import com.athallah.ecommerce.data.datasource.api.response.ProfileDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.RegisterDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.ReviewResponseItem
+import com.athallah.ecommerce.data.datasource.room.entity.WishlistEntity
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -99,6 +101,32 @@ fun ReviewResponseItem.toReview(): Review =
         userName ?: "",
         userReview ?: "",
         userRating ?: 0
+    )
+
+fun WishlistEntity.toWishlist(): Wishlist =
+    Wishlist(
+        productId,
+        productName,
+        productPrice,
+        image,
+        store,
+        sale,
+        stock,
+        productRating,
+        productVariant
+    )
+
+fun Wishlist.toWishlistEntity(): WishlistEntity =
+    WishlistEntity(
+        productId,
+        productName,
+        productPrice,
+        image,
+        store,
+        sale,
+        stock,
+        productRating,
+        productVariant
     )
 
 

@@ -4,14 +4,19 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.room.Room
 import com.athallah.ecommerce.data.datasource.api.service.ApiService
 import com.athallah.ecommerce.data.datasource.preference.UserDataStore
+import com.athallah.ecommerce.data.datasource.room.AppDatabase
+import com.athallah.ecommerce.data.datasource.room.dao.WishlistDao
 import com.athallah.ecommerce.data.repo.AppRepository
 import com.athallah.ecommerce.data.repo.AppRepositoryImpl
 import com.athallah.ecommerce.data.repo.StoreRepository
 import com.athallah.ecommerce.data.repo.StoreRepositoryImpl
 import com.athallah.ecommerce.data.repo.UserRepository
 import com.athallah.ecommerce.data.repo.UserRepositoryImpl
+import com.athallah.ecommerce.data.repo.WishlistRepository
+import com.athallah.ecommerce.data.repo.WishlistRepositoryImpl
 import com.athallah.ecommerce.utils.Constant
 import com.athallah.ecommerce.utils.extension.HeaderInterceptor
 import com.athallah.ecommerce.utils.extension.SupportAuthenticator
@@ -31,6 +36,20 @@ val repositoryModule = module {
     single{AppRepositoryImpl(get())} bind AppRepository::class
     factory<UserRepository> { UserRepositoryImpl(get(),get()) }
     factory<StoreRepository> {StoreRepositoryImpl(get(),get())}
+    factory<WishlistRepository> {WishlistRepositoryImpl(get())}
+}
+
+val roomModule = module {
+    single {
+        Room.databaseBuilder(
+            androidApplication(),
+            AppDatabase::class.java,
+            "database.db"
+        ).build()
+    }
+    single {
+        get<AppDatabase>().wishlistDao()
+    }
 }
 
 val preferenceModule = module {

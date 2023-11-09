@@ -35,6 +35,12 @@
         android:name="com.athallah.ecommerce.fragment.detail.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail">
+        <deepLink
+            android:autoVerify="true"
+            app:uri="https://ecommerce.athallah.com/products/{product_id}" />
+        <argument
+            android:name="product_id"
+            app:argType="string" />
         <action
             android:id="@+id/action_detailFragment_to_reviewFragment"
             app:destination="@id/reviewFragment" />

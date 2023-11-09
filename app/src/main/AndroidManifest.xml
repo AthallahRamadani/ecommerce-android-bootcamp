@@ -17,11 +17,11 @@
         android:theme="@style/Base.Theme.Ecommerce"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.MyApp.MySplash">
+            <nav-graph android:value="@navigation/app_navigation"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

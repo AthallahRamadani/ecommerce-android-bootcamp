@@ -1,5 +1,6 @@
 package com.athallah.ecommerce.fragment.detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -71,7 +72,18 @@ class DetailFragment : Fragment() {
     }
 
     private fun actionShare() {
-
+        val sendIntent: Intent = Intent().apply {
+            val text = """
+                Name : ${viewModel.detailProduct?.productName}
+                Price : ${viewModel.detailProduct?.productPrice?.toCurrencyFormat()}
+                Link : https://ecommerce.athallah.com/products/${viewModel.productId}
+            """.trimIndent()
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, text)
+            type = "text/plain"
+        }
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 
     private fun observeDetailProduct() {
@@ -82,13 +94,20 @@ class DetailFragment : Fragment() {
                         showLoading(it is ResultState.Loading)
                         when (it) {
                             is ResultState.Loading -> {}
-                            is ResultState.Success -> setView(it.data)
+                            is ResultState.Success -> setData(it.data)
                             is ResultState.Error -> showError()
                         }
                     }
                 }
             }
         }
+    }
+
+    private fun setData(data: DetailProduct) {
+        viewModel.detailProduct = data
+        viewModel.variant = data.productVariant[0].variantName
+
+        setView(data)
     }
 
     private fun showError() {

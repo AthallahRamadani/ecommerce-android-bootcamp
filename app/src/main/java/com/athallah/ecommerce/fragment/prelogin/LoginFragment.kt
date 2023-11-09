@@ -1,5 +1,8 @@
 package com.athallah.ecommerce.fragment.prelogin
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -10,7 +13,9 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -39,8 +44,28 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
         initView()
+        checkNotificationPermission()
         Log.d("lol", "onViewCreated: ${viewModel.prefGetUsername()}")
+
     }
+
+    private fun checkNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val notificationPermission = Manifest.permission.POST_NOTIFICATIONS
+            val requestPermissionLauncher =
+                registerForActivityResult(
+                    ActivityResultContracts.RequestPermission()
+                ) { }
+            if (!isPermissionsGranted(notificationPermission))
+                requestPermissionLauncher.launch(notificationPermission)
+        }
+    }
+
+    private fun isPermissionsGranted(permission: String) =
+        ContextCompat.checkSelfPermission(
+            requireActivity(),
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
 
     private fun initViewModel() {
         viewModel.prefGetIsOnboard().observe(viewLifecycleOwner) {
