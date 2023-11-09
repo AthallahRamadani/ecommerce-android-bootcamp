@@ -2,10 +2,8 @@ package com.athallah.ecommerce.fragment.main.store
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -17,7 +15,6 @@ import com.athallah.ecommerce.fragment.main.store.storeadapter.ProductAdapter
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.switchMap
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 

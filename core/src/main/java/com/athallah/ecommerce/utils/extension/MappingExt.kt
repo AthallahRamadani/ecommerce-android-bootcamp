@@ -1,13 +1,17 @@
 package com.athallah.ecommerce.utils.extension
 
+import com.athallah.ecommerce.data.datasource.api.model.DetailProduct
 import com.athallah.ecommerce.data.datasource.api.model.Product
+import com.athallah.ecommerce.data.datasource.api.model.Review
 import com.athallah.ecommerce.data.datasource.api.model.User
 import com.athallah.ecommerce.data.datasource.api.request.ProductsQuery
-import com.athallah.ecommerce.data.datasource.api.response.AuthDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.LoginDataResponse
+import com.athallah.ecommerce.data.datasource.api.response.ProductVariantItem
+import com.athallah.ecommerce.data.datasource.api.response.ProductsDetailResponseData
 import com.athallah.ecommerce.data.datasource.api.response.ProductsResponseItem
 import com.athallah.ecommerce.data.datasource.api.response.ProfileDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.RegisterDataResponse
+import com.athallah.ecommerce.data.datasource.api.response.ReviewResponseItem
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -63,6 +67,38 @@ fun ProductsResponseItem.toProduct(): Product =
         store ?: "",
         sale ?: 0,
         productRating ?: 0F
+    )
+
+fun ProductsDetailResponseData.toDetailProduct(): DetailProduct =
+    DetailProduct(
+        image ?: emptyList(),
+        productId ?: "",
+        description ?: "",
+        totalRating ?: 0,
+        store ?: "",
+        productName ?: "",
+        totalSatisfaction ?: 0,
+        sale ?: 0,
+        productVariant?.map { it.toProductVariant() } ?: emptyList(),
+        stock ?: 0,
+        productRating ?: 0F,
+        brand ?: "",
+        productPrice ?: 0,
+        totalReview ?: 0
+    )
+
+private fun ProductVariantItem.toProductVariant(): DetailProduct.ProductVariant =
+    DetailProduct.ProductVariant(
+        variantPrice ?: 0,
+        variantName ?: ""
+    )
+
+fun ReviewResponseItem.toReview(): Review =
+    Review(
+        userImage ?: "",
+        userName ?: "",
+        userReview ?: "",
+        userRating ?: 0
     )
 
 

@@ -1,27 +1,28 @@
 package com.athallah.ecommerce.fragment.main.store
 
-import android.net.http.HttpException
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.Navigation
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.datasource.api.request.ProductsQuery
 import com.athallah.ecommerce.databinding.FragmentStoreBinding
+import com.athallah.ecommerce.fragment.detail.DetailFragment
 import com.athallah.ecommerce.fragment.main.store.search.SearchFragment
 import com.athallah.ecommerce.fragment.main.store.storeadapter.LoadingAdapter
 import com.athallah.ecommerce.fragment.main.store.storeadapter.ProductAdapter
 import com.google.android.material.chip.Chip
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.IOException
@@ -31,11 +32,19 @@ class StoreFragment : Fragment() {
     private var _binding: FragmentStoreBinding? = null
     private val binding get() = _binding!!
     private val viewModel: StoreViewModel by viewModel()
-    private val productAdapter = ProductAdapter()
-    private val loadingAdapter = LoadingAdapter()
-    private val gridLayoutManager: GridLayoutManager by lazy {
-        GridLayoutManager(requireActivity(), 1)
+
+    private val productAdapter by lazy {
+        ProductAdapter{ productId ->
+            Navigation.findNavController(requireActivity(), R.id.fcv_main).navigate(
+                R.id.action_mainFragment_to_detailFragment,
+                bundleOf(DetailFragment.BUNDLE_PRODUCT_ID_KEY to productId)
+            )
+        }
     }
+
+    private val loadingAdapter = LoadingAdapter()
+
+    private lateinit var gridLayoutManager: GridLayoutManager
 
 
     override fun onCreateView(
@@ -83,16 +92,20 @@ class StoreFragment : Fragment() {
     }
 
     private fun setAdapter() {
+        gridLayoutManager = GridLayoutManager(requireActivity(), 1)
+
         binding.includeContent.rvStore.adapter =
             productAdapter.withLoadStateFooter(loadingAdapter)
+
         binding.includeContent.rvStore.layoutManager = gridLayoutManager
+
         productAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
                 super.onItemRangeMoved(fromPosition, toPosition, itemCount)
                 binding.includeContent.rvStore.scrollToPosition(0)
-
             }
         })
+
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return if (viewModel.recyclerViewType == ProductAdapter.MORE_COLUMN_VIEW_TYPE) {
@@ -101,8 +114,6 @@ class StoreFragment : Fragment() {
                 } else 1
             }
         }
-
-        binding.includeContent.rvStore.layoutManager = gridLayoutManager
     }
 
     private fun setRecyclerView() {
@@ -127,7 +138,7 @@ class StoreFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.productsData.collect { pagingData ->
                     productAdapter.submitData(pagingData)
-                    setRecyclerView()
+//                    setRecyclerView()
                 }
             }
         }

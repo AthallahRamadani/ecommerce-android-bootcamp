@@ -2,25 +2,26 @@ package com.athallah.ecommerce.data.datasource.api.service
 
 import com.athallah.ecommerce.data.datasource.api.request.AuthRequest
 import com.athallah.ecommerce.data.datasource.api.request.RefreshRequest
-import com.athallah.ecommerce.data.datasource.api.response.ApiResponse
-import com.athallah.ecommerce.data.datasource.api.response.AuthDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.LoginDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.LoginResponse
+import com.athallah.ecommerce.data.datasource.api.response.ProductsDetailResponse
 import com.athallah.ecommerce.data.datasource.api.response.ProductsResponse
 import com.athallah.ecommerce.data.datasource.api.response.ProfileDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.ProfileResponse
 import com.athallah.ecommerce.data.datasource.api.response.RefreshResponse
 import com.athallah.ecommerce.data.datasource.api.response.RegisterDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.RegisterResponse
+import com.athallah.ecommerce.data.datasource.api.response.ReviewResponse
 import com.athallah.ecommerce.data.datasource.api.response.SearchResponse
 import com.athallah.ecommerce.utils.Constant
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
 
@@ -61,5 +62,14 @@ interface ApiService {
         @Query("query") query: String
     ): SearchResponse
 
+    @GET("products/{id}")
+    suspend fun detailProducts(
+        @Path("id") id: String
+    ) : ProductsDetailResponse
+
+    @GET("review/{id}")
+    suspend fun reviewProducts(
+        @Path("id") id: String
+    ) : ReviewResponse
 
 }

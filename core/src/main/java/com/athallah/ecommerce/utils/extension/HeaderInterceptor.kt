@@ -1,6 +1,5 @@
 package com.athallah.ecommerce.utils.extension
 
-import android.content.SharedPreferences
 import com.athallah.ecommerce.data.datasource.preference.UserDataStore
 import com.athallah.ecommerce.utils.Constant
 import kotlinx.coroutines.flow.first

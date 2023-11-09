@@ -13,7 +13,9 @@ import com.athallah.ecommerce.databinding.ProductGridLayoutBinding
 import com.athallah.ecommerce.databinding.ProductListLayoutBinding
 import com.athallah.ecommerce.utils.toCurrencyFormat
 
-class ProductAdapter :
+class ProductAdapter(
+    private val itemClickCallback: (String) -> Unit
+) :
     PagingDataAdapter<Product, RecyclerView.ViewHolder>(ProductComparator) {
 
     var viewType = ONE_COLUMN_VIEW_TYPE
@@ -36,7 +38,7 @@ class ProductAdapter :
                     parent,
                     false
                 )
-            return ProductViewHolder(binding, viewType)
+            return ProductViewHolder(binding, viewType, itemClickCallback)
         } else {
             val binding =
                 ProductGridLayoutBinding.inflate(
@@ -44,11 +46,15 @@ class ProductAdapter :
                     parent,
                     false
                 )
-            return ProductViewHolder(binding, viewType)
+            return ProductViewHolder(binding, viewType, itemClickCallback)
         }
     }
 
-    class ProductViewHolder<T : ViewBinding>(private val binding: T, private val viewType: Int) :
+    class ProductViewHolder<T : ViewBinding>(
+        private val binding: T,
+        private val viewType: Int,
+        private val itemClickCallback: (String) -> Unit
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: Product) {
             if (viewType == ONE_COLUMN_VIEW_TYPE) {
@@ -86,6 +92,7 @@ class ProductAdapter :
                         )
                 }
             }
+            itemView.setOnClickListener { itemClickCallback(data.productId) }
         }
     }
 

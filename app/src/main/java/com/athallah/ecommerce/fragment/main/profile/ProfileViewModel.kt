@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.data.repo.AppRepository
 import com.athallah.ecommerce.data.repo.UserRepository
-import com.athallah.ecommerce.utils.getApiErrorMessage
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.io.File

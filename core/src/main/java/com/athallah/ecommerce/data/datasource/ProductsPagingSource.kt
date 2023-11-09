@@ -1,6 +1,5 @@
 package com.athallah.ecommerce.data.datasource
 
-import android.content.SharedPreferences
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.athallah.ecommerce.data.datasource.api.request.ProductsQuery

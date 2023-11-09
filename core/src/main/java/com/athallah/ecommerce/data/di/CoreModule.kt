@@ -5,9 +5,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.athallah.ecommerce.data.datasource.api.service.ApiService
+import com.athallah.ecommerce.data.datasource.preference.UserDataStore
 import com.athallah.ecommerce.data.repo.AppRepository
 import com.athallah.ecommerce.data.repo.AppRepositoryImpl
-import com.athallah.ecommerce.data.datasource.preference.UserDataStore
 import com.athallah.ecommerce.data.repo.StoreRepository
 import com.athallah.ecommerce.data.repo.StoreRepositoryImpl
 import com.athallah.ecommerce.data.repo.UserRepository
@@ -17,13 +17,11 @@ import com.athallah.ecommerce.utils.extension.HeaderInterceptor
 import com.athallah.ecommerce.utils.extension.SupportAuthenticator
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
-import okhttp3.OkHttp
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.bind
 import org.koin.dsl.module
-import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

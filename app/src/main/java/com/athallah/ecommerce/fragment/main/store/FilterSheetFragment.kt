@@ -3,22 +3,18 @@ package com.athallah.ecommerce.fragment.main.store
 import android.os.Bundle
 import android.util.Log
 import android.view.ContextThemeWrapper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.core.view.accessibility.AccessibilityEventCompat.setAction
 import androidx.core.view.isInvisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.setFragmentResult
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.databinding.FragmentFilterSheetBinding
-import com.athallah.ecommerce.databinding.FragmentStoreBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.chip.Chip
 
 class FilterSheetFragment : BottomSheetDialogFragment() {
 

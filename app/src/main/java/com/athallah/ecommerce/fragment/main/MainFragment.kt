@@ -2,16 +2,14 @@ package com.athallah.ecommerce.fragment.main
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.athallah.ecommerce.R
-import com.athallah.ecommerce.data.di.dataStore
-import com.athallah.ecommerce.databinding.FragmentLoginBinding
 import com.athallah.ecommerce.databinding.FragmentMainBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

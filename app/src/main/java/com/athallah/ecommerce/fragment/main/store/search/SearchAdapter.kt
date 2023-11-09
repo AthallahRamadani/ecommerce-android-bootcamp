@@ -2,11 +2,10 @@ package com.athallah.ecommerce.fragment.main.store.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.athallah.ecommerce.databinding.SearchItemBinding
-import javax.security.auth.callback.Callback
 
 class SearchAdapter(private val itemClickCallback: (String) -> Unit) :
     ListAdapter<String, SearchAdapter.SearchProductViewHolder>(SearchComparator) {

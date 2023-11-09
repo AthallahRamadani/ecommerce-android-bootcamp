@@ -59,6 +59,18 @@
     <string name="dell">Dell</string>
     <string name="lenovo">Lenovo</string>
     <string name="filter">Filter</string>
-
+    <string name="buy_now">Beli Langsung</string>
+    <string name="cart_plus">+ keranjang</string>
+    <string name="todo">TODO</string>
+    <string name="total_sales">Terjual %1$d</string>
+    <string name="detail_rating_and_total_rating">%1$.1f (%2$d)</string>
+    <string name="choose_variant">Pilih varian</string>
+    <string name="product_description">Deskripsi produk</string>
+    <string name="buyer_review">Ulasan Pembeli</string>
+    <string name="_4_5">4.5</string>
+    <string name="_5_0">/5.0</string>
+    <string name="text_satisfaction">%1$d%% pembeli merasa puas</string>
+    <string name="rating_and_review_total">%1$d rating · %2$d ulasan</string>
+    <string name="see_all">Lihat Semua</string>
 
 </resources>
