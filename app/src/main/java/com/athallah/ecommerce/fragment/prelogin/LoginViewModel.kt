@@ -46,6 +46,12 @@ class LoginViewModel(
 
     fun prefGetUsername(): String = runBlocking { appRepository.getUsername().first() }
 
+    fun setUserAuthorization(value: Boolean){
+        runBlocking {
+            appRepository.setUserAuthorization(value)
+        }
+    }
+
 
 
     //api

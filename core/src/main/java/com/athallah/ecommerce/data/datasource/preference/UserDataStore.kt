@@ -21,9 +21,7 @@ class UserDataStore(private val dataStore: DataStore<Preferences>) {
     private val isLogin = booleanPreferencesKey("is_login")
     private val userImage = stringPreferencesKey("user_image")
     private val userExpires = longPreferencesKey("user_expires")
-
-
-
+    private val USER_AUTHORIZE_KEY = booleanPreferencesKey("user_authorize")
 
 
     fun getLanguage(): Flow<String> {
@@ -92,7 +90,7 @@ class UserDataStore(private val dataStore: DataStore<Preferences>) {
         }
     }
 
-    suspend fun setUsername(value: String){
+    suspend fun setUsername(value: String) {
         dataStore.edit {
             it[username] = value
         }
@@ -127,6 +125,7 @@ class UserDataStore(private val dataStore: DataStore<Preferences>) {
             preferences.remove(refToken)
             preferences.remove(userImage)
             preferences.remove(userExpires)
+            preferences.remove(USER_AUTHORIZE_KEY)
         }
     }
 
@@ -145,4 +144,15 @@ class UserDataStore(private val dataStore: DataStore<Preferences>) {
             token.let { preferences[accToken] = it }
         }
     }
+
+    fun checkUserAuthorization(): Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[USER_AUTHORIZE_KEY] ?: false
+    }
+
+    suspend fun setUserAuthorization(value: Boolean) {
+        dataStore.edit {
+            it[USER_AUTHORIZE_KEY] = value
+        }
+    }
+
 }

@@ -5,15 +5,23 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.databinding.FragmentMainBinding
+import com.google.android.material.badge.ExperimentalBadgeUtils
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
+@androidx.annotation.OptIn(ExperimentalBadgeUtils::class)
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
@@ -46,6 +54,23 @@ class MainFragment : Fragment() {
     private fun initView() {
         binding.topAppBar.title = viewModel.prefGetUsername()
         setBottomNavigation()
+        observeWishlist()
+    }
+
+    private fun observeWishlist() {
+        val badge = binding.bottomNavView.getOrCreateBadge(R.id.wishlistFragment)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.wishlistSize.collect(){size->
+                    if (size >= 1){
+                        badge.isVisible = true
+                        badge.number = size
+                    } else {
+                        badge.isVisible = false
+                    }
+                }
+            }
+        }
     }
 
     private fun setBottomNavigation() {

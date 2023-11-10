@@ -48,4 +48,10 @@ class AppRepositoryImpl(
         sharedPref.clearAllDataSession()
     }
 
+    override fun checkUserAuthorization(): Flow<Boolean> = sharedPref.checkUserAuthorization()
+
+    override suspend fun setUserAuthorization(value: Boolean) {
+        sharedPref.setUserAuthorization(value)
+    }
+
 }

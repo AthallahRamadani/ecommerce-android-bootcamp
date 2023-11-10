@@ -92,7 +92,7 @@ class LoginFragment : Fragment() {
                         viewModel.prefSetAccToken(state.data.accessToken ?: "")
                         viewModel.prefSetRefToken(state.data.refreshToken ?: "")
                         viewModel.prefSetUserName(state.data.userName?:"")
-//                        viewModel.prefSetUserImage(state.data.userImage?:"")
+                        viewModel.setUserAuthorization(true)
                         findNavController().navigate(R.id.action_global_main_navigation)
                     }
                 }

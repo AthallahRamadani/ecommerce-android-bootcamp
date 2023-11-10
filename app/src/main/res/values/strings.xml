@@ -72,5 +72,8 @@
     <string name="text_satisfaction">%1$d%% pembeli merasa puas</string>
     <string name="rating_and_review_total">%1$d rating · %2$d ulasan</string>
     <string name="see_all">Lihat Semua</string>
+    <string name="total_wishlist_item">%1$d barang</string>
+    <string name="wishlist_remove_successful">Berhasil menghapus wishlist</string>
+
 
 </resources>

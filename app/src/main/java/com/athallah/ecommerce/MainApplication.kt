@@ -4,6 +4,7 @@ import android.app.Application
 import com.athallah.ecommerce.data.di.apiModule
 import com.athallah.ecommerce.data.di.preferenceModule
 import com.athallah.ecommerce.data.di.repositoryModule
+import com.athallah.ecommerce.data.di.roomModule
 import com.athallah.ecommerce.di.vmModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -24,6 +25,7 @@ class MainApplication :Application() {
                     preferenceModule,
                     repositoryModule,
                     apiModule,
+                    roomModule,
                     //app
                     vmModule
                 )

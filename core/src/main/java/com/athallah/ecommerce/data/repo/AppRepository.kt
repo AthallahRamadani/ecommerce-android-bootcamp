@@ -21,4 +21,8 @@ interface AppRepository {
     fun getIsLogin(): Flow<Boolean>
     suspend fun setIsLogin(value: Boolean)
     suspend fun logout()
+
+    fun checkUserAuthorization(): Flow<Boolean>
+    suspend fun setUserAuthorization(value: Boolean)
+
 }

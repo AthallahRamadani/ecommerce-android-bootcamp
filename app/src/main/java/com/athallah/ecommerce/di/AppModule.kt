@@ -6,6 +6,7 @@ import com.athallah.ecommerce.fragment.main.MainViewModel
 import com.athallah.ecommerce.fragment.main.profile.ProfileViewModel
 import com.athallah.ecommerce.fragment.main.store.StoreViewModel
 import com.athallah.ecommerce.fragment.main.store.search.SearchViewModel
+import com.athallah.ecommerce.fragment.main.wishlist.WishlistViewModel
 import com.athallah.ecommerce.fragment.prelogin.LoginViewModel
 import com.athallah.ecommerce.fragment.prelogin.OnboardingViewModel
 import com.athallah.ecommerce.fragment.prelogin.RegisterViewModel
@@ -18,13 +19,13 @@ val vmModule = module {
     viewModel { OnboardingViewModel(get()) }
     viewModel { LoginViewModel(get(), get()) }
     viewModel { RegisterViewModel(get(), get()) }
-    viewModel { MainViewModel(get()) }
+    viewModel { MainViewModel(get(),get()) }
     viewModel { ProfileViewModel(get(), get()) }
     viewModel { HomeViewModel(get()) }
     viewModel { StoreViewModel(get(), get()) }
     viewModel { SearchViewModel(get()) }
-    viewModel { DetailViewModel(get(),get()) }
+    viewModel { DetailViewModel(get(),get(),get()) }
     viewModel { ReviewViewModel(get()) }
-
-
+    viewModel { com.athallah.ecommerce.MainViewModel(get()) }
+    viewModel { WishlistViewModel(get()) }
 }

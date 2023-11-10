@@ -17,6 +17,7 @@ import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.data.datasource.api.model.DetailProduct
 import com.athallah.ecommerce.databinding.FragmentDetailBinding
 import com.athallah.ecommerce.fragment.review.ReviewFragment
+import com.athallah.ecommerce.utils.showSnackbar
 import com.athallah.ecommerce.utils.toCurrencyFormat
 import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayoutMediator
@@ -43,6 +44,7 @@ class DetailFragment : Fragment() {
 
         observeDetailProduct()
         initAction()
+        setupWishlist()
     }
 
     private fun initAction() {
@@ -68,7 +70,26 @@ class DetailFragment : Fragment() {
     }
 
     private fun actionWishlist() {
+        if (viewModel.isWishlist) {
+            viewModel.deleteWishlist()
+            binding.root.showSnackbar("Berhasil menghapus wishlist")
+        } else {
+            viewModel.insertWishlist()
+            binding.root.showSnackbar("Berhasil menambahkan wishlist")
+        }
+        setWishlistIcon()
+    }
 
+    private fun setupWishlist() {
+        viewModel.isWishlist = viewModel.checkExistWishlist()
+        setWishlistIcon()
+    }
+
+    private fun setWishlistIcon() {
+        binding.ivFavorite.setImageResource(
+            if (viewModel.isWishlist) R.drawable.baseline_favorite_purple_24
+            else R.drawable.baseline_favorite_border_24
+        )
     }
 
     private fun actionShare() {
@@ -96,6 +117,7 @@ class DetailFragment : Fragment() {
                             is ResultState.Loading -> {}
                             is ResultState.Success -> setData(it.data)
                             is ResultState.Error -> showError()
+                            else -> {}
                         }
                     }
                 }

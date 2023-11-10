@@ -35,7 +35,11 @@ class RegisterViewModel(
 
     fun prefGetUsername(): String = runBlocking { appRepository.getUsername().first() }
 
-
+    fun setUserAuthorization(value: Boolean){
+        runBlocking {
+            appRepository.setUserAuthorization(value)
+        }
+    }
 
     fun register(email: String, password: String) {
         val liveData = registerLiveData as MutableLiveData

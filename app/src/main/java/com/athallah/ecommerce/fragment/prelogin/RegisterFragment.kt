@@ -59,6 +59,7 @@ class RegisterFragment : Fragment() {
                     is ResultState.Success -> {
                         viewModel.prefSetAccToken(state.data.accessToken ?: "")
                         viewModel.prefSetRefToken(state.data.refreshToken ?: "")
+                        viewModel.setUserAuthorization(true)
                         findNavController().navigate(R.id.action_global_main_navigation)
                     }
 

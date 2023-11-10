@@ -10,5 +10,4 @@ interface UserRepository {
     suspend fun register(email: String, password: String): User
     fun uploadProfile(userName: String, userImage: File?): Flow<ResultState<Boolean>>
 
-
 }

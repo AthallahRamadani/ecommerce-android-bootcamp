@@ -69,6 +69,7 @@ class StoreFragment : Fragment() {
         getFilterFragmentResult()
         getSearchFragmentResult()
         setSearchView()
+        setImageChange()
     }
 
     private fun setSearchView() {
@@ -138,7 +139,7 @@ class StoreFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.productsData.collect { pagingData ->
                     productAdapter.submitData(pagingData)
-//                    setRecyclerView()
+                    setRecyclerView()
                 }
             }
         }
@@ -244,7 +245,6 @@ class StoreFragment : Fragment() {
             } else {
                 ProductAdapter.ONE_COLUMN_VIEW_TYPE
             }
-
         setRecyclerView()
         setImageChange()
     }
