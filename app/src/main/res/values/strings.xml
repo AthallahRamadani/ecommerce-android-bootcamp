@@ -82,9 +82,7 @@
     <string name="remaining_stock">Remaining %1$d</string>
     <string name="cart_insert_successful">Successfully insert cart</string>
     <string name="stock_is_unavailable">Stock is unavailable</string>
-
-
-
+    <string name="payment">Pembayaran</string>
 
 
 </resources>

@@ -15,9 +15,12 @@ import com.athallah.ecommerce.databinding.FragmentCartBinding
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.lifecycle.lifecycleScope
+import com.athallah.ecommerce.fragment.checkout.CheckoutFragment
 import com.athallah.ecommerce.fragment.detail.DetailFragment
 import com.athallah.ecommerce.utils.toCurrencyFormat
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CartFragment : Fragment() {
@@ -120,13 +123,22 @@ class CartFragment : Fragment() {
         binding.topAppBar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
+        binding.btnBuy.setOnClickListener {
+            val listData = runBlocking { viewModel.cartData.first().filter { it.isChecked }}
+            val bundle = Bundle().apply {
+                putParcelableArrayList(CheckoutFragment.ARG_DATA, ArrayList<Cart>(listData))
+            }
+            findNavController().navigate(R.id.action_cartFragment_to_checkoutFragment, bundle)
+        }
     }
 
     private fun setupAdapter() {
         binding.rvCart.apply {
             adapter = cartAdapter
             layoutManager = LinearLayoutManager(requireActivity())
+            itemAnimator = null
         }
+
     }
 
     private fun moveToDetailProduct(productId: String) {

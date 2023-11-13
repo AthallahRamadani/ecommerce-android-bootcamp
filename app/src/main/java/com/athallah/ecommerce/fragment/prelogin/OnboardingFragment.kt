@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.athallah.ecommerce.R
-import com.athallah.ecommerce.adapter.ViewPagerAdapter
 import com.athallah.ecommerce.databinding.FragmentOnboardingBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -46,11 +45,11 @@ class OnboardingFragment : Fragment() {
             R.drawable.imagerv3
         )
         viewPager2 = binding.vpOnboard
-        viewPager2.adapter = ViewPagerAdapter(images)
+        viewPager2.adapter = OnboardingAdapter(images)
         viewPager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         val indicator = binding.indicator
         indicator.setViewPager(viewPager2)
-        val adapter = ViewPagerAdapter(images)
+        val adapter = OnboardingAdapter(images)
         viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 if (position < adapter.itemCount - 1) {

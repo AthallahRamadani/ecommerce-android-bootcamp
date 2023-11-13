@@ -2,6 +2,7 @@ package com.athallah.ecommerce.fragment.detail
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,14 +15,19 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.ResultState
+import com.athallah.ecommerce.data.datasource.model.Cart
 import com.athallah.ecommerce.data.datasource.model.DetailProduct
 import com.athallah.ecommerce.databinding.FragmentDetailBinding
+import com.athallah.ecommerce.fragment.checkout.CheckoutFragment
 import com.athallah.ecommerce.fragment.review.ReviewFragment
+import com.athallah.ecommerce.utils.extension.toCart
 import com.athallah.ecommerce.utils.showSnackbar
 import com.athallah.ecommerce.utils.toCurrencyFormat
 import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -62,6 +68,17 @@ class DetailFragment : Fragment() {
         }
         binding.btCart.setOnClickListener {
             actionAddCart()
+            Log.d("TAG", "initAction: ${viewModel.detailProduct}")
+        }
+
+        binding.btBuyNow.setOnClickListener {
+            if (viewModel.detailProduct != null && viewModel.productVariant != null) {
+                val data = viewModel.detailProduct?.toCart(viewModel.productVariant!!)
+                val bundle = Bundle().apply {
+                    putParcelableArrayList(CheckoutFragment.ARG_DATA, arrayListOf(data))
+                }
+                findNavController().navigate(R.id.action_detailFragment_to_checkoutFragment, bundle)
+            }
         }
     }
 
@@ -189,7 +206,7 @@ class DetailFragment : Fragment() {
                     (price + variant.variantPrice).toCurrencyFormat()
 
                 viewModel.detailProduct =
-                    viewModel.detailProduct?.copy(productPrice = price + variant.variantPrice)
+                    viewModel.detailProduct?.copy(productPrice = price)
                 viewModel.productVariant = variant
             }
 

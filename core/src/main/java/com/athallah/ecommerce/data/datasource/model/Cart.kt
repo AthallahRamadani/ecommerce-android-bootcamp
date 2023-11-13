@@ -1,5 +1,9 @@
 package com.athallah.ecommerce.data.datasource.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Cart(
     val productId: String,
     val productName: String,
@@ -18,4 +22,4 @@ data class Cart(
     val variantPrice: Int,
     val quantity: Int? = null,
     val isChecked: Boolean = false,
-)
+) : Parcelable

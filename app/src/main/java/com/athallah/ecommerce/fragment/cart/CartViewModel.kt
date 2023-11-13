@@ -42,4 +42,5 @@ class CartViewModel(
             else cartRepository.updateCartChecked(isChecked, *cartData.first().toTypedArray())
         }
     }
+
 }

@@ -34,6 +34,7 @@ class DetailViewModel(
     var productVariant: DetailProduct.ProductVariant? = null
 
 
+
     private val _detailProductState = MutableStateFlow<ResultState<DetailProduct>?>(null)
     val detailProductState: StateFlow<ResultState<DetailProduct>?> = _detailProductState
 
@@ -79,10 +80,12 @@ class DetailViewModel(
 
     fun insertCart(): Boolean {
         return if (detailProduct != null) {
+
             val cart = detailProduct!!.toCart(productVariant!!)
             val isStockReady = runBlocking { cartRepository.isStockReady(cart) }
             if (isStockReady) {
                 viewModelScope.launch {
+                    Log.d("yolo", "insertCart: ${cart}")
                     cartRepository.insertCart(cart)
                 }
                 true

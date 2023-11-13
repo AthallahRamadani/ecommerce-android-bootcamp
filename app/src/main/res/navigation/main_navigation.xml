@@ -47,6 +47,9 @@
         <action
             android:id="@+id/action_detailFragment_to_reviewFragment"
             app:destination="@id/reviewFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
     </fragment>
     <fragment
         android:id="@+id/reviewFragment"
@@ -61,6 +64,14 @@
         <action
             android:id="@+id/action_cartFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_cartFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.athallah.ecommerce.fragment.checkout.CheckoutFragment"
+        android:label="fragment_checkout"
+        tools:layout="@layout/fragment_checkout" />
 
 </navigation>

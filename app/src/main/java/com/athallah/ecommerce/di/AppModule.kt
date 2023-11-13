@@ -1,6 +1,7 @@
 package com.athallah.ecommerce.di
 
 import com.athallah.ecommerce.fragment.cart.CartViewModel
+import com.athallah.ecommerce.fragment.checkout.CheckoutViewModel
 import com.athallah.ecommerce.fragment.detail.DetailViewModel
 import com.athallah.ecommerce.fragment.main.home.HomeViewModel
 import com.athallah.ecommerce.fragment.main.MainViewModel
@@ -20,14 +21,15 @@ val vmModule = module {
     viewModel { OnboardingViewModel(get()) }
     viewModel { LoginViewModel(get(), get()) }
     viewModel { RegisterViewModel(get(), get()) }
-    viewModel { MainViewModel(get(),get(),get()) }
+    viewModel { MainViewModel(get(), get(), get()) }
     viewModel { ProfileViewModel(get(), get()) }
     viewModel { HomeViewModel(get()) }
     viewModel { StoreViewModel(get(), get()) }
     viewModel { SearchViewModel(get()) }
-    viewModel { DetailViewModel(get(),get(),get(),get()) }
+    viewModel { DetailViewModel(get(), get(), get(), get()) }
     viewModel { ReviewViewModel(get()) }
     viewModel { com.athallah.ecommerce.MainViewModel(get()) }
-    viewModel { WishlistViewModel(get(),get()) }
-    viewModel {CartViewModel(get())}
+    viewModel { WishlistViewModel(get(), get()) }
+    viewModel { CheckoutViewModel(get()) }
+    viewModel { CartViewModel(get()) }
 }

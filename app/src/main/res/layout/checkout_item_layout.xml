@@ -2,20 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="16dp"
-    android:foreground="?attr/selectableItemBackground">
+    android:layout_height="wrap_content">
 
-    <CheckBox
-        android:id="@+id/checkbox_item_cart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/card_cart_image"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/card_cart_image" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_cart_image"
@@ -25,7 +13,7 @@
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/checkbox_item_cart"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -92,7 +80,6 @@
         android:id="@+id/constraintLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:background="@drawable/background_cart_quantity"
         app:layout_constraintBottom_toBottomOf="@+id/card_cart_image"
         app:layout_constraintEnd_toEndOf="parent">
@@ -145,18 +132,5 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/btn_delete_cart"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginEnd="8dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
-        android:src="@drawable/baseline_delete_24"
-        app:layout_constraintBottom_toBottomOf="@+id/card_cart_image"
-        app:layout_constraintEnd_toStartOf="@+id/constraintLayout"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
-        app:tint="?attr/colorOnSurface" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

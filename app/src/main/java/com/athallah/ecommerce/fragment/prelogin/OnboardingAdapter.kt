@@ -1,12 +1,12 @@
-package com.athallah.ecommerce.adapter
+package com.athallah.ecommerce.fragment.prelogin
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.athallah.ecommerce.databinding.ItemPageBinding
 
-class ViewPagerAdapter(private var images: List<Int>) :
-    RecyclerView.Adapter<ViewPagerAdapter.Pager2ViewHolder>() {
+class OnboardingAdapter(private var images: List<Int>) :
+    RecyclerView.Adapter<OnboardingAdapter.Pager2ViewHolder>() {
 
     inner class Pager2ViewHolder(binding: ItemPageBinding) : RecyclerView.ViewHolder(binding.root) {
 
