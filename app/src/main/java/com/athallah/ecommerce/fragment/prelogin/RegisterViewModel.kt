@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.athallah.ecommerce.data.ResultState
-import com.athallah.ecommerce.data.datasource.api.model.User
+import com.athallah.ecommerce.data.datasource.model.User
 import com.athallah.ecommerce.data.repo.AppRepository
 import com.athallah.ecommerce.data.repo.UserRepository
 import com.athallah.ecommerce.utils.getApiErrorMessage

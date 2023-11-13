@@ -1,6 +1,6 @@
 package com.athallah.ecommerce.data.repo
 
-import com.athallah.ecommerce.data.datasource.api.model.Wishlist
+import com.athallah.ecommerce.data.datasource.model.Wishlist
 import kotlinx.coroutines.flow.Flow
 
 interface WishlistRepository {

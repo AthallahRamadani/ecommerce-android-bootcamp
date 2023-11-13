@@ -1,7 +1,7 @@
 package com.athallah.ecommerce.utils.extension
 
 import android.content.Context
-import com.athallah.ecommerce.data.datasource.api.model.User
+import com.athallah.ecommerce.data.datasource.model.User
 import com.athallah.ecommerce.data.datasource.api.request.RefreshRequest
 import com.athallah.ecommerce.data.datasource.api.service.ApiService
 import com.athallah.ecommerce.data.datasource.preference.UserDataStore

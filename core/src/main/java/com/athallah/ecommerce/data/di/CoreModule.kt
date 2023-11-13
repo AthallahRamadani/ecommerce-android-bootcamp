@@ -11,6 +11,8 @@ import com.athallah.ecommerce.data.datasource.room.AppDatabase
 import com.athallah.ecommerce.data.datasource.room.dao.WishlistDao
 import com.athallah.ecommerce.data.repo.AppRepository
 import com.athallah.ecommerce.data.repo.AppRepositoryImpl
+import com.athallah.ecommerce.data.repo.CartRepository
+import com.athallah.ecommerce.data.repo.CartRepositoryImpl
 import com.athallah.ecommerce.data.repo.StoreRepository
 import com.athallah.ecommerce.data.repo.StoreRepositoryImpl
 import com.athallah.ecommerce.data.repo.UserRepository
@@ -37,6 +39,7 @@ val repositoryModule = module {
     factory<UserRepository> { UserRepositoryImpl(get(),get()) }
     factory<StoreRepository> {StoreRepositoryImpl(get(),get())}
     factory<WishlistRepository> {WishlistRepositoryImpl(get())}
+    factory<CartRepository> {CartRepositoryImpl(get())}
 }
 
 val roomModule = module {
@@ -49,6 +52,9 @@ val roomModule = module {
     }
     single {
         get<AppDatabase>().wishlistDao()
+    }
+    single {
+        get<AppDatabase>().cartDao()
     }
 }
 

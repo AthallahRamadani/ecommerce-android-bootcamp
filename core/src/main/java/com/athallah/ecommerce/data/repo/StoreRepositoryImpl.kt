@@ -6,9 +6,9 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.data.datasource.ProductsPagingSource
-import com.athallah.ecommerce.data.datasource.api.model.DetailProduct
-import com.athallah.ecommerce.data.datasource.api.model.Product
-import com.athallah.ecommerce.data.datasource.api.model.Review
+import com.athallah.ecommerce.data.datasource.model.DetailProduct
+import com.athallah.ecommerce.data.datasource.model.Product
+import com.athallah.ecommerce.data.datasource.model.Review
 import com.athallah.ecommerce.data.datasource.api.request.ProductsQuery
 import com.athallah.ecommerce.data.datasource.api.service.ApiService
 import com.athallah.ecommerce.data.datasource.preference.UserDataStore

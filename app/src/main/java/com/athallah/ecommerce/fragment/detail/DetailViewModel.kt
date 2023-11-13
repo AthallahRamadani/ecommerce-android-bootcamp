@@ -6,10 +6,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.athallah.ecommerce.data.ResultState
-import com.athallah.ecommerce.data.datasource.api.model.DetailProduct
-import com.athallah.ecommerce.data.datasource.api.model.Wishlist
+import com.athallah.ecommerce.data.datasource.model.DetailProduct
+import com.athallah.ecommerce.data.datasource.model.Wishlist
+import com.athallah.ecommerce.data.repo.CartRepository
 import com.athallah.ecommerce.data.repo.StoreRepository
 import com.athallah.ecommerce.data.repo.WishlistRepository
+import com.athallah.ecommerce.utils.extension.toCart
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -18,6 +20,7 @@ import kotlinx.coroutines.runBlocking
 class DetailViewModel(
     private val storeRepository: StoreRepository,
     private val wishlistRepository: WishlistRepository,
+    private val cartRepository: CartRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -26,8 +29,9 @@ class DetailViewModel(
 
     var productId: String = savedStateHandle["product_id"]?:""
 
-    var variant: String? = null
     var detailProduct: DetailProduct? = null
+    var productVariant: DetailProduct.ProductVariant? = null
+
 
     private val _detailProductState = MutableStateFlow<ResultState<DetailProduct>?>(null)
     val detailProductState: StateFlow<ResultState<DetailProduct>?> = _detailProductState
@@ -56,7 +60,7 @@ class DetailViewModel(
     fun insertWishlist() {
         if (detailProduct != null) {
             viewModelScope.launch {
-                wishlistRepository.insertWishlist(detailProduct!!.toWishlist(variant!!))
+                wishlistRepository.insertWishlist(detailProduct!!.toWishlist(productVariant!!))
             }
             isWishlist = true
         }
@@ -65,12 +69,12 @@ class DetailViewModel(
     fun deleteWishlist() {
         if (detailProduct != null) {
             viewModelScope.launch {
-                wishlistRepository.deleteWishlist(detailProduct!!.toWishlist(variant!!))
+                wishlistRepository.deleteWishlist(detailProduct!!.toWishlist(productVariant!!))
             }
             isWishlist = false
         }
     }
-    private fun DetailProduct.toWishlist(variant: String): Wishlist =
+    private fun DetailProduct.toWishlist(variant:  DetailProduct.ProductVariant): Wishlist =
         Wishlist(
             productId,
             productName,
@@ -80,6 +84,22 @@ class DetailViewModel(
             sale,
             stock,
             productRating,
-            variant
+            variant.variantName,
+            variant.variantPrice
         )
+
+    fun insertCart(): Boolean {
+        return if (detailProduct != null) {
+            val cart = detailProduct!!.toCart(productVariant!!)
+            val isStockReady = runBlocking { cartRepository.isStockReady(cart) }
+            if (isStockReady) {
+                viewModelScope.launch {
+                    cartRepository.insertCart(cart)
+                }
+                true
+            } else {
+                false
+            }
+        } else false
+    }
 }

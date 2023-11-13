@@ -14,7 +14,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.athallah.ecommerce.R
-import com.athallah.ecommerce.data.datasource.api.model.Wishlist
+import com.athallah.ecommerce.data.datasource.model.Wishlist
 import com.athallah.ecommerce.databinding.FragmentWishlistBinding
 import com.athallah.ecommerce.fragment.detail.DetailFragment
 import com.athallah.ecommerce.utils.showSnackbar

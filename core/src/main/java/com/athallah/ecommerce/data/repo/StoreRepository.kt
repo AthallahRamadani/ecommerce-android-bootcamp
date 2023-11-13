@@ -2,9 +2,9 @@ package com.athallah.ecommerce.data.repo
 
 import androidx.paging.PagingData
 import com.athallah.ecommerce.data.ResultState
-import com.athallah.ecommerce.data.datasource.api.model.DetailProduct
-import com.athallah.ecommerce.data.datasource.api.model.Product
-import com.athallah.ecommerce.data.datasource.api.model.Review
+import com.athallah.ecommerce.data.datasource.model.DetailProduct
+import com.athallah.ecommerce.data.datasource.model.Product
+import com.athallah.ecommerce.data.datasource.model.Review
 import com.athallah.ecommerce.data.datasource.api.request.ProductsQuery
 import kotlinx.coroutines.flow.Flow
 

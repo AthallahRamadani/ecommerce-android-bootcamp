@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import coil.load
 import com.athallah.ecommerce.R
-import com.athallah.ecommerce.data.datasource.api.model.Wishlist
+import com.athallah.ecommerce.data.datasource.model.Wishlist
 import com.athallah.ecommerce.databinding.ProductWishlistGridLayoutBinding
 import com.athallah.ecommerce.databinding.ProductWishlistListLayoutBinding
 import com.athallah.ecommerce.utils.toCurrencyFormat

@@ -7,7 +7,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.athallah.ecommerce.data.datasource.api.model.Product
+import com.athallah.ecommerce.data.datasource.model.Product
 import com.athallah.ecommerce.data.datasource.api.request.ProductsQuery
 import com.athallah.ecommerce.data.repo.AppRepository
 import com.athallah.ecommerce.data.repo.StoreRepository

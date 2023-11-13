@@ -14,7 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.ResultState
-import com.athallah.ecommerce.data.datasource.api.model.DetailProduct
+import com.athallah.ecommerce.data.datasource.model.DetailProduct
 import com.athallah.ecommerce.databinding.FragmentDetailBinding
 import com.athallah.ecommerce.fragment.review.ReviewFragment
 import com.athallah.ecommerce.utils.showSnackbar
@@ -60,6 +60,16 @@ class DetailFragment : Fragment() {
         binding.topAppBar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
+        binding.btCart.setOnClickListener {
+            actionAddCart()
+        }
+    }
+
+    private fun actionAddCart() {
+        if (viewModel.insertCart())
+            binding.root.showSnackbar(getString(R.string.cart_insert_successful))
+        else
+            binding.root.showSnackbar(getString(R.string.stock_is_unavailable))
     }
 
     private fun actionOpenReview() {
@@ -127,7 +137,7 @@ class DetailFragment : Fragment() {
 
     private fun setData(data: DetailProduct) {
         viewModel.detailProduct = data
-        viewModel.variant = data.productVariant[0].variantName
+        viewModel.productVariant = data.productVariant[0]
 
         setView(data)
     }
@@ -180,7 +190,7 @@ class DetailFragment : Fragment() {
 
                 viewModel.detailProduct =
                     viewModel.detailProduct?.copy(productPrice = price + variant.variantPrice)
-                viewModel.variant = variant.variantName
+                viewModel.productVariant = variant
             }
 
             binding.chipVariantGroup.addView(chip)

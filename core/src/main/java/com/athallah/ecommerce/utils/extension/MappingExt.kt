@@ -1,10 +1,10 @@
 package com.athallah.ecommerce.utils.extension
 
-import com.athallah.ecommerce.data.datasource.api.model.DetailProduct
-import com.athallah.ecommerce.data.datasource.api.model.Product
-import com.athallah.ecommerce.data.datasource.api.model.Review
-import com.athallah.ecommerce.data.datasource.api.model.User
-import com.athallah.ecommerce.data.datasource.api.model.Wishlist
+import com.athallah.ecommerce.data.datasource.model.DetailProduct
+import com.athallah.ecommerce.data.datasource.model.Product
+import com.athallah.ecommerce.data.datasource.model.Review
+import com.athallah.ecommerce.data.datasource.model.User
+import com.athallah.ecommerce.data.datasource.model.Wishlist
 import com.athallah.ecommerce.data.datasource.api.request.ProductsQuery
 import com.athallah.ecommerce.data.datasource.api.response.LoginDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.ProductVariantItem
@@ -13,6 +13,8 @@ import com.athallah.ecommerce.data.datasource.api.response.ProductsResponseItem
 import com.athallah.ecommerce.data.datasource.api.response.ProfileDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.RegisterDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.ReviewResponseItem
+import com.athallah.ecommerce.data.datasource.model.Cart
+import com.athallah.ecommerce.data.datasource.room.entity.CartEntity
 import com.athallah.ecommerce.data.datasource.room.entity.WishlistEntity
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -113,7 +115,8 @@ fun WishlistEntity.toWishlist(): Wishlist =
         sale,
         stock,
         productRating,
-        productVariant
+        productVariant,
+        variantPrice
     )
 
 fun Wishlist.toWishlistEntity(): WishlistEntity =
@@ -126,7 +129,68 @@ fun Wishlist.toWishlistEntity(): WishlistEntity =
         sale,
         stock,
         productRating,
-        productVariant
+        productVariant,
+        variantPrice
+    )
+
+fun CartEntity.toCart(): Cart =
+    Cart(
+        productId,
+        productName,
+        productPrice,
+        image,
+        stock,
+        store,
+        sale,
+        productRating,
+        description,
+        totalRating,
+        totalSatisfaction,
+        brand,
+        totalReview,
+        variantName,
+        variantPrice,
+        quantity,
+        isChecked,
+    )
+fun Cart.toCartEntity(): CartEntity =
+    CartEntity(
+        productId,
+        productName,
+        productPrice,
+        image,
+        stock,
+        store,
+        sale,
+        productRating,
+        description,
+        totalRating,
+        totalSatisfaction,
+        brand,
+        totalReview,
+        variantName,
+        variantPrice,
+        quantity ?: 1,
+        isChecked,
+    )
+
+fun DetailProduct.toCart(variant: DetailProduct.ProductVariant): Cart =
+    Cart(
+        productId,
+        productName,
+        productPrice,
+        image[0],
+        stock,
+        store,
+        sale,
+        productRating,
+        description,
+        totalRating,
+        totalSatisfaction,
+        brand,
+        totalReview,
+        variant.variantName,
+        variant.variantPrice,
     )
 
 

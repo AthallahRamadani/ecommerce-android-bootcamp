@@ -74,6 +74,17 @@
     <string name="see_all">Lihat Semua</string>
     <string name="total_wishlist_item">%1$d barang</string>
     <string name="wishlist_remove_successful">Berhasil menghapus wishlist</string>
+    <string name="choose_all">Choose All</string>
+    <string name="delete">Delete</string>
+    <string name="total_price">Total Price</string>
+    <string name="buy">Buy</string>
+    <string name="total_stock">Stock %1$d</string>
+    <string name="remaining_stock">Remaining %1$d</string>
+    <string name="cart_insert_successful">Successfully insert cart</string>
+    <string name="stock_is_unavailable">Stock is unavailable</string>
+
+
+
 
 
 </resources>

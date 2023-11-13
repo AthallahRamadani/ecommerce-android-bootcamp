@@ -3,6 +3,7 @@ package com.athallah.ecommerce.data.datasource.room.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.athallah.ecommerce.data.datasource.model.DetailProduct
 
 
 @Entity(tableName = "wishlist")
@@ -16,5 +17,6 @@ data class WishlistEntity (
     @ColumnInfo(name = "sale") val sale: Int,
     @ColumnInfo(name = "stock") val stock: Int,
     @ColumnInfo(name = "product_rating") val productRating: Float,
-    @ColumnInfo(name = "product_variant") val productVariant: String
+    @ColumnInfo(name = "product_variant") val productVariant:  String,
+    @ColumnInfo(name = "variant_price") val variantPrice:  Int
 )

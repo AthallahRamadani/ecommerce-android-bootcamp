@@ -15,6 +15,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.databinding.FragmentMainBinding
+import com.athallah.ecommerce.utils.showSnackbar
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.badge.ExperimentalBadgeUtils
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -55,6 +58,19 @@ class MainFragment : Fragment() {
         binding.topAppBar.title = viewModel.prefGetUsername()
         setBottomNavigation()
         observeWishlist()
+        observeCart()
+        setActionAppbar()
+    }
+
+    private fun setActionAppbar() {
+        binding.topAppBar.setOnMenuItemClickListener {
+            when (it.itemId){
+                R.id.menu_notification -> binding.root.showSnackbar("Notification")
+                R.id.menu_cart -> findNavController().navigate(R.id.action_mainFragment_to_cartFragment)
+                else -> return@setOnMenuItemClickListener false
+            }
+            return@setOnMenuItemClickListener true
+        }
     }
 
     private fun observeWishlist() {
@@ -67,6 +83,27 @@ class MainFragment : Fragment() {
                         badge.number = size
                     } else {
                         badge.isVisible = false
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeCart() {
+        val badgeDrawable = BadgeDrawable.create(requireActivity())
+        BadgeUtils.attachBadgeDrawable(
+            badgeDrawable,
+            binding.topAppBar,
+            R.id.menu_cart
+        )
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.cartSize.collect { size->
+                    if (size>=1) {
+                        badgeDrawable.isVisible =true
+                        badgeDrawable.number = size
+                    } else {
+                        badgeDrawable.isVisible = false
                     }
                 }
             }

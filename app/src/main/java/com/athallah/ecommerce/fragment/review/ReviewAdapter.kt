@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.athallah.ecommerce.R
-import com.athallah.ecommerce.data.datasource.api.model.Review
+import com.athallah.ecommerce.data.datasource.model.Review
 import com.athallah.ecommerce.databinding.ReviewItemLayoutBinding
 
 

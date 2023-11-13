@@ -3,7 +3,7 @@ package com.athallah.ecommerce.fragment.review
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.athallah.ecommerce.data.ResultState
-import com.athallah.ecommerce.data.datasource.api.model.Review
+import com.athallah.ecommerce.data.datasource.model.Review
 import com.athallah.ecommerce.data.repo.StoreRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

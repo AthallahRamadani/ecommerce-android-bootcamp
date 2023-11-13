@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import coil.load
 import com.athallah.ecommerce.R
-import com.athallah.ecommerce.data.datasource.api.model.Product
+import com.athallah.ecommerce.data.datasource.model.Product
 import com.athallah.ecommerce.databinding.ProductGridLayoutBinding
 import com.athallah.ecommerce.databinding.ProductListLayoutBinding
 import com.athallah.ecommerce.utils.toCurrencyFormat

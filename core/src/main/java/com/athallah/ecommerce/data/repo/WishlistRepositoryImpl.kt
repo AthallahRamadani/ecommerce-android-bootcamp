@@ -1,6 +1,6 @@
 package com.athallah.ecommerce.data.repo
 
-import com.athallah.ecommerce.data.datasource.api.model.Wishlist
+import com.athallah.ecommerce.data.datasource.model.Wishlist
 import com.athallah.ecommerce.data.datasource.api.service.ApiService
 import com.athallah.ecommerce.data.datasource.preference.UserDataStore
 import com.athallah.ecommerce.data.datasource.room.dao.WishlistDao

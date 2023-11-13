@@ -1,7 +1,7 @@
 package com.athallah.ecommerce.data.repo
 
 import com.athallah.ecommerce.data.ResultState
-import com.athallah.ecommerce.data.datasource.api.model.User
+import com.athallah.ecommerce.data.datasource.model.User
 import kotlinx.coroutines.flow.Flow
 import java.io.File
 
