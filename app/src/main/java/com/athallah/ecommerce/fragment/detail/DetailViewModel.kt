@@ -12,6 +12,7 @@ import com.athallah.ecommerce.data.repo.CartRepository
 import com.athallah.ecommerce.data.repo.StoreRepository
 import com.athallah.ecommerce.data.repo.WishlistRepository
 import com.athallah.ecommerce.utils.extension.toCart
+import com.athallah.ecommerce.utils.extension.toWishlist
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -74,19 +75,7 @@ class DetailViewModel(
             isWishlist = false
         }
     }
-    private fun DetailProduct.toWishlist(variant:  DetailProduct.ProductVariant): Wishlist =
-        Wishlist(
-            productId,
-            productName,
-            productPrice,
-            image[0],
-            store,
-            sale,
-            stock,
-            productRating,
-            variant.variantName,
-            variant.variantPrice
-        )
+
 
     fun insertCart(): Boolean {
         return if (detailProduct != null) {

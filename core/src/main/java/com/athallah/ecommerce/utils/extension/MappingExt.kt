@@ -111,11 +111,16 @@ fun WishlistEntity.toWishlist(): Wishlist =
         productName,
         productPrice,
         image,
+        stock,
         store,
         sale,
-        stock,
         productRating,
-        productVariant,
+        description,
+        totalRating,
+        totalSatisfaction,
+        brand,
+        totalReview,
+        variantName,
         variantPrice
     )
 
@@ -125,11 +130,16 @@ fun Wishlist.toWishlistEntity(): WishlistEntity =
         productName,
         productPrice,
         image,
+        stock,
         store,
         sale,
-        stock,
         productRating,
-        productVariant,
+        description,
+        totalRating,
+        totalSatisfaction,
+        brand,
+        totalReview,
+        variantName,
         variantPrice
     )
 
@@ -191,6 +201,44 @@ fun DetailProduct.toCart(variant: DetailProduct.ProductVariant): Cart =
         totalReview,
         variant.variantName,
         variant.variantPrice,
+    )
+
+fun Wishlist.toCart(): Cart =
+    Cart(
+        productId,
+        productName,
+        productPrice,
+        image,
+        stock,
+        store,
+        sale,
+        productRating,
+        description,
+        totalRating,
+        totalSatisfaction,
+        brand,
+        totalReview,
+        variantName,
+        variantPrice,
+    )
+
+fun DetailProduct.toWishlist(variant: DetailProduct.ProductVariant): Wishlist =
+    Wishlist(
+        productId,
+        productName,
+        productPrice,
+        image[0],
+        stock,
+        store,
+        sale,
+        productRating,
+        description,
+        totalRating,
+        totalSatisfaction,
+        brand,
+        totalReview,
+        variant.variantName,
+        variant.variantPrice
     )
 
 

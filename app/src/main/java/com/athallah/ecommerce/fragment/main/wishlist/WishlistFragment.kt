@@ -42,7 +42,7 @@ class WishlistFragment : Fragment() {
             }
 
             override fun addCartCallback(wishlist: Wishlist) {
-//                actionAddCart(wishlist)
+                actionAddCart(wishlist)
             }
         })
     }
@@ -142,6 +142,13 @@ class WishlistFragment : Fragment() {
                 binding.rvWishlistItem.scrollToPosition(0)
             }
         })
+    }
+
+    private fun actionAddCart(wishlist: Wishlist) {
+        if (viewModel.insertCart(wishlist))
+            binding.root.showSnackbar(getString(R.string.cart_insert_successful))
+        else
+            binding.root.showSnackbar(getString(R.string.stock_is_unavailable))
     }
 
 
