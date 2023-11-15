@@ -13,6 +13,8 @@ import com.athallah.ecommerce.data.repo.AppRepository
 import com.athallah.ecommerce.data.repo.AppRepositoryImpl
 import com.athallah.ecommerce.data.repo.CartRepository
 import com.athallah.ecommerce.data.repo.CartRepositoryImpl
+import com.athallah.ecommerce.data.repo.FulfillmentRepository
+import com.athallah.ecommerce.data.repo.FulfillmentRepositoryImpl
 import com.athallah.ecommerce.data.repo.StoreRepository
 import com.athallah.ecommerce.data.repo.StoreRepositoryImpl
 import com.athallah.ecommerce.data.repo.UserRepository
@@ -40,6 +42,7 @@ val repositoryModule = module {
     factory<StoreRepository> {StoreRepositoryImpl(get(),get())}
     factory<WishlistRepository> {WishlistRepositoryImpl(get())}
     factory<CartRepository> {CartRepositoryImpl(get())}
+    factory<FulfillmentRepository> { FulfillmentRepositoryImpl(get()) }
 }
 
 val roomModule = module {

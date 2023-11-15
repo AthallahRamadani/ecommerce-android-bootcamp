@@ -81,6 +81,7 @@
         android:layout_height="wrap_content"
         android:text="@string/choose_all"
         android:textFontWeight="500"
+        android:layout_marginTop="3dp"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@id/cb_all_cart"
         app:layout_constraintStart_toEndOf="@+id/cb_all_cart"

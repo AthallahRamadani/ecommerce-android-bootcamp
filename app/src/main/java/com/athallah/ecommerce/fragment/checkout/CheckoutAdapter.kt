@@ -32,11 +32,9 @@ class CheckoutAdapter(
     }
 
     interface CartCallback {
-//        fun itemClickCallback(productId: String)
-//        fun deleteItemCallback(cart: Cart)
+        fun itemClickCallback(productId: String)
         fun addQuantityCallback(cart: Cart)
         fun removeQuantityCallback(cart: Cart)
-//        fun checkItemCallback(cart: Cart, isCheck: Boolean)
     }
 
     class CheckoutViewHolder(

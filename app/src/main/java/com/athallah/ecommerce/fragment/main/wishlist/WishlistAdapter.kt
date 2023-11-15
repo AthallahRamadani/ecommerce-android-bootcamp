@@ -108,7 +108,7 @@ class WishlistAdapter(
                 error(R.drawable.product_image_placeholder)
             }
             productName.text = data.productName
-            productPrice.text = data.productPrice.toCurrencyFormat()
+            productPrice.text = data.productPrice.plus(data.variantPrice).toCurrencyFormat()
             productStore.text = data.store
             productRatingAndSales.text =
                 itemView.resources.getString(

@@ -5,15 +5,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.load
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.datasource.model.Cart
 import com.athallah.ecommerce.databinding.FragmentCartBinding
 import com.athallah.ecommerce.databinding.FragmentCheckoutBinding
+import com.athallah.ecommerce.fragment.detail.DetailFragment
+import com.athallah.ecommerce.fragment.payment.PaymentFragment
+import com.athallah.ecommerce.utils.parcelable
 import com.athallah.ecommerce.utils.parcelableArrayList
 import com.athallah.ecommerce.utils.toCurrencyFormat
 import kotlinx.coroutines.flow.collect
@@ -30,6 +36,10 @@ class CheckoutFragment : Fragment() {
 
     private val checkoutAdapter: CheckoutAdapter by lazy {
         CheckoutAdapter(object : CheckoutAdapter.CartCallback {
+            override fun itemClickCallback(productId: String) {
+                moveToDetailProduct(productId)
+            }
+
             override fun addQuantityCallback(cart: Cart) {
                 viewModel.updateDataQuantity(cart, true)
             }
@@ -40,11 +50,13 @@ class CheckoutFragment : Fragment() {
         })
     }
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            viewModel.setData(it.parcelableArrayList(ARG_DATA) ?: ArrayList())
-        }
+//        arguments?.let {
+//            viewModel.setData(it.parcelableArrayList(ARG_DATA) ?: ArrayList())
+//        }
     }
 
     override fun onCreateView(
@@ -70,8 +82,26 @@ class CheckoutFragment : Fragment() {
                 viewModel.listData.collect {data->
                     checkoutAdapter.submitList(data)
                     setPrice(data)
+                    setPayment()
                 }
             }
+        }
+        setFragmentResultListener(PaymentFragment.REQUEST_KEY) {_, bundle ->
+            viewModel.paymentItem =
+                bundle.parcelable(PaymentFragment.BUNDLE_PAYMENT_KEY)
+            setPayment()
+        }
+    }
+
+    private fun setPayment() {
+        if (viewModel.paymentItem != null) {
+            binding.ivCard.load(viewModel.paymentItem!!.image) {
+                crossfade(true)
+                placeholder(R.drawable.product_image_placeholder)
+                error(R.drawable.product_image_placeholder)
+            }
+            binding.tvChoosePayment.text = viewModel.paymentItem!!.label
+            binding.btnBuy.isEnabled = true
         }
     }
 
@@ -83,7 +113,7 @@ class CheckoutFragment : Fragment() {
     }
 
     private fun setupAction() {
-        binding.cvPayment.setOnClickListener {  }
+        binding.cvPayment.setOnClickListener { findNavController().navigate(R.id.action_checkoutFragment_to_paymentFragment)}
         binding.btnBuy.setOnClickListener {  }
         binding.topAppBar.setNavigationOnClickListener { findNavController().navigateUp() }
     }
@@ -98,6 +128,13 @@ class CheckoutFragment : Fragment() {
             }
             itemAnimator = null
         }
+    }
+
+    private fun moveToDetailProduct(productId: String) {
+        findNavController().navigate(
+            R.id.action_cartFragment_to_detailFragment,
+            bundleOf(DetailFragment.BUNDLE_PRODUCT_ID_KEY to productId)
+        )
     }
 
 
