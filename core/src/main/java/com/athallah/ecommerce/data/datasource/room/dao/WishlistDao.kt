@@ -23,4 +23,7 @@ interface WishlistDao {
 
     @Delete
     suspend fun delete(wishlist: WishlistEntity)
+
+    @Query("DELETE FROM wishlist")
+    suspend fun clearTable()
 }

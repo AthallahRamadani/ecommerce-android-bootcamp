@@ -2,10 +2,16 @@ package com.athallah.ecommerce.data.repo
 
 import android.util.Log
 import com.athallah.ecommerce.data.datasource.preference.UserDataStore
+import com.athallah.ecommerce.data.datasource.room.dao.CartDao
+import com.athallah.ecommerce.data.datasource.room.dao.WishlistDao
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 
 class AppRepositoryImpl(
-    private val sharedPref: UserDataStore
+    private val sharedPref: UserDataStore,
+    private val wishlistDao: WishlistDao,
+    private val cartDao: CartDao
 ): AppRepository {
     //pref
     override fun getLanguage(): Flow<String> = sharedPref.getLanguage()
@@ -44,8 +50,11 @@ class AppRepositoryImpl(
     }
 
     override suspend fun logout() {
-        Log.d("TAG", "logout: ")
-        sharedPref.clearAllDataSession()
+        withContext(Dispatchers.IO){
+            wishlistDao.clearTable()
+            cartDao.clearTable()
+            sharedPref.clearAllDataSession()
+        }
     }
 
     override fun checkUserAuthorization(): Flow<Boolean> = sharedPref.checkUserAuthorization()

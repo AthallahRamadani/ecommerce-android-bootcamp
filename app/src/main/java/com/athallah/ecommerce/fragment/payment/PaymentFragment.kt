@@ -12,16 +12,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.ResultState
-import com.athallah.ecommerce.databinding.FragmentDetailBinding
 import com.athallah.ecommerce.databinding.FragmentPaymentBinding
-import com.athallah.ecommerce.fragment.detail.DetailViewModel
 import com.athallah.ecommerce.fragment.payment.adapter.PaymentAdapter
 import com.google.android.material.divider.MaterialDividerItemDecoration
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.IOException
 
 
 class PaymentFragment : Fragment() {
@@ -69,18 +66,55 @@ class PaymentFragment : Fragment() {
                         showLoading(result is ResultState.Loading)
                         when(result) {
                             is ResultState.Success -> paymentAdapter.submitList(result.data)
-                            is ResultState.Error -> showError(result.message)
+                            is ResultState.Error -> showError(result.e)
                             else -> {}
                         }
                     }
                 }
             }
         }
-        viewModel.getDetailProduct()
+        viewModel.getPayment()
     }
 
-    private fun showError(message: String) {
-        TODO("Not yet implemented")
+    private fun showError(error: Throwable) {
+        when(error) {
+            is retrofit2.HttpException -> {
+                if (error.response()?.code() == 404) {
+                    binding.layoutEmpty.isVisible = true
+                    binding.rvPayment.isVisible = false
+                } else {
+                    binding.layoutConnection.isVisible = true
+                    binding.rvPayment.isVisible = false
+                    binding.tvTitleConnection.text = error.code().toString()
+                    binding.tvSubtitleConnection.text = error.response()?.message().toString()
+                }
+            }
+
+            is IOException -> {
+                binding.layoutConnection.isVisible = true
+                binding.rvPayment.isVisible = false
+            }
+
+            else -> {
+                binding.layoutConnection.isVisible = true
+                binding.rvPayment.isVisible = false
+            }
+        }
+
+        binding.btEmpty.setOnClickListener {
+            viewModel.getPayment()
+            binding.layoutEmpty.isVisible = false
+        }
+
+        binding.btServer.setOnClickListener {
+            viewModel.getPayment()
+            binding.btServer.isVisible = false
+        }
+
+        binding.btConnection.setOnClickListener {
+            viewModel.getPayment()
+            binding.layoutConnection.isVisible = false
+        }
     }
 
     private fun showLoading(isLoading: Boolean) {

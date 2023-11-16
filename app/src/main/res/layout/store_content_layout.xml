@@ -43,11 +43,11 @@
         android:id="@+id/iv_list"
         android:layout_width="26dp"
         android:layout_height="28dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/baseline_grid_view_24"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/chip_filter"
+        app:layout_constraintBottom_toBottomOf="@id/chip_filter"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_store"

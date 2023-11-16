@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -14,13 +16,18 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.athallah.ecommerce.R
+import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.data.datasource.model.Cart
+import com.athallah.ecommerce.data.datasource.model.Fulfillment
 import com.athallah.ecommerce.databinding.FragmentCartBinding
 import com.athallah.ecommerce.databinding.FragmentCheckoutBinding
 import com.athallah.ecommerce.fragment.detail.DetailFragment
 import com.athallah.ecommerce.fragment.payment.PaymentFragment
+import com.athallah.ecommerce.fragment.status.StatusFragment
+import com.athallah.ecommerce.utils.extension.getErrorMessage
 import com.athallah.ecommerce.utils.parcelable
 import com.athallah.ecommerce.utils.parcelableArrayList
+import com.athallah.ecommerce.utils.showSnackbar
 import com.athallah.ecommerce.utils.toCurrencyFormat
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -51,14 +58,6 @@ class CheckoutFragment : Fragment() {
     }
 
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            viewModel.setData(it.parcelableArrayList(ARG_DATA) ?: ArrayList())
-//        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -74,19 +73,52 @@ class CheckoutFragment : Fragment() {
         setupAdapter()
         setupAction()
         observeData()
+        observePayment()
+    }
+
+    private fun observePayment() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.paymentState.collect { result ->
+                    if (result != null) {
+                        showLoading(result is ResultState.Loading)
+                        when (result) {
+                            is ResultState.Success -> actionToStatus(result.data)
+                            is ResultState.Error -> {
+                                val message = result.e.getErrorMessage()
+                                binding.root.showSnackbar(message)
+                            }
+                            else -> {}
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun actionToStatus(data: Fulfillment) {
+        val bundle = Bundle().apply {
+            putParcelable(StatusFragment.DATA_BUNDLE_KEY, data)
+        }
+        findNavController().navigate(R.id.action_checkoutFragment_to_statusFragment, bundle)
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.btnBuy.isInvisible = isLoading
+        binding.cipBuy.isInvisible = !isLoading
     }
 
     private fun observeData() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.listData.collect {data->
+                viewModel.listData.collect { data ->
                     checkoutAdapter.submitList(data)
                     setPrice(data)
                     setPayment()
                 }
             }
         }
-        setFragmentResultListener(PaymentFragment.REQUEST_KEY) {_, bundle ->
+        setFragmentResultListener(PaymentFragment.REQUEST_KEY) { _, bundle ->
             viewModel.paymentItem =
                 bundle.parcelable(PaymentFragment.BUNDLE_PAYMENT_KEY)
             setPayment()
@@ -106,15 +138,18 @@ class CheckoutFragment : Fragment() {
     }
 
     private fun setPrice(data: List<Cart>) {
-        viewModel.totalPrice = data.sumOf{
+        viewModel.totalPrice = data.sumOf {
             (it.productPrice + it.variantPrice) * it.quantity!!
         }
         binding.tvCheckoutPrice.text = viewModel.totalPrice.toCurrencyFormat()
     }
 
     private fun setupAction() {
-        binding.cvPayment.setOnClickListener { findNavController().navigate(R.id.action_checkoutFragment_to_paymentFragment)}
-        binding.btnBuy.setOnClickListener {  }
+        binding.cvPayment.setOnClickListener { findNavController().navigate(R.id.action_checkoutFragment_to_paymentFragment) }
+        binding.btnBuy.setOnClickListener {
+            viewModel.makePayment()
+
+        }
         binding.topAppBar.setNavigationOnClickListener { findNavController().navigateUp() }
     }
 

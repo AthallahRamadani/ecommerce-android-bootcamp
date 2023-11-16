@@ -1,7 +1,10 @@
 package com.athallah.ecommerce.data.datasource.api.service
 
 import com.athallah.ecommerce.data.datasource.api.request.AuthRequest
+import com.athallah.ecommerce.data.datasource.api.request.FulfillmentRequest
+import com.athallah.ecommerce.data.datasource.api.request.RatingRequest
 import com.athallah.ecommerce.data.datasource.api.request.RefreshRequest
+import com.athallah.ecommerce.data.datasource.api.response.FulfillmentResponse
 import com.athallah.ecommerce.data.datasource.api.response.LoginDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.LoginResponse
 import com.athallah.ecommerce.data.datasource.api.response.PaymentResponse
@@ -9,6 +12,7 @@ import com.athallah.ecommerce.data.datasource.api.response.ProductsDetailRespons
 import com.athallah.ecommerce.data.datasource.api.response.ProductsResponse
 import com.athallah.ecommerce.data.datasource.api.response.ProfileDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.ProfileResponse
+import com.athallah.ecommerce.data.datasource.api.response.RatingResponse
 import com.athallah.ecommerce.data.datasource.api.response.RefreshResponse
 import com.athallah.ecommerce.data.datasource.api.response.RegisterDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.RegisterResponse
@@ -75,5 +79,16 @@ interface ApiService {
 
     @GET("payment")
     suspend fun payment() : PaymentResponse
+
+    @POST("fulfillment")
+    suspend fun fulfillment(
+        @Body fulfillmentRequest: FulfillmentRequest
+    ): FulfillmentResponse
+
+    @POST("rating")
+    suspend fun rating(
+        @Body ratingRequest: RatingRequest
+    ): RatingResponse
+
 
 }

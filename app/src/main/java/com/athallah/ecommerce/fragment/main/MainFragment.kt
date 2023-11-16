@@ -116,4 +116,8 @@ class MainFragment : Fragment() {
         val navController = navHostFragment.findNavController()
         binding.bottomNavView.setupWithNavController(navController)
     }
+
+    companion object{
+        const val MOVE_TRANSACTION_BUNDLE_KEY = "move_transaction_bundle_key"
+    }
 }

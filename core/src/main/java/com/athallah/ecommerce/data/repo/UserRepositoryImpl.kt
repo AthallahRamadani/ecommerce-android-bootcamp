@@ -62,7 +62,7 @@ class UserRepositoryImpl(
                 }
             } catch (e: Exception) {
                 val message = getApiErrorMessage(e)
-                emit(ResultState.Error(message.toString()))
+                emit(ResultState.Error(e))
             }
         }
 

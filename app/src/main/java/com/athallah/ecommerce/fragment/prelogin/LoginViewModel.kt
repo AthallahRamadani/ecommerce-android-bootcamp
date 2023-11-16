@@ -66,8 +66,7 @@ class LoginViewModel(
                 )
                 liveData.postValue(ResultState.Success(user))
             } catch (e: Exception) {
-                val error = getApiErrorMessage(e)
-                liveData.postValue(ResultState.Error(error ?: e.message.toString()))
+                liveData.postValue(ResultState.Error(e))
             }
         }
     }

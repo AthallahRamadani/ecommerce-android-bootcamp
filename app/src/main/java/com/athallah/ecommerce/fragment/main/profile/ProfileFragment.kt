@@ -24,6 +24,7 @@ import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.databinding.FragmentProfilBinding
 import com.athallah.ecommerce.fragment.main.`object`.PhotoLoaderManager
+import com.athallah.ecommerce.utils.extension.getErrorMessage
 import com.athallah.ecommerce.utils.showSnackbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -203,7 +204,7 @@ class ProfileFragment : Fragment() {
                     }
 
                     is ResultState.Error -> {
-                        binding.root.showSnackbar(state.message)
+                        binding.root.showSnackbar(state.e.getErrorMessage())
                         binding.progressBar.visibility = View.INVISIBLE
                         binding.btSelesai.visibility = View.VISIBLE
                     }

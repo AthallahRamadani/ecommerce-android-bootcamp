@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.databinding.FragmentRegisterBinding
+import com.athallah.ecommerce.utils.extension.getErrorMessage
 import com.athallah.ecommerce.utils.showSnackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -46,7 +47,7 @@ class RegisterFragment : Fragment() {
             if (state != null) {
                 when (state) {
                     is ResultState.Error -> {
-                        binding.root.showSnackbar(state.message)
+                        binding.root.showSnackbar(state.e.getErrorMessage())
                         binding.progressBar.visibility = View.INVISIBLE
                         binding.btDaftar.visibility = View.VISIBLE
                     }

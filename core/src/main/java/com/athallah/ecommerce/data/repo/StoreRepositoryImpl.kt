@@ -48,8 +48,7 @@ class StoreRepositoryImpl(
                 emit(ResultState.Success(emptyList()))
             }
         } catch (e: Exception) {
-            val message = e.getErrorMessage()
-            emit(ResultState.Error(message.toString()))
+            emit(ResultState.Error(e))
         }
     }
 
@@ -59,10 +58,9 @@ class StoreRepositoryImpl(
             val response = apiService.detailProducts(id)
             val data = response.data?.toDetailProduct()
             if (data != null) emit(ResultState.Success(data))
-            else emit(ResultState.Error("No data"))
+            else throw Exception("No data")
         } catch (e: Exception) {
-            val message = e.getErrorMessage()
-            emit(ResultState.Error(message.toString()))
+            emit(ResultState.Error(e))
         }
     }
 
@@ -74,7 +72,7 @@ class StoreRepositoryImpl(
             emit(ResultState.Success(data))
         } catch (e: Exception) {
             val message = e.getErrorMessage()
-            emit(ResultState.Error(message.toString()))
+            emit(ResultState.Error(e))
         }
     }
 }

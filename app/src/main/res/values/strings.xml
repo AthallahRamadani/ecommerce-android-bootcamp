@@ -83,6 +83,11 @@
     <string name="cart_insert_successful">Successfully insert cart</string>
     <string name="stock_is_unavailable">Stock is unavailable</string>
     <string name="payment">Pembayaran</string>
+    <string name="payment_successful">Pembayaran Berhasil</string>
+    <string name="leave_a_review">Beri Ulasan</string>
+    <string name="transaction_detail">Detail Transaksi</string>
+    <string name="success">Success</string>
+    <string name="failed">Failed</string>
 
 
 </resources>

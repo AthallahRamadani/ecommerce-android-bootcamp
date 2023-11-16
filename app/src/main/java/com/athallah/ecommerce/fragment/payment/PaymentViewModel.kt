@@ -7,7 +7,6 @@ import com.athallah.ecommerce.data.datasource.model.Payment
 import com.athallah.ecommerce.data.repo.FulfillmentRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class PaymentViewModel(
@@ -17,7 +16,7 @@ private val fulfillmentRepository: FulfillmentRepository
     private val _paymentState = MutableStateFlow<ResultState<List<Payment>>?>(null)
     val paymentState: StateFlow<ResultState<List<Payment>>?> = _paymentState
 
-    fun getDetailProduct() {
+    fun getPayment() {
         viewModelScope.launch {
             fulfillmentRepository.getPaymentMethod().collect {resultState ->
                 _paymentState.value = resultState

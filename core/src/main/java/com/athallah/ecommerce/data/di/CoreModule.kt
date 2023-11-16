@@ -37,12 +37,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "APPLICATION_PREFERENCE")
 
 val repositoryModule = module {
-    single{AppRepositoryImpl(get())} bind AppRepository::class
-    factory<UserRepository> { UserRepositoryImpl(get(),get()) }
-    factory<StoreRepository> {StoreRepositoryImpl(get(),get())}
-    factory<WishlistRepository> {WishlistRepositoryImpl(get())}
-    factory<CartRepository> {CartRepositoryImpl(get())}
-    factory<FulfillmentRepository> { FulfillmentRepositoryImpl(get()) }
+    single { AppRepositoryImpl(get(), get(), get()) } bind AppRepository::class
+    single { UserRepositoryImpl(get(), get()) } bind UserRepository::class
+    single { StoreRepositoryImpl(get(), get()) } bind StoreRepository::class
+    single { WishlistRepositoryImpl(get()) } bind WishlistRepository::class
+    single { CartRepositoryImpl(get()) } bind CartRepository::class
+    single { FulfillmentRepositoryImpl(get()) } bind FulfillmentRepository::class
 }
 
 val roomModule = module {
@@ -75,7 +75,7 @@ val apiModule = module {
             .build()
     }
 
-    single {HeaderInterceptor(get())}
+    single { HeaderInterceptor(get()) }
     single { SupportAuthenticator(androidContext(), get()) }
 
     single {

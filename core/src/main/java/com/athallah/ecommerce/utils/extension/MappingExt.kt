@@ -1,11 +1,13 @@
 package com.athallah.ecommerce.utils.extension
 
+import com.athallah.ecommerce.data.datasource.api.request.FulfillmentRequest
 import com.athallah.ecommerce.data.datasource.model.DetailProduct
 import com.athallah.ecommerce.data.datasource.model.Product
 import com.athallah.ecommerce.data.datasource.model.Review
 import com.athallah.ecommerce.data.datasource.model.User
 import com.athallah.ecommerce.data.datasource.model.Wishlist
 import com.athallah.ecommerce.data.datasource.api.request.ProductsQuery
+import com.athallah.ecommerce.data.datasource.api.response.FulfillmentResponseData
 import com.athallah.ecommerce.data.datasource.api.response.LoginDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.PaymentResponseData
 import com.athallah.ecommerce.data.datasource.api.response.PaymentResponseDataItem
@@ -16,6 +18,7 @@ import com.athallah.ecommerce.data.datasource.api.response.ProfileDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.RegisterDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.ReviewResponseItem
 import com.athallah.ecommerce.data.datasource.model.Cart
+import com.athallah.ecommerce.data.datasource.model.Fulfillment
 import com.athallah.ecommerce.data.datasource.model.Payment
 import com.athallah.ecommerce.data.datasource.room.entity.CartEntity
 import com.athallah.ecommerce.data.datasource.room.entity.WishlistEntity
@@ -255,6 +258,23 @@ fun PaymentResponseDataItem.toPaymentItem(): Payment.PaymentItem =
         image ?: "",
         label ?: "",
         status ?: false
+    )
+
+fun FulfillmentResponseData.toFulfillment(): Fulfillment =
+    Fulfillment(
+        date ?: "",
+        total ?: 0,
+        invoiceId ?: "",
+        payment ?: "",
+        time ?: "",
+        status ?: false
+    )
+
+fun Cart.toFulfillmentRequestItem(): FulfillmentRequest.Item =
+    FulfillmentRequest.Item(
+        productId,
+        variantName,
+        quantity ?: 1
     )
 
 

@@ -4,7 +4,7 @@ import com.athallah.ecommerce.data.datasource.api.response.ErrorResponse
 import com.google.gson.Gson
 import retrofit2.HttpException
 
-fun Throwable.getErrorMessage(): String? {
+fun Throwable.getErrorMessage(): String {
     var message = this.message
     if (this is HttpException) {
         val errorResponse =
@@ -14,5 +14,5 @@ fun Throwable.getErrorMessage(): String? {
             ) ?: ErrorResponse()
         errorResponse.message?.let { message = it }
     }
-    return message
+    return message.toString()
 }

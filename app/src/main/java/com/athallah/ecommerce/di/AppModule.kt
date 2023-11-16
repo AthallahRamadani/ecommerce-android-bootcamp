@@ -14,6 +14,7 @@ import com.athallah.ecommerce.fragment.prelogin.LoginViewModel
 import com.athallah.ecommerce.fragment.prelogin.OnboardingViewModel
 import com.athallah.ecommerce.fragment.prelogin.RegisterViewModel
 import com.athallah.ecommerce.fragment.review.ReviewViewModel
+import com.athallah.ecommerce.fragment.status.StatusViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -34,4 +35,6 @@ val vmModule = module {
     viewModel { CheckoutViewModel(get(), get()) }
     viewModel { CartViewModel(get()) }
     viewModel { PaymentViewModel(get())}
+    viewModel { StatusViewModel(get(),get())}
+
 }
