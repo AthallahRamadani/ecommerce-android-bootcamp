@@ -115,6 +115,11 @@ class MainFragment : Fragment() {
             childFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
         val navController = navHostFragment.findNavController()
         binding.bottomNavView.setupWithNavController(navController)
+
+        if (viewModel.shouldMoveToTransaction) {
+            binding.bottomNavView.selectedItemId = R.id.transactionFragment
+            viewModel.shouldMoveToTransaction = false
+        }
     }
 
     companion object{

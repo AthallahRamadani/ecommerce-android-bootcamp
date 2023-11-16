@@ -1,6 +1,7 @@
 package com.athallah.ecommerce.fragment.status
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ import com.athallah.ecommerce.utils.showSnackbar
 import com.athallah.ecommerce.utils.toCurrencyFormat
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.math.log
 
 
 class StatusFragment : Fragment() {
@@ -56,7 +58,10 @@ class StatusFragment : Fragment() {
             }
             val invoiceId = viewModel.detailTransaction!!.invoiceId
             viewModel.sendRating(invoiceId, rating, review)
+            Log.d("rating", "setupAction: $invoiceId, $review, $rating")
         }
+
+
     }
 
     private fun observeRating() {
@@ -127,10 +132,6 @@ class StatusFragment : Fragment() {
 
         }
 
-    }
-
-    private fun initBack() {
-        findNavController().navigate(R.id.action_statusFragment_to_mainFragment)
     }
 
 

@@ -1,5 +1,6 @@
 package com.athallah.ecommerce.data.repo
 
+import android.view.SurfaceControl
 import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.data.datasource.api.request.FulfillmentRequest
 import com.athallah.ecommerce.data.datasource.api.request.RatingRequest
@@ -7,9 +8,11 @@ import com.athallah.ecommerce.data.datasource.api.service.ApiService
 import com.athallah.ecommerce.data.datasource.model.Cart
 import com.athallah.ecommerce.data.datasource.model.Fulfillment
 import com.athallah.ecommerce.data.datasource.model.Payment
+import com.athallah.ecommerce.data.datasource.model.Transaction
 import com.athallah.ecommerce.utils.extension.toFulfillment
 import com.athallah.ecommerce.utils.extension.toFulfillmentRequestItem
 import com.athallah.ecommerce.utils.extension.toPayment
+import com.athallah.ecommerce.utils.extension.toTransaction
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -43,7 +46,7 @@ class FulfillmentRepositoryImpl(
             val response = apiService.fulfillment(request)
 
             val data = response.data?.toFulfillment()
-            if (data!=null) {
+            if (data != null) {
                 emit(ResultState.Success(data))
             } else {
                 throw Exception("No data")
@@ -57,12 +60,27 @@ class FulfillmentRepositoryImpl(
         invoiceId: String,
         rating: Int?,
         review: String?
-    ): Flow<ResultState<Boolean>> = flow{
+    ): Flow<ResultState<Boolean>> = flow {
         emit(ResultState.Loading)
         try {
-            val response = apiService.rating(RatingRequest(invoiceId,rating,review))
+            val response = apiService.rating(RatingRequest(invoiceId, rating, review))
             if (response.code == 200) {
                 emit(ResultState.Success(true))
+            } else {
+                throw Exception("Failed")
+            }
+        } catch (e: Exception) {
+            emit(ResultState.Error(e))
+        }
+    }
+
+    override fun getTransaction(): Flow<ResultState<List<Transaction>>> = flow {
+        emit(ResultState.Loading)
+        try {
+            val response = apiService.transaction()
+            val listData = response.data?.map { it.toTransaction() }
+            if (listData != null) {
+                emit(ResultState.Success(listData))
             } else {
                 throw Exception("Failed")
             }

@@ -17,9 +17,12 @@ import com.athallah.ecommerce.data.datasource.api.response.ProductsResponseItem
 import com.athallah.ecommerce.data.datasource.api.response.ProfileDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.RegisterDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.ReviewResponseItem
+import com.athallah.ecommerce.data.datasource.api.response.TransactionResponseData
+import com.athallah.ecommerce.data.datasource.api.response.TransactionResponseItem
 import com.athallah.ecommerce.data.datasource.model.Cart
 import com.athallah.ecommerce.data.datasource.model.Fulfillment
 import com.athallah.ecommerce.data.datasource.model.Payment
+import com.athallah.ecommerce.data.datasource.model.Transaction
 import com.athallah.ecommerce.data.datasource.room.entity.CartEntity
 import com.athallah.ecommerce.data.datasource.room.entity.WishlistEntity
 import okhttp3.MediaType.Companion.toMediaType
@@ -276,5 +279,35 @@ fun Cart.toFulfillmentRequestItem(): FulfillmentRequest.Item =
         variantName,
         quantity ?: 1
     )
+fun TransactionResponseData.toTransaction(): Transaction =
+    Transaction(
+        date ?: "",
+        image ?: "",
+        total ?: 0,
+        review ?: "",
+        rating ?: 0,
+        name ?: "",
+        invoiceId ?: "",
+        payment ?: "",
+        time ?: "",
+        items?.map { it.toTransactionItem() } ?: ArrayList(),
+        status ?: false
+    )
 
+fun TransactionResponseItem.toTransactionItem(): Transaction.TransactionItem =
+    Transaction.TransactionItem(
+        quantity ?: 0,
+        productId ?: "",
+        variantName ?: ""
+    )
+
+fun Transaction.toFulfillment(): Fulfillment =
+    Fulfillment(
+        date,
+        total,
+        invoiceId,
+        payment,
+        time,
+        status
+    )
 

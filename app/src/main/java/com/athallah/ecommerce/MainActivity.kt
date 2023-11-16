@@ -41,8 +41,10 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.checkUserLogin().distinctUntilChanged().collect { isAuthorize ->
-                    if (!isAuthorize)
+                    if (!isAuthorize) {
+                        viewModel.logout()
                         navController.navigate(R.id.action_global_prelogin_navigation)
+                    }
                 }
             }
         }

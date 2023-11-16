@@ -88,6 +88,9 @@
     <string name="transaction_detail">Detail Transaksi</string>
     <string name="success">Success</string>
     <string name="failed">Failed</string>
-
+    <string name="shopping">Belanja</string>
+    <string name="total_payment">Total Belanja</string>
+    <string name="review_transaction">Ulas</string>
+    <string name="total_item">%1$d items</string>
 
 </resources>

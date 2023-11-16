@@ -18,6 +18,7 @@ import com.athallah.ecommerce.data.datasource.api.response.RegisterDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.RegisterResponse
 import com.athallah.ecommerce.data.datasource.api.response.ReviewResponse
 import com.athallah.ecommerce.data.datasource.api.response.SearchResponse
+import com.athallah.ecommerce.data.datasource.api.response.TransactionResponse
 import com.athallah.ecommerce.utils.Constant
 import okhttp3.MultipartBody
 import retrofit2.http.Body
@@ -90,5 +91,6 @@ interface ApiService {
         @Body ratingRequest: RatingRequest
     ): RatingResponse
 
-
+    @GET("transaction")
+    suspend fun transaction(): TransactionResponse
 }
