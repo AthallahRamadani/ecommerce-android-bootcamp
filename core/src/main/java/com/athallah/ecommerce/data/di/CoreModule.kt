@@ -5,7 +5,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
+import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.datasource.api.service.ApiService
+import com.athallah.ecommerce.data.datasource.firebase.AppFirebaseRemoteConfig
 import com.athallah.ecommerce.data.datasource.preference.UserDataStore
 import com.athallah.ecommerce.data.datasource.room.AppDatabase
 import com.athallah.ecommerce.data.datasource.room.dao.WishlistDao
@@ -26,6 +28,12 @@ import com.athallah.ecommerce.utils.extension.HeaderInterceptor
 import com.athallah.ecommerce.utils.extension.SupportAuthenticator
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+
+import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import com.google.firebase.remoteconfig.remoteConfig
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
@@ -43,6 +51,10 @@ val repositoryModule = module {
     single { WishlistRepositoryImpl(get()) } bind WishlistRepository::class
     single { CartRepositoryImpl(get()) } bind CartRepository::class
     single { FulfillmentRepositoryImpl(get()) } bind FulfillmentRepository::class
+}
+
+val firebaseModule = module {
+    single { AppFirebaseRemoteConfig(get()) } bind AppFirebaseRemoteConfig::class
 }
 
 val roomModule = module {
@@ -99,6 +111,18 @@ val apiModule = module {
         get<Retrofit>().create(ApiService::class.java)
     }
 }
+
+val remoteConfigModule = module {
+    single { Firebase.remoteConfig.apply {
+        val configSettings = com.google.firebase.remoteconfig.remoteConfigSettings {
+            minimumFetchIntervalInSeconds = 10
+        }
+        setConfigSettingsAsync(configSettings)
+        setDefaultsAsync(R.xml.remote_config_defaults)
+    }}
+}
+
+
 
 
 

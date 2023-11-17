@@ -2,7 +2,9 @@ package com.athallah.ecommerce
 
 import android.app.Application
 import com.athallah.ecommerce.data.di.apiModule
+import com.athallah.ecommerce.data.di.firebaseModule
 import com.athallah.ecommerce.data.di.preferenceModule
+import com.athallah.ecommerce.data.di.remoteConfigModule
 import com.athallah.ecommerce.data.di.repositoryModule
 import com.athallah.ecommerce.data.di.roomModule
 import com.athallah.ecommerce.di.vmModule
@@ -25,9 +27,14 @@ class MainApplication :Application() {
                     preferenceModule,
                     repositoryModule,
                     apiModule,
+                    //room
                     roomModule,
                     //app
-                    vmModule
+                    vmModule,
+                    //firebase remote config
+                    remoteConfigModule,
+                    firebaseModule
+
                 )
             )
         }

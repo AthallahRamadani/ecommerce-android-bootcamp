@@ -68,6 +68,7 @@ class PaymentFragment : Fragment() {
                             is ResultState.Loading -> {}
                             is ResultState.Success -> paymentAdapter.submitList(result.data)
                             is ResultState.Error -> showError(result.e)
+
                         }
                     }
                 }

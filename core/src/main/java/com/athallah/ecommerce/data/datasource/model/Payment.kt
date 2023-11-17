@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 data class Payment(
     val title: String,
-    val paymentItem: List<PaymentItem>
+    val item: List<PaymentItem>
 ) {
     @Parcelize
     data class PaymentItem(

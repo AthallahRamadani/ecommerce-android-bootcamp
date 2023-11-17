@@ -34,7 +34,7 @@ class PaymentAdapter(
         private val paymentItemAdapter = PaymentItemAdapter(subitemClickCallback)
 
         fun bind(data: Payment) {
-            paymentItemAdapter.submitList(data.paymentItem)
+            paymentItemAdapter.submitList(data.item)
             binding.tvPaymentTitle.text = data.title
             binding.rvPaymentItemLayout.apply {
                 adapter = paymentItemAdapter
