@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
@@ -20,7 +21,7 @@ import com.athallah.ecommerce.fragment.status.StatusFragment
 import com.athallah.ecommerce.utils.extension.toFulfillment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
+import java.io.IOException
 
 
 class TransactionFragment : Fragment() {
@@ -66,7 +67,17 @@ class TransactionFragment : Fragment() {
                         showLoading(result is ResultState.Loading)
                         when (result) {
                             is ResultState.Loading -> {}
-                            is ResultState.Success -> transactionAdapter.submitList(result.data)
+                            is ResultState.Success -> {
+                                transactionAdapter.submitList(result.data)
+                                if(result.data.isEmpty()) {
+                                    binding.layoutEmpty.isVisible = true
+                                    binding.rvTransaction.isVisible = false
+                                    binding.btEmpty.setOnClickListener {
+                                        viewModel.getListTransaction()
+                                        binding.layoutEmpty.isVisible = false
+                                    }
+                                }
+                            }
                             is ResultState.Error -> showErrorView(result.e)
                         }
                     }
@@ -76,11 +87,51 @@ class TransactionFragment : Fragment() {
     }
 
     private fun showErrorView(error: Throwable) {
+        when(error) {
+            is retrofit2.HttpException -> {
+                if (error.response()?.code() == 404) {
+                    binding.layoutEmpty.isVisible = true
+                    binding.rvTransaction.isVisible = false
+                } else {
+                    binding.layoutConnection.isVisible = true
+                    binding.rvTransaction.isVisible = false
+                    binding.tvTitleConnection.text = error.code().toString()
+                    binding.tvSubtitleConnection.text = error.response()?.message().toString()
+                }
+            }
+
+            is IOException -> {
+                binding.layoutConnection.isVisible = true
+                binding.rvTransaction.isVisible = false
+            }
+
+            else -> {
+                binding.layoutServer.isVisible = true
+                binding.rvTransaction.isVisible = false
+            }
+        }
+
+        binding.btEmpty.setOnClickListener {
+            viewModel.getListTransaction()
+            binding.layoutEmpty.isVisible = false
+
+        }
+
+        binding.btServer.setOnClickListener {
+            viewModel.getListTransaction()
+            binding.btServer.isVisible = false
+        }
+
+        binding.btConnection.setOnClickListener {
+            viewModel.getListTransaction()
+            binding.layoutConnection.isVisible = false
+        }
 
     }
 
     private fun showLoading(isLoading: Boolean) {
-
+        binding.cpiTransaction.isVisible =isLoading
+        binding.rvTransaction.isVisible = !isLoading
     }
 
     private fun setupRecyclerView() {

@@ -29,13 +29,20 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         makeLogout()
-
+        makeCrash()
     }
 
     private fun makeLogout() {
         binding.btnLogout.setOnClickListener {
             viewModel.makeLogout()
             (requireActivity() as MainActivity).logout()
+        }
+    }
+
+    private fun makeCrash(){
+        binding.btCrash.text = "Test Crash"
+        binding.btCrash.setOnClickListener {
+            throw RuntimeException("Test Crash")
         }
     }
 }

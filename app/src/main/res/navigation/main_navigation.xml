@@ -97,7 +97,9 @@
         tools:layout="@layout/fragment_status" >
         <action
             android:id="@+id/action_statusFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/statusFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 
 </navigation>

@@ -61,23 +61,22 @@ class PaymentFragment : Fragment() {
     private fun observePayment() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.paymentState.collect{result->
+                viewModel.paymentState.collect { result ->
                     if (result != null) {
                         showLoading(result is ResultState.Loading)
-                        when(result) {
+                        when (result) {
+                            is ResultState.Loading -> {}
                             is ResultState.Success -> paymentAdapter.submitList(result.data)
                             is ResultState.Error -> showError(result.e)
-                            else -> {}
                         }
                     }
                 }
             }
         }
-        viewModel.getPayment()
     }
 
     private fun showError(error: Throwable) {
-        when(error) {
+        when (error) {
             is retrofit2.HttpException -> {
                 if (error.response()?.code() == 404) {
                     binding.layoutEmpty.isVisible = true

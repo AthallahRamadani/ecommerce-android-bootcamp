@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "684428562565",
+    "project_id": "ecommerce-654b5",
+    "storage_bucket": "ecommerce-654b5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684428562565:android:8f8d77b6333fdc257cd9ec",
+        "android_client_info": {
+          "package_name": "com.athallah.ecommerce"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1iwi8N2qKsUKLdzCTwjavZz_Dpr6LPYY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
