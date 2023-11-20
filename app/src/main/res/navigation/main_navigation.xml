@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_mainFragment_to_statusFragment"
             app:destination="@id/statusFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -100,6 +103,15 @@
             app:destination="@id/mainFragment"
             app:popUpTo="@id/statusFragment"
             app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.athallah.ecommerce.fragment.notification.NotificationFragment"
+        android:label="fragment_notification"
+        tools:layout="@layout/fragment_notification" >
+        <action
+            android:id="@+id/action_notificationFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
 
 </navigation>
