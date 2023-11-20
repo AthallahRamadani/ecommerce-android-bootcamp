@@ -21,6 +21,7 @@ import com.athallah.ecommerce.data.datasource.api.response.TransactionResponseDa
 import com.athallah.ecommerce.data.datasource.api.response.TransactionResponseItem
 import com.athallah.ecommerce.data.datasource.model.Cart
 import com.athallah.ecommerce.data.datasource.model.Fulfillment
+import com.athallah.ecommerce.data.datasource.model.Notification
 import com.athallah.ecommerce.data.datasource.model.Payment
 import com.athallah.ecommerce.data.datasource.model.Transaction
 import com.athallah.ecommerce.data.datasource.room.entity.CartEntity
@@ -172,6 +173,7 @@ fun CartEntity.toCart(): Cart =
         quantity,
         isChecked,
     )
+
 fun Cart.toCartEntity(): CartEntity =
     CartEntity(
         productId,
@@ -279,6 +281,7 @@ fun Cart.toFulfillmentRequestItem(): FulfillmentRequest.Item =
         variantName,
         quantity ?: 1
     )
+
 fun TransactionResponseData.toTransaction(): Transaction =
     Transaction(
         date ?: "",
@@ -311,3 +314,12 @@ fun Transaction.toFulfillment(): Fulfillment =
         status
     )
 
+fun Map<String, String>.toNotification(): Notification =
+    Notification(
+        title = this["title"] ?: "",
+        body= this["body"] ?: "",
+        image= this["image"] ?: "",
+        type= this["type"] ?: "",
+        date= this["date"] ?: "",
+        time= this["time"] ?: ""
+    )

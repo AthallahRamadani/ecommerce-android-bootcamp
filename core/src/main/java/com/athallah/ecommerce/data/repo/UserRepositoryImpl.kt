@@ -1,5 +1,6 @@
 package com.athallah.ecommerce.data.repo
 
+import android.util.Log
 import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.data.datasource.model.User
 import com.athallah.ecommerce.data.datasource.api.request.AuthRequest
@@ -11,32 +12,45 @@ import com.athallah.ecommerce.data.datasource.preference.UserDataStore
 import com.athallah.ecommerce.utils.extension.toBearerToken
 import com.athallah.ecommerce.utils.extension.toMultipartBody
 import com.athallah.ecommerce.utils.extension.toUser
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.tasks.await
 import okhttp3.MultipartBody
 import retrofit2.HttpException
 import java.io.File
 
 class UserRepositoryImpl(
     private val apiService: ApiService,
-    private val userDataStore: UserDataStore
+    private val userDataStore: UserDataStore,
 ) : UserRepository {
 
     override suspend fun register(email: String, password: String): User {
+        Firebase.messaging.subscribeToTopic("promo")
+        val firebaseToken: String = FirebaseMessaging.getInstance().token.await()
+        Log.d("sss", "register: $firebaseToken")
         val request = AuthRequest(
             email = email,
-            password = password
+            password = password,
+            firebaseToken = firebaseToken
         )
         val response = apiService.register(request)
         return response.data?.toUser() ?: throw Exception("Error uWu")
     }
 
     override suspend fun login(email: String, password: String): User {
+        Firebase.messaging.subscribeToTopic("promo")
+        val firebaseToken: String = FirebaseMessaging.getInstance().token.await()
+        Log.d("sss", "login: $firebaseToken")
         val request = AuthRequest(
             email = email,
-            password = password
+            password = password,
+            firebaseToken = firebaseToken
         )
         val response = apiService.login(request)
         return response.data?.toUser() ?: throw Exception("Error uWu")
@@ -50,7 +64,8 @@ class UserRepositoryImpl(
 //                val userNameRequestBody = userName.toRequestBody("text/plain".toMediaType())
                 val userImagePart = userImage?.toMultipartBody("userImage")
                 val token = userDataStore.getAccToken().first().toBearerToken()
-                val response: ProfileResponse<ProfileDataResponse> = apiService.profile(userNamePart, userImagePart, token)
+                val response: ProfileResponse<ProfileDataResponse> =
+                    apiService.profile(userNamePart, userImagePart, token)
 
                 val dataResponse = response.data
                 val user = dataResponse?.toUser()
@@ -65,8 +80,6 @@ class UserRepositoryImpl(
                 emit(ResultState.Error(e))
             }
         }
-
-
 
 
     fun getApiErrorMessage(e: Throwable): String? {

@@ -19,6 +19,7 @@ class PaymentViewModel(
 
     init {
         getPayment()
+        updatePayment()
     }
 
     fun getPayment() {
@@ -26,6 +27,12 @@ class PaymentViewModel(
             remoteConfig.fetchPaymentMethod().collect { resultState ->
                 _paymentState.value = resultState
             }
+        }
+    }
+
+    private fun updatePayment(){
+        remoteConfig.updateConfig { resultState ->
+            _paymentState.value = resultState
         }
     }
 
