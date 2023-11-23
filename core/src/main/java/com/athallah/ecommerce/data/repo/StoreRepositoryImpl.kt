@@ -71,7 +71,6 @@ class StoreRepositoryImpl(
             val data = response.data?.map{ it.toReview()} ?: emptyList()
             emit(ResultState.Success(data))
         } catch (e: Exception) {
-            val message = e.getErrorMessage()
             emit(ResultState.Error(e))
         }
     }

@@ -77,4 +77,10 @@ dependencies {
     kapt("androidx.room:room-compiler:2.6.0")
     implementation("androidx.room:room-ktx:2.6.0")
 
+    //mock
+    testImplementation("com.squareup.okhttp3:mockwebserver:5.0.0-alpha.2")
+
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+
 }
+

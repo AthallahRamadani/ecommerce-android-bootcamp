@@ -72,7 +72,7 @@ class SupportAuthenticator(
 
         val newToken = runBlocking {
             val refreshResponse = apiService.refresh(RefreshRequest(refreshToken))
-            refreshResponse.token?.let { preferance.setUserTokenSession(it) }
+            refreshResponse.data?.accessToken?.let { preferance.setUserTokenSession(it) }
 
             return@runBlocking preferance.getUserDataSession().first<User>().accessToken
         }
