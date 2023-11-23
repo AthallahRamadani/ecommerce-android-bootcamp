@@ -24,6 +24,11 @@ import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.databinding.FragmentLoginBinding
 import com.athallah.ecommerce.utils.extension.getErrorMessage
 import com.athallah.ecommerce.utils.showSnackbar
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.logEvent
+import com.google.firebase.ktx.Firebase
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -31,6 +36,9 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val viewModel: LoginViewModel by viewModel()
+    private val firebaseAnalytics: FirebaseAnalytics by lazy {
+        Firebase.analytics
+    }
 
 
     override fun onCreateView(
@@ -93,6 +101,9 @@ class LoginFragment : Fragment() {
                         viewModel.prefSetAccToken(state.data.accessToken ?: "")
                         viewModel.prefSetRefToken(state.data.refreshToken ?: "")
                         viewModel.prefSetUserName(state.data.userName?:"")
+                        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN) {
+                            param(FirebaseAnalytics.Param.METHOD, "email")
+                        }
                         viewModel.setUserAuthorization(true)
                         findNavController().navigate(R.id.action_global_main_navigation)
                     }
@@ -124,10 +135,16 @@ class LoginFragment : Fragment() {
         initViewBtnValid()
         changeColor()
         binding.btDaftar.setOnClickListener {
+            firebaseAnalytics.logEvent("button_Click"){
+                param("button_name", "button_register")
+            }
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
         binding.btMasuk.setOnClickListener {
+            firebaseAnalytics.logEvent("button_Click"){
+                param("button_name", "button_login")
+            }
             viewModel.login(binding.etEmail.text.toString(), binding.etPassword.text.toString())
         }
     }

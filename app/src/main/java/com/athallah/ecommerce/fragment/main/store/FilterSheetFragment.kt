@@ -15,6 +15,10 @@ import com.athallah.ecommerce.databinding.FragmentFilterSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.logEvent
+import com.google.firebase.ktx.Firebase
 
 class FilterSheetFragment : BottomSheetDialogFragment() {
 
@@ -27,6 +31,9 @@ class FilterSheetFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentFilterSheetBinding? = null
     private val binding get() = _binding!!
+    private val firebaseAnalytics: FirebaseAnalytics by lazy {
+        Firebase.analytics
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -133,7 +140,7 @@ class FilterSheetFragment : BottomSheetDialogFragment() {
             binding.chipLenovo to R.string.lenovo
         )
 
-        listBrandChips.forEach{(chip)->
+        listBrandChips.forEach { (chip) ->
             chip.setOnClickListener {
                 changeResetButtonVisibility()
             }
@@ -247,6 +254,16 @@ class FilterSheetFragment : BottomSheetDialogFragment() {
             else -> {
                 null
             }
+        }
+
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+            val bundle = Bundle().apply {
+                sort?.let { putString(FirebaseAnalytics.Param.ITEM_CATEGORY, it) }
+                brand?.let { putString(FirebaseAnalytics.Param.ITEM_CATEGORY2, it) }
+                lowest?.let { putString(FirebaseAnalytics.Param.ITEM_CATEGORY3, it) }
+                highest?.let { putString(FirebaseAnalytics.Param.ITEM_CATEGORY4, it) }
+            }
+            param(FirebaseAnalytics.Param.ITEMS, arrayOf(bundle))
         }
 
         val bundle = bundleOf(

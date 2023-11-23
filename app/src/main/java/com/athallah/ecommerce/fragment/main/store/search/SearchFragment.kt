@@ -19,6 +19,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.databinding.FragmentSearchBinding
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.logEvent
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -33,6 +37,9 @@ class SearchFragment : DialogFragment() {
         SearchAdapter {searchKeyword->
             sendSearchResult(searchKeyword)
         }
+    }
+    private val firebaseAnalytics: FirebaseAnalytics by lazy {
+        Firebase.analytics
     }
 
     override fun getTheme(): Int {
@@ -88,7 +95,9 @@ class SearchFragment : DialogFragment() {
                     showSearchLoading(result is ResultState.Loading)
                     when (result){
                         is ResultState.Loading -> {}
-                        is ResultState.Success -> searchAdapter.submitList(result.data)
+                        is ResultState.Success -> {
+                            searchAdapter.submitList(result.data)
+                        }
                         is ResultState.Error -> {}
                     }
                 }
@@ -116,6 +125,9 @@ class SearchFragment : DialogFragment() {
         val bundle = bundleOf(
             BUNDLE_QUERY_KEY to data.ifEmpty { null },
         )
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_SEARCH_RESULTS) {
+            param(FirebaseAnalytics.Param.SEARCH_TERM, data)
+        }
         setFragmentResult(FRAGMENT_REQUEST_KEY,bundle)
         dismiss()
     }

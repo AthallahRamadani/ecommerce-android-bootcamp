@@ -25,6 +25,7 @@ import com.athallah.ecommerce.data.datasource.model.Notification
 import com.athallah.ecommerce.data.datasource.model.Payment
 import com.athallah.ecommerce.data.datasource.model.Transaction
 import com.athallah.ecommerce.data.datasource.room.entity.CartEntity
+import com.athallah.ecommerce.data.datasource.room.entity.NotificationEntity
 import com.athallah.ecommerce.data.datasource.room.entity.WishlistEntity
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -317,9 +318,34 @@ fun Transaction.toFulfillment(): Fulfillment =
 fun Map<String, String>.toNotification(): Notification =
     Notification(
         title = this["title"] ?: "",
-        body= this["body"] ?: "",
-        image= this["image"] ?: "",
-        type= this["type"] ?: "",
-        date= this["date"] ?: "",
-        time= this["time"] ?: ""
+        body = this["body"] ?: "",
+        image = this["image"] ?: "",
+        type = this["type"] ?: "",
+        date = this["date"] ?: "",
+        time = this["time"] ?: ""
+    )
+
+fun NotificationEntity.toNotification(): Notification =
+    Notification(
+        id,
+        title,
+        body,
+        image,
+        type,
+        date,
+        time,
+        isRead
+    )
+
+
+fun Notification.toNotificationEntity(): NotificationEntity =
+    NotificationEntity(
+        id,
+        title,
+        body,
+        image,
+        type,
+        date,
+        time,
+        isRead
     )

@@ -19,6 +19,10 @@ import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.databinding.FragmentRegisterBinding
 import com.athallah.ecommerce.utils.extension.getErrorMessage
 import com.athallah.ecommerce.utils.showSnackbar
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.logEvent
+import com.google.firebase.ktx.Firebase
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterFragment : Fragment() {
@@ -26,6 +30,9 @@ class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
     private val viewModel: RegisterViewModel by viewModel()
+    private val firebaseAnalytics: FirebaseAnalytics by lazy {
+        Firebase.analytics
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,6 +68,9 @@ class RegisterFragment : Fragment() {
                         viewModel.prefSetAccToken(state.data.accessToken ?: "")
                         viewModel.prefSetRefToken(state.data.refreshToken ?: "")
                         viewModel.setUserAuthorization(true)
+                        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP) {
+                            param(FirebaseAnalytics.Param.METHOD, "email")
+                        }
                         findNavController().navigate(R.id.action_global_main_navigation)
                     }
 
@@ -93,10 +103,16 @@ class RegisterFragment : Fragment() {
         initViewBtnValid()
         changeColor()
         binding.btMasuk.setOnClickListener {
+            firebaseAnalytics.logEvent("button_Click"){
+                param("button_name", "button_login")
+            }
             findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
 
         binding.btDaftar.setOnClickListener {
+            firebaseAnalytics.logEvent("button_Click"){
+                param("button_name", "button_register")
+            }
             val email = binding.etEmail.text.toString()
             val pass = binding.etPassword.text.toString()
             viewModel.register(

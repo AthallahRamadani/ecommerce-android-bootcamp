@@ -17,12 +17,18 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.datasource.api.request.ProductsQuery
+import com.athallah.ecommerce.data.datasource.model.Product
 import com.athallah.ecommerce.databinding.FragmentStoreBinding
 import com.athallah.ecommerce.fragment.detail.DetailFragment
 import com.athallah.ecommerce.fragment.main.store.search.SearchFragment
 import com.athallah.ecommerce.fragment.main.store.storeadapter.LoadingAdapter
 import com.athallah.ecommerce.fragment.main.store.storeadapter.ProductAdapter
 import com.google.android.material.chip.Chip
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.FirebaseAnalytics.Event
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.logEvent
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.IOException
@@ -32,13 +38,28 @@ class StoreFragment : Fragment() {
     private var _binding: FragmentStoreBinding? = null
     private val binding get() = _binding!!
     private val viewModel: StoreViewModel by viewModel()
+    private val firebaseAnalytics: FirebaseAnalytics by lazy {
+        Firebase.analytics
+    }
 
     private val productAdapter by lazy {
-        ProductAdapter{ productId ->
+        ProductAdapter { product ->
+            sendLogSelectItem(product)
             Navigation.findNavController(requireActivity(), R.id.fcv_main).navigate(
                 R.id.action_mainFragment_to_detailFragment,
-                bundleOf(DetailFragment.BUNDLE_PRODUCT_ID_KEY to productId)
+                bundleOf(DetailFragment.BUNDLE_PRODUCT_ID_KEY to product.productId)
             )
+        }
+    }
+
+    private fun sendLogSelectItem(product: Product) {
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+            val bundleProduct = Bundle().apply {
+                putString(FirebaseAnalytics.Param.ITEM_ID, product.productId)
+                putString(FirebaseAnalytics.Param.ITEM_NAME, product.productName)
+                putString(FirebaseAnalytics.Param.ITEM_BRAND, product.brand)
+            }
+            param(FirebaseAnalytics.Param.ITEMS, arrayOf(bundleProduct))
         }
     }
 
@@ -80,7 +101,7 @@ class StoreFragment : Fragment() {
         childFragmentManager.setFragmentResultListener(
             SearchFragment.FRAGMENT_REQUEST_KEY,
             viewLifecycleOwner
-        ){_,bundle ->
+        ) { _, bundle ->
             val query = bundle.getString(SearchFragment.BUNDLE_QUERY_KEY)
             viewModel.getSearchData(query)
             setSearchView()
@@ -105,6 +126,11 @@ class StoreFragment : Fragment() {
                 super.onItemRangeMoved(fromPosition, toPosition, itemCount)
                 binding.includeContent.rvStore.scrollToPosition(0)
             }
+
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                super.onItemRangeInserted(positionStart, itemCount)
+                sendLogViewItemList(productAdapter.snapshot().items)
+            }
         })
 
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -114,6 +140,21 @@ class StoreFragment : Fragment() {
                     else 1
                 } else 1
             }
+        }
+    }
+
+    private fun sendLogViewItemList(items: List<Product>) {
+        firebaseAnalytics.logEvent(Event.VIEW_ITEM_LIST) {
+            val bundle = ArrayList<Bundle>()
+            items.map { product ->
+                val itemBundle = Bundle().apply {
+                    putString(FirebaseAnalytics.Param.ITEM_ID, product.productId)
+                    putString(FirebaseAnalytics.Param.ITEM_NAME, product.productName)
+                    putString(FirebaseAnalytics.Param.ITEM_BRAND, product.brand)
+                }
+                bundle.add(itemBundle)
+            }
+            param(FirebaseAnalytics.Param.ITEMS, bundle.toTypedArray())
         }
     }
 
@@ -146,7 +187,7 @@ class StoreFragment : Fragment() {
     }
 
     private fun showErrorView(error: Throwable) {
-        when(error) {
+        when (error) {
             is retrofit2.HttpException -> {
                 if (error.response()?.code() == 404) {
                     binding.layoutEmpty.isVisible = true
@@ -200,7 +241,7 @@ class StoreFragment : Fragment() {
             includeLoading.loadingShimmer.isVisible = isLoading
             includeContent.layoutContent.isVisible = !isLoading
 
-            if(isLoading){
+            if (isLoading) {
                 includeLoading.loadingShimmer.startShimmer()
             } else if (includeLoading.loadingShimmer.isShimmerStarted)
                 includeLoading.loadingShimmer.stopShimmer()
@@ -215,7 +256,7 @@ class StoreFragment : Fragment() {
         binding.includeContent.chipFilter.setOnClickListener {
             openFilter()
         }
-        binding.etSearch.setOnClickListener{
+        binding.etSearch.setOnClickListener {
             openSearch()
         }
         binding.swipeRefresh.setOnRefreshListener {

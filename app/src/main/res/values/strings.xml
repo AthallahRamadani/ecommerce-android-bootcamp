@@ -92,5 +92,6 @@
     <string name="total_payment">Total Belanja</string>
     <string name="review_transaction">Ulas</string>
     <string name="total_item">%1$d items</string>
+    <string name="date_time">%1$s, %2$s</string>
 
 </resources>

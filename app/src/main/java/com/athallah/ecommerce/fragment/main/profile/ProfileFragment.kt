@@ -27,6 +27,10 @@ import com.athallah.ecommerce.fragment.main.`object`.PhotoLoaderManager
 import com.athallah.ecommerce.utils.extension.getErrorMessage
 import com.athallah.ecommerce.utils.showSnackbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.logEvent
+import com.google.firebase.ktx.Firebase
 
 class ProfileFragment : Fragment() {
 
@@ -34,6 +38,10 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var tempUri: Uri
     private val viewModel: ProfileViewModel by viewModel()
+    private val firebaseAnalytics: FirebaseAnalytics by lazy {
+        Firebase.analytics
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -88,6 +96,9 @@ class ProfileFragment : Fragment() {
         observeUpload()
 
         binding.btSelesai.setOnClickListener {
+            firebaseAnalytics.logEvent("button_Click"){
+                param("button_name", "button_done")
+            }
             uploadProfileData()
         }
     }

@@ -10,6 +10,7 @@ import com.athallah.ecommerce.fragment.main.store.StoreViewModel
 import com.athallah.ecommerce.fragment.main.store.search.SearchViewModel
 import com.athallah.ecommerce.fragment.main.transaction.TransactionViewModel
 import com.athallah.ecommerce.fragment.main.wishlist.WishlistViewModel
+import com.athallah.ecommerce.fragment.notification.NotificationViewModel
 import com.athallah.ecommerce.fragment.payment.PaymentViewModel
 import com.athallah.ecommerce.fragment.prelogin.LoginViewModel
 import com.athallah.ecommerce.fragment.prelogin.OnboardingViewModel
@@ -24,7 +25,7 @@ val vmModule = module {
     viewModel { OnboardingViewModel(get()) }
     viewModel { LoginViewModel(get(), get()) }
     viewModel { RegisterViewModel(get(), get()) }
-    viewModel { MainViewModel(get(), get(), get(), get()) }
+    viewModel { MainViewModel(get(), get(), get(), get(), get()) }
     viewModel { ProfileViewModel(get(), get()) }
     viewModel { HomeViewModel(get()) }
     viewModel { StoreViewModel(get(), get()) }
@@ -38,5 +39,6 @@ val vmModule = module {
     viewModel { PaymentViewModel(get()) }
     viewModel { StatusViewModel(get(), get()) }
     viewModel { TransactionViewModel(get()) }
+    viewModel { NotificationViewModel(get())}
 
 }

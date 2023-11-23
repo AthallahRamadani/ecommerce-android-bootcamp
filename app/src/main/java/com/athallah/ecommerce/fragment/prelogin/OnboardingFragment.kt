@@ -9,6 +9,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.databinding.FragmentOnboardingBinding
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.FirebaseAnalytics.Event
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.logEvent
+import com.google.firebase.ktx.Firebase
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class OnboardingFragment : Fragment() {
@@ -17,6 +22,10 @@ class OnboardingFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewPager2: ViewPager2
     private val viewModel: OnboardingViewModel by viewModel()
+
+    private val firebaseAnalytics: FirebaseAnalytics by lazy {
+        Firebase.analytics
+    }
 
 
     override fun onCreateView(
@@ -64,6 +73,9 @@ class OnboardingFragment : Fragment() {
     private fun initView() {
         initViewPager()
         binding.btNext.setOnClickListener {
+            firebaseAnalytics.logEvent("button_Click"){
+                param("button_name", "button_next")
+            }
             val adapter = viewPager2.adapter
             if (adapter != null) {
                 if (viewPager2.currentItem < adapter.itemCount - 1) {
@@ -71,8 +83,20 @@ class OnboardingFragment : Fragment() {
                 }
             }
         }
-        binding.btLewati.setOnClickListener { viewModel.setAlreadyOnboard(ActionOnboard.LOGIN) }
-        binding.btGabung.setOnClickListener { viewModel.setAlreadyOnboard(ActionOnboard.REGISTER) }
+        binding.btLewati.setOnClickListener {
+            firebaseAnalytics.logEvent("button_Click"){
+                param("button_name", "button_skip")
+            }
+            viewModel.setAlreadyOnboard(ActionOnboard.LOGIN)
+        }
+
+
+        binding.btGabung.setOnClickListener {
+            firebaseAnalytics.logEvent("button_Click"){
+                param("button_name", "button_join")
+            }
+            viewModel.setAlreadyOnboard(ActionOnboard.REGISTER)
+        }
     }
 
     private fun initViewModel() {

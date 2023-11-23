@@ -18,6 +18,10 @@ import androidx.lifecycle.lifecycleScope
 import com.athallah.ecommerce.fragment.checkout.CheckoutFragment
 import com.athallah.ecommerce.fragment.detail.DetailFragment
 import com.athallah.ecommerce.utils.toCurrencyFormat
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.logEvent
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -28,6 +32,9 @@ class CartFragment : Fragment() {
     private val viewModel: CartViewModel by viewModel()
     private var _binding: FragmentCartBinding? = null
     private val binding get() = _binding!!
+    private val firebaseAnalytics: FirebaseAnalytics by lazy {
+        Firebase.analytics
+    }
 
     private val cartAdapter: CartAdapter by lazy {
         CartAdapter(object : CartAdapter.CartCallback {
@@ -37,6 +44,15 @@ class CartFragment : Fragment() {
 
             override fun deleteItemCallback(cart: Cart) {
                 viewModel.deleteCart(cart)
+                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.REMOVE_FROM_CART) {
+                    val bundleProduct = Bundle().apply {
+                        putString(FirebaseAnalytics.Param.ITEM_ID, cart.productId)
+                        putString(FirebaseAnalytics.Param.ITEM_NAME, cart.productName)
+                        putString(FirebaseAnalytics.Param.ITEM_BRAND, cart.brand)
+                        putString(FirebaseAnalytics.Param.ITEM_VARIANT, cart.variantName)
+                    }
+                    param(FirebaseAnalytics.Param.ITEMS, arrayOf(bundleProduct))
+                }
             }
 
             override fun addQuantityCallback(cart: Cart) {
@@ -76,9 +92,26 @@ class CartFragment : Fragment() {
                 viewModel.cartData.collect { data ->
                     showIsDataEmpty(data.isEmpty())
                     cartAdapter.submitList(data)
+                    sendLogCart(data.toTypedArray(), FirebaseAnalytics.Event.VIEW_CART)
                     setView(data)
                 }
             }
+        }
+    }
+
+    private fun sendLogCart(listCart: Array<Cart>, event: String) {
+        firebaseAnalytics.logEvent(event) {
+            val bundle = ArrayList<Bundle>()
+            listCart.map { cart ->
+                val itemBundle = Bundle().apply {
+                    putString(FirebaseAnalytics.Param.ITEM_ID, cart.productId)
+                    putString(FirebaseAnalytics.Param.ITEM_NAME, cart.productName)
+                    putString(FirebaseAnalytics.Param.ITEM_BRAND, cart.brand)
+                    putString(FirebaseAnalytics.Param.ITEM_VARIANT, cart.variantName)
+                }
+                bundle.add(itemBundle)
+            }
+            param(FirebaseAnalytics.Param.ITEMS, bundle.toTypedArray())
         }
     }
 

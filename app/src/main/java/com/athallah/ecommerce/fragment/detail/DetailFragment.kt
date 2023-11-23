@@ -25,6 +25,10 @@ import com.athallah.ecommerce.utils.showSnackbar
 import com.athallah.ecommerce.utils.toCurrencyFormat
 import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.logEvent
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -36,6 +40,10 @@ class DetailFragment : Fragment() {
     private val viewModel: DetailViewModel by viewModel()
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
+
+    private val firebaseAnalytics: FirebaseAnalytics by lazy {
+        Firebase.analytics
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -83,8 +91,19 @@ class DetailFragment : Fragment() {
     }
 
     private fun actionAddCart() {
-        if (viewModel.insertCart())
+        if (viewModel.insertCart()){
+            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.ADD_TO_CART) {
+                val bundleProduct = Bundle().apply {
+                    putString(FirebaseAnalytics.Param.ITEM_ID, viewModel.detailProduct!!.productId)
+                    putString(FirebaseAnalytics.Param.ITEM_NAME, viewModel.detailProduct!!.productName)
+                    putString(FirebaseAnalytics.Param.ITEM_BRAND, viewModel.detailProduct!!.brand)
+                    putString(FirebaseAnalytics.Param.ITEM_VARIANT, viewModel.productVariant!!.variantName)
+                }
+                param(FirebaseAnalytics.Param.ITEMS, arrayOf(bundleProduct))
+            }
             binding.root.showSnackbar(getString(R.string.cart_insert_successful))
+        }
+
         else
             binding.root.showSnackbar(getString(R.string.stock_is_unavailable))
     }
@@ -102,6 +121,15 @@ class DetailFragment : Fragment() {
             binding.root.showSnackbar("Berhasil menghapus wishlist")
         } else {
             viewModel.insertWishlist()
+            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.ADD_TO_WISHLIST) {
+                val bundleProduct = Bundle().apply {
+                    putString(FirebaseAnalytics.Param.ITEM_ID, viewModel.detailProduct!!.productId)
+                    putString(FirebaseAnalytics.Param.ITEM_NAME, viewModel.detailProduct!!.productName)
+                    putString(FirebaseAnalytics.Param.ITEM_BRAND, viewModel.detailProduct!!.brand)
+                    putString(FirebaseAnalytics.Param.ITEM_VARIANT, viewModel.productVariant!!.variantName)
+                }
+                param(FirebaseAnalytics.Param.ITEMS, arrayOf(bundleProduct))
+            }
             binding.root.showSnackbar("Berhasil menambahkan wishlist")
         }
         setWishlistIcon()
@@ -155,7 +183,14 @@ class DetailFragment : Fragment() {
     private fun setData(data: DetailProduct) {
         viewModel.detailProduct = data
         viewModel.productVariant = data.productVariant[0]
-
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM) {
+            val bundleProduct = Bundle().apply {
+                putString(FirebaseAnalytics.Param.ITEM_ID, data.productId)
+                putString(FirebaseAnalytics.Param.ITEM_NAME, data.productName)
+                putString(FirebaseAnalytics.Param.ITEM_BRAND, data.brand)
+            }
+            param(FirebaseAnalytics.Param.ITEMS, arrayOf(bundleProduct))
+        }
         setView(data)
     }
 
@@ -188,6 +223,7 @@ class DetailFragment : Fragment() {
                 getString(R.string.rating_and_review_total, data.totalRating, data.totalReview)
             tvDetailRating.text = String.format("%.1f", data.productRating)
         }
+
     }
 
     private fun setChipVariants(

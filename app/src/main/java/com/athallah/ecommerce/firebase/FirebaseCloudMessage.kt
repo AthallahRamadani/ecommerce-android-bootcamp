@@ -13,10 +13,16 @@ import androidx.navigation.NavDeepLinkBuilder
 import com.athallah.ecommerce.MainActivity
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.datasource.model.Notification
+import com.athallah.ecommerce.data.datasource.room.dao.NotificationDao
 import com.athallah.ecommerce.utils.extension.toNotification
+import com.athallah.ecommerce.utils.extension.toNotificationEntity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
 class FirebaseCloudMessage : FirebaseMessagingService() {
 
@@ -24,10 +30,13 @@ class FirebaseCloudMessage : FirebaseMessagingService() {
         super.onNewToken(token)
     }
 
+    private val notificationDao: NotificationDao by inject()
+
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
         val data = message.data.toNotification()
         sendNotification(data)
+        saveNotification(data)
         Log.d("TAGTAGTAG", "onMessageReceived: $data")
     }
 
@@ -65,5 +74,11 @@ class FirebaseCloudMessage : FirebaseMessagingService() {
 
         val notificationId = 0
         notificationManager.notify(notificationId, notificationBuilder.build())
+    }
+
+    private fun saveNotification(data: Notification) {
+        CoroutineScope(Dispatchers.IO).launch {
+            notificationDao.insert(data.toNotificationEntity())
+        }
     }
 }

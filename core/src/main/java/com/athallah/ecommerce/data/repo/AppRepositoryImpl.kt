@@ -3,7 +3,10 @@ package com.athallah.ecommerce.data.repo
 import android.util.Log
 import com.athallah.ecommerce.data.datasource.preference.UserDataStore
 import com.athallah.ecommerce.data.datasource.room.dao.CartDao
+import com.athallah.ecommerce.data.datasource.room.dao.NotificationDao
 import com.athallah.ecommerce.data.datasource.room.dao.WishlistDao
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -11,6 +14,7 @@ import kotlinx.coroutines.withContext
 class AppRepositoryImpl(
     private val sharedPref: UserDataStore,
     private val wishlistDao: WishlistDao,
+    private val notificationDao: NotificationDao,
     private val cartDao: CartDao
 ): AppRepository {
     //pref
@@ -53,7 +57,9 @@ class AppRepositoryImpl(
         withContext(Dispatchers.IO){
             wishlistDao.clearTable()
             cartDao.clearTable()
+            notificationDao.clearTable()
             sharedPref.clearAllDataSession()
+            Firebase.messaging.unsubscribeFromTopic("promo")
         }
     }
 

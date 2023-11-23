@@ -16,6 +16,10 @@ import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.databinding.FragmentPaymentBinding
 import com.athallah.ecommerce.fragment.payment.adapter.PaymentAdapter
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.logEvent
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.IOException
@@ -25,9 +29,15 @@ class PaymentFragment : Fragment() {
     private val viewModel: PaymentViewModel by viewModel()
     private var _binding: FragmentPaymentBinding? = null
     private val binding get() = _binding!!
+    private val firebaseAnalytics: FirebaseAnalytics by lazy {
+        Firebase.analytics
+    }
 
     private val paymentAdapter: PaymentAdapter by lazy {
         PaymentAdapter { paymentItem ->
+            firebaseAnalytics.logEvent(FirebaseAnalytics.Event.ADD_PAYMENT_INFO) {
+                param(FirebaseAnalytics.Param.PAYMENT_TYPE, paymentItem.label)
+            }
             val bundle = Bundle().apply {
                 putParcelable(BUNDLE_PAYMENT_KEY, paymentItem)
             }

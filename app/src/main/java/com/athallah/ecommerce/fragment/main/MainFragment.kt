@@ -59,13 +59,15 @@ class MainFragment : Fragment() {
         setBottomNavigation()
         observeWishlist()
         observeCart()
+        observeNotification()
         setActionAppbar()
     }
 
+
     private fun setActionAppbar() {
         binding.topAppBar.setOnMenuItemClickListener {
-            when (it.itemId){
-                R.id.menu_notification -> binding.root.showSnackbar("Notification")
+            when (it.itemId) {
+                R.id.menu_notification -> findNavController().navigate(R.id.action_mainFragment_to_notificationFragment)
                 R.id.menu_cart -> findNavController().navigate(R.id.action_mainFragment_to_cartFragment)
                 else -> return@setOnMenuItemClickListener false
             }
@@ -77,8 +79,8 @@ class MainFragment : Fragment() {
         val badge = binding.bottomNavView.getOrCreateBadge(R.id.wishlistFragment)
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.wishlistSize.collect(){size->
-                    if (size >= 1){
+                viewModel.wishlistSize.collect() { size ->
+                    if (size >= 1) {
                         badge.isVisible = true
                         badge.number = size
                     } else {
@@ -97,10 +99,31 @@ class MainFragment : Fragment() {
             R.id.menu_cart
         )
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.cartSize.collect { size->
-                    if (size>=1) {
-                        badgeDrawable.isVisible =true
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.cartSize.collect { size ->
+                    if (size >= 1) {
+                        badgeDrawable.isVisible = true
+                        badgeDrawable.number = size
+                    } else {
+                        badgeDrawable.isVisible = false
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeNotification() {
+        val badgeDrawable = BadgeDrawable.create(requireActivity())
+        BadgeUtils.attachBadgeDrawable(
+            badgeDrawable,
+            binding.topAppBar,
+            R.id.menu_notification
+        )
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.notificationSize.collect { size ->
+                    if (size >= 1) {
+                        badgeDrawable.isVisible = true
                         badgeDrawable.number = size
                     } else {
                         badgeDrawable.isVisible = false
@@ -122,7 +145,7 @@ class MainFragment : Fragment() {
         }
     }
 
-    companion object{
+    companion object {
         const val MOVE_TRANSACTION_BUNDLE_KEY = "move_transaction_bundle_key"
     }
 }

@@ -17,6 +17,8 @@ import com.athallah.ecommerce.data.repo.CartRepository
 import com.athallah.ecommerce.data.repo.CartRepositoryImpl
 import com.athallah.ecommerce.data.repo.FulfillmentRepository
 import com.athallah.ecommerce.data.repo.FulfillmentRepositoryImpl
+import com.athallah.ecommerce.data.repo.NotificationRepository
+import com.athallah.ecommerce.data.repo.NotificationRepositoryImpl
 import com.athallah.ecommerce.data.repo.StoreRepository
 import com.athallah.ecommerce.data.repo.StoreRepositoryImpl
 import com.athallah.ecommerce.data.repo.UserRepository
@@ -45,12 +47,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "APPLICATION_PREFERENCE")
 
 val repositoryModule = module {
-    single { AppRepositoryImpl(get(), get(), get()) } bind AppRepository::class
+    single { AppRepositoryImpl(get(), get(), get(), get()) } bind AppRepository::class
     single { UserRepositoryImpl(get(), get()) } bind UserRepository::class
     single { StoreRepositoryImpl(get(), get()) } bind StoreRepository::class
     single { WishlistRepositoryImpl(get()) } bind WishlistRepository::class
     single { CartRepositoryImpl(get()) } bind CartRepository::class
     single { FulfillmentRepositoryImpl(get()) } bind FulfillmentRepository::class
+    single { NotificationRepositoryImpl(get()) } bind NotificationRepository::class
 }
 
 val firebaseModule = module {
@@ -70,6 +73,9 @@ val roomModule = module {
     }
     single {
         get<AppDatabase>().cartDao()
+    }
+    single {
+        get<AppDatabase>().notificationDao()
     }
 }
 
@@ -113,13 +119,15 @@ val apiModule = module {
 }
 
 val remoteConfigModule = module {
-    single { Firebase.remoteConfig.apply {
-        val configSettings = com.google.firebase.remoteconfig.remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 10
+    single {
+        Firebase.remoteConfig.apply {
+            val configSettings = com.google.firebase.remoteconfig.remoteConfigSettings {
+                minimumFetchIntervalInSeconds = 10
+            }
+            setConfigSettingsAsync(configSettings)
+            setDefaultsAsync(R.xml.remote_config_defaults)
         }
-        setConfigSettingsAsync(configSettings)
-        setDefaultsAsync(R.xml.remote_config_defaults)
-    }}
+    }
 }
 
 

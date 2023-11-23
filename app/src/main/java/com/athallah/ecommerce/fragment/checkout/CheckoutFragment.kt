@@ -29,8 +29,15 @@ import com.athallah.ecommerce.utils.parcelable
 import com.athallah.ecommerce.utils.parcelableArrayList
 import com.athallah.ecommerce.utils.showSnackbar
 import com.athallah.ecommerce.utils.toCurrencyFormat
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.FirebaseAnalytics.Event
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.logEvent
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -40,6 +47,10 @@ class CheckoutFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: CheckoutViewModel by viewModel()
+
+    private val firebaseAnalytics: FirebaseAnalytics by lazy {
+        Firebase.analytics
+    }
 
     private val checkoutAdapter: CheckoutAdapter by lazy {
         CheckoutAdapter(object : CheckoutAdapter.CartCallback {
@@ -83,7 +94,11 @@ class CheckoutFragment : Fragment() {
                     if (result != null) {
                         showLoading(result is ResultState.Loading)
                         when (result) {
-                            is ResultState.Success -> actionToStatus(result.data)
+                            is ResultState.Success -> {
+                                sendLogPurchase(result.data)
+                                actionToStatus(result.data)
+
+                            }
                             is ResultState.Error -> {
                                 val message = result.e.getErrorMessage()
                                 binding.root.showSnackbar(message)
@@ -93,6 +108,27 @@ class CheckoutFragment : Fragment() {
                     }
                 }
             }
+        }
+    }
+
+    private fun sendLogPurchase(data: Fulfillment) {
+        firebaseAnalytics.logEvent(Event.PURCHASE){
+            val listCart = runBlocking { viewModel.listData.first() }
+            val bundle = ArrayList<Bundle>()
+            listCart.map { cart ->
+                val itemBundle = Bundle().apply {
+                    putString(FirebaseAnalytics.Param.ITEM_ID, cart.productId)
+                    putString(FirebaseAnalytics.Param.ITEM_NAME, cart.productName)
+                    putString(FirebaseAnalytics.Param.ITEM_BRAND, cart.brand)
+                    putString(FirebaseAnalytics.Param.ITEM_VARIANT, cart.variantName)
+                }
+                bundle.add(itemBundle)
+            }
+            param(FirebaseAnalytics.Param.ITEMS, bundle.toTypedArray())
+            param(FirebaseAnalytics.Param.CURRENCY, "IDR")
+            param(FirebaseAnalytics.Param.VALUE, data.total.toLong())
+            param(FirebaseAnalytics.Param.START_DATE, data.date)
+            param(FirebaseAnalytics.Param.TRANSACTION_ID, data.invoiceId)
         }
     }
 
@@ -115,6 +151,7 @@ class CheckoutFragment : Fragment() {
                     checkoutAdapter.submitList(data)
                     setPrice(data)
                     setPayment()
+                    sendLogBeginCheckout(data)
                 }
             }
         }
@@ -122,6 +159,24 @@ class CheckoutFragment : Fragment() {
             viewModel.paymentItem =
                 bundle.parcelable(PaymentFragment.BUNDLE_PAYMENT_KEY)
             setPayment()
+        }
+    }
+
+    private fun sendLogBeginCheckout(listCart: List<Cart>) {
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.BEGIN_CHECKOUT) {
+            val bundle = ArrayList<Bundle>()
+            listCart.map { cart ->
+                val itemBundle = Bundle().apply {
+                    putString(FirebaseAnalytics.Param.ITEM_ID, cart.productId)
+                    putString(FirebaseAnalytics.Param.ITEM_NAME, cart.productName)
+                    putString(FirebaseAnalytics.Param.ITEM_BRAND, cart.brand)
+                    putString(FirebaseAnalytics.Param.ITEM_VARIANT, cart.variantName)
+                }
+                bundle.add(itemBundle)
+            }
+            param(FirebaseAnalytics.Param.ITEMS, bundle.toTypedArray())
+            param(FirebaseAnalytics.Param.CURRENCY, "IDR")
+            param(FirebaseAnalytics.Param.VALUE, viewModel.totalPrice.toLong())
         }
     }
 

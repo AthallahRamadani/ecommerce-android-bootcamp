@@ -14,7 +14,7 @@ import com.athallah.ecommerce.databinding.ProductListLayoutBinding
 import com.athallah.ecommerce.utils.toCurrencyFormat
 
 class ProductAdapter(
-    private val itemClickCallback: (String) -> Unit
+    private val itemClickCallback: (Product) -> Unit
 ) :
     PagingDataAdapter<Product, RecyclerView.ViewHolder>(ProductComparator) {
 
@@ -53,7 +53,7 @@ class ProductAdapter(
     class ProductViewHolder<T : ViewBinding>(
         private val binding: T,
         private val viewType: Int,
-        private val itemClickCallback: (String) -> Unit
+        private val itemClickCallback: (Product) -> Unit
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: Product) {
@@ -92,7 +92,7 @@ class ProductAdapter(
                         )
                 }
             }
-            itemView.setOnClickListener { itemClickCallback(data.productId) }
+            itemView.setOnClickListener { itemClickCallback(data) }
         }
     }
 
