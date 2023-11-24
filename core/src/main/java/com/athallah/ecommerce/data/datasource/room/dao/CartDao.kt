@@ -30,6 +30,7 @@ interface CartDao {
 
     @Delete
     suspend fun delete(vararg cart: CartEntity)
+
     @Query("DELETE FROM cart")
     suspend fun clearTable()
 }
