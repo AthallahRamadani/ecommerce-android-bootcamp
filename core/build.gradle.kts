@@ -45,6 +45,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
     implementation("com.google.firebase:firebase-config:21.6.0")
+    implementation("androidx.test:core-ktx:1.5.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -59,7 +60,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
     //datastore
-    implementation("androidx.datastore:datastore-preferences-core:1.0.0")
+    implementation("androidx.datastore:datastore-preferences-core:1.1.0-dev01")
 
     //koin
     implementation("io.insert-koin:koin-core:3.4.3")
@@ -79,8 +80,10 @@ dependencies {
 
     //mock
     testImplementation("com.squareup.okhttp3:mockwebserver:5.0.0-alpha.2")
-
     testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+
+    //roboelectric
+    testImplementation ("org.robolectric:robolectric:4.11.1")
 
 }
 

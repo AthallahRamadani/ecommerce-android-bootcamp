@@ -1,12 +1,9 @@
-package com.athallah.ecommerce.retrofit
+package com.athallah.ecommerce
 
 import com.athallah.ecommerce.data.datasource.api.request.AuthRequest
 import com.athallah.ecommerce.data.datasource.api.request.FulfillmentRequest
-import com.athallah.ecommerce.data.datasource.api.request.ProductsQuery
 import com.athallah.ecommerce.data.datasource.api.request.RatingRequest
 import com.athallah.ecommerce.data.datasource.api.request.RefreshRequest
-import com.athallah.ecommerce.data.datasource.api.response.ApiResponse
-import com.athallah.ecommerce.data.datasource.api.response.AuthDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.Data
 import com.athallah.ecommerce.data.datasource.api.response.FulfillmentResponse
 import com.athallah.ecommerce.data.datasource.api.response.FulfillmentResponseData
@@ -31,11 +28,6 @@ import com.athallah.ecommerce.data.datasource.api.response.TransactionResponse
 import com.athallah.ecommerce.data.datasource.api.response.TransactionResponseData
 import com.athallah.ecommerce.data.datasource.api.response.TransactionResponseItem
 import com.athallah.ecommerce.data.datasource.api.service.ApiService
-import com.athallah.ecommerce.data.datasource.model.Cart
-import com.athallah.ecommerce.data.datasource.model.Review
-import com.athallah.ecommerce.utils.extension.toBearerToken
-import com.athallah.ecommerce.utils.extension.toMultipartBody
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import mockwebserver3.MockResponse
 import mockwebserver3.MockWebServer
@@ -49,7 +41,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.net.HttpURLConnection
-import java.security.spec.RSAKeyGenParameterSpec.F4
 
 class ApiServiceTest {
     private var mockWebServer = MockWebServer()
