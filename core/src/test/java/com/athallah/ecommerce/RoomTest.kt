@@ -8,6 +8,8 @@ import com.athallah.ecommerce.data.datasource.room.dao.CartDao
 import com.athallah.ecommerce.data.datasource.room.dao.NotificationDao
 import com.athallah.ecommerce.data.datasource.room.dao.WishlistDao
 import com.athallah.ecommerce.data.datasource.room.entity.CartEntity
+import com.athallah.ecommerce.data.datasource.room.entity.NotificationEntity
+import com.athallah.ecommerce.data.datasource.room.entity.WishlistEntity
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -40,8 +42,9 @@ class RoomTest {
         db.close()
     }
 
+    //cartDao
     @Test
-    fun testGetData() = runTest {
+    fun testGetDataCart() = runTest {
         val cart = CartEntity(
             "",
             "",
@@ -69,7 +72,7 @@ class RoomTest {
     }
 
     @Test
-    fun testGetDetailData() = runTest {
+    fun testGetDetailDataCart() = runTest {
         val cart = CartEntity(
             "",
             "",
@@ -96,7 +99,7 @@ class RoomTest {
     }
 
     @Test
-    fun testGetDataSize() = runTest {
+    fun testGetDataSizeCart() = runTest {
         val array = ArrayList<CartEntity>()
         for (i in 1..6) {
             val cart = CartEntity(
@@ -129,7 +132,7 @@ class RoomTest {
     }
 
     @Test
-    fun testCheckExistData() = runTest {
+    fun testCheckExistDataCart() = runTest {
         val cart = CartEntity(
             "",
             "",
@@ -157,7 +160,7 @@ class RoomTest {
     }
 
     @Test
-    fun testUpdate() = runTest {
+    fun testUpdateCart() = runTest {
         val cart = CartEntity(
             "",
             "",
@@ -194,7 +197,7 @@ class RoomTest {
     }
 
     @Test
-    fun testDelete() = runTest {
+    fun testDeleteCart() = runTest {
         val array = ArrayList<CartEntity>()
         for (i in 1..6) {
             val cart = CartEntity(
@@ -229,7 +232,7 @@ class RoomTest {
     }
 
     @Test
-    fun testClearTable() = runTest {
+    fun testClearTableCart() = runTest {
         val array = ArrayList<CartEntity>()
         for (i in 1..6) {
             val cart = CartEntity(
@@ -263,7 +266,261 @@ class RoomTest {
         assertEquals(expectedData, actualData)
     }
 
+    //notificationDao
+    @Test
+    fun testGetDataNotification() = runTest {
+        val notification = NotificationEntity(
+            1,
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            true
+        )
+        notificationDao.insert(notification)
+        val actualData = notificationDao.getData().first()
+        val expectedData = listOf(notification)
 
+        assertEquals(expectedData, actualData)
+    }
+
+    @Test
+    fun testGetDataSizeNotification() = runTest {
+        val array = ArrayList<NotificationEntity>()
+        for (i in 1..6) {
+            val notification = NotificationEntity(
+                i,
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                false
+            )
+            array.add(notification)
+            notificationDao.insert(notification)
+        }
+
+        val actualData = notificationDao.getDataSize().first()
+        val expectedData = array.size
+
+        assertEquals(expectedData, actualData)
+    }
+
+    @Test
+    fun testUpdateNotification() = runTest {
+        val notification = NotificationEntity(
+            1,
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            false
+        )
+        notificationDao.insert(notification)
+        notificationDao.update(
+            notification.copy(
+                isRead = true
+            )
+        )
+        val actualData = notificationDao.getData().first()
+        val expectedData = listOf(
+            notification.copy(
+                isRead = true
+            )
+        )
+
+        assertEquals(expectedData, actualData)
+    }
+
+    @Test
+    fun testClearTableNotification() = runTest {
+        val array = ArrayList<NotificationEntity>()
+        for (i in 1..6) {
+            val notification = NotificationEntity(
+                i,
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                false
+            )
+            array.add(notification)
+            notificationDao.insert(notification)
+        }
+
+        notificationDao.clearTable()
+
+        val actualData = notificationDao.getDataSize().first()
+        val expectedData = 0
+
+        assertEquals(expectedData, actualData)
+    }
+
+
+    //wishlistDao
+    @Test
+    fun testGetDataWishlist() = runTest {
+        val wishlist = WishlistEntity(
+            "",
+            "",
+            2,
+            "",
+            2,
+            "",
+            2,
+            2f,
+            "",
+            2,
+            2,
+            "",
+            2,
+            "",
+            2,
+        )
+        wishlistDao.insert(wishlist)
+        val actualData = wishlistDao.getData().first()
+        val expectedData = listOf(wishlist)
+
+        assertEquals(expectedData, actualData)
+    }
+
+    @Test
+    fun testGetDataSizeWishlist() = runTest {
+        val array = ArrayList<WishlistEntity>()
+        for (i in 1..6) {
+            val wishlist = WishlistEntity(
+                "$i",
+                "",
+                2,
+                "",
+                2,
+                "",
+                2,
+                2f,
+                "",
+                2,
+                2,
+                "",
+                2,
+                "",
+                2,
+            )
+            array.add(wishlist)
+            wishlistDao.insert(wishlist)
+        }
+
+        val actualData = wishlistDao.getDataSize().first()
+        val expectedData = array.size
+
+        assertEquals(expectedData, actualData)
+    }
+
+    @Test
+    fun testCheckExistDataWishlist() = runTest {
+        val wishlist = WishlistEntity(
+            "",
+            "",
+            2,
+            "",
+            2,
+            "",
+            2,
+            2f,
+            "",
+            2,
+            2,
+            "",
+            2,
+            "",
+            2,
+        )
+        wishlistDao.insert(wishlist)
+        val actualData = wishlistDao.checkExistData(wishlist.productId)
+        val expectedData = true
+
+        assertEquals(expectedData, actualData)
+    }
+
+    @Test
+    fun testDeleteWishlist() = runTest {
+        val array = ArrayList<WishlistEntity>()
+        for (i in 1..6) {
+            val wishlist = WishlistEntity(
+                "$i",
+                "",
+                2,
+                "",
+                2,
+                "",
+                2,
+                2f,
+                "",
+                2,
+                2,
+                "",
+                2,
+                "",
+                2,
+            )
+            array.add(wishlist)
+            wishlistDao.insert(wishlist)
+        }
+
+        wishlistDao.delete(array[2])
+
+        val actualData = wishlistDao.getDataSize().first()
+        val expectedData = array.size - 1
+
+        assertEquals(expectedData, actualData)
+    }
+
+    @Test
+    fun testClearTableWishlist() = runTest {
+        val array = ArrayList<WishlistEntity>()
+        for (i in 1..6) {
+            val wishlist = WishlistEntity(
+                "$i",
+                "",
+                2,
+                "",
+                2,
+                "",
+                2,
+                2f,
+                "",
+                2,
+                2,
+                "",
+                2,
+                "",
+                2,
+            )
+            array.add(wishlist)
+            wishlistDao.insert(wishlist)
+        }
+
+        wishlistDao.clearTable()
+
+        val actualData = wishlistDao.getDataSize().first()
+        val expectedData = 0
+
+        assertEquals(expectedData, actualData)
+    }
+
+
+
+
+
+
+    
 
 
 }
