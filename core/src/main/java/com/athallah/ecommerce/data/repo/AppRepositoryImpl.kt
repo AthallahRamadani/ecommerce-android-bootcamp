@@ -1,6 +1,7 @@
 package com.athallah.ecommerce.data.repo
 
 import android.util.Log
+import com.athallah.ecommerce.data.datasource.firebase.FirebaseSubscribe
 import com.athallah.ecommerce.data.datasource.preference.UserDataStore
 import com.athallah.ecommerce.data.datasource.room.dao.CartDao
 import com.athallah.ecommerce.data.datasource.room.dao.NotificationDao
@@ -15,7 +16,8 @@ class AppRepositoryImpl(
     private val sharedPref: UserDataStore,
     private val wishlistDao: WishlistDao,
     private val notificationDao: NotificationDao,
-    private val cartDao: CartDao
+    private val cartDao: CartDao,
+    private val firebaseSubscribe: FirebaseSubscribe
 ): AppRepository {
     //pref
     override fun getLanguage(): Flow<String> = sharedPref.getLanguage()
@@ -59,7 +61,7 @@ class AppRepositoryImpl(
             cartDao.clearTable()
             notificationDao.clearTable()
             sharedPref.clearAllDataSession()
-            Firebase.messaging.unsubscribeFromTopic("promo")
+            firebaseSubscribe.unsubscribe()
         }
     }
 

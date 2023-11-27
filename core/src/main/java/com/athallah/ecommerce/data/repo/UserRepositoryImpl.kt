@@ -8,6 +8,7 @@ import com.athallah.ecommerce.data.datasource.api.response.ErrorResponse
 import com.athallah.ecommerce.data.datasource.api.response.ProfileDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.ProfileResponse
 import com.athallah.ecommerce.data.datasource.api.service.ApiService
+import com.athallah.ecommerce.data.datasource.firebase.FirebaseSubscribe
 import com.athallah.ecommerce.data.datasource.preference.UserDataStore
 import com.athallah.ecommerce.utils.extension.toBearerToken
 import com.athallah.ecommerce.utils.extension.toMultipartBody
@@ -28,10 +29,11 @@ import java.io.File
 class UserRepositoryImpl(
     private val apiService: ApiService,
     private val userDataStore: UserDataStore,
+    private val firebaseSubscribe: FirebaseSubscribe
 ) : UserRepository {
 
     override suspend fun register(email: String, password: String): User {
-        Firebase.messaging.subscribeToTopic("promo")
+        firebaseSubscribe.subscribe()
         val firebaseToken: String = FirebaseMessaging.getInstance().token.await()
         Log.d("sss", "register: $firebaseToken")
         val request = AuthRequest(
@@ -44,7 +46,7 @@ class UserRepositoryImpl(
     }
 
     override suspend fun login(email: String, password: String): User {
-        Firebase.messaging.subscribeToTopic("promo")
+        firebaseSubscribe.subscribe()
         val firebaseToken: String = FirebaseMessaging.getInstance().token.await()
         Log.d("sss", "login: $firebaseToken")
         val request = AuthRequest(
