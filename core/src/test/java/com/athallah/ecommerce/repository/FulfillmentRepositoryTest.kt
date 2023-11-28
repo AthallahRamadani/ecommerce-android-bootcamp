@@ -45,26 +45,6 @@ class FulfillmentRepositoryTest {
         fulfillmentRepository = FulfillmentRepositoryImpl(apiService)
     }
 
-    //    @Test
-//    fun getPaymentMethod() = runTest {
-//        val paymentResponse = PaymentResponse(
-//            code = 200,
-//            data = listOf(PaymentResponseData(
-//                item = listOf(PaymentResponseDataItem(
-//                    image = "null",
-//                    label = "null",
-//                    status = false
-//                )),
-//                title = "null"
-//            )),
-//            message = "null"
-//        )
-//        whenever(apiService.payment()).thenReturn(paymentResponse)
-//        fulfillmentRepository.getPaymentMethod().test {
-//            assertEquals(ResultState.Loading, awaitItem())
-//            assertEquals(ResultState.Success(paymentResponse.data?.map { it.toPayment() }), awaitItem())
-//        }
-//    }
     @Test
     fun fulfillment() = runTest {
         val fulfillmentRequest = FulfillmentRequest(
@@ -175,4 +155,25 @@ class FulfillmentRepositoryTest {
         }
     }
 
+
+//    @Test
+//    fun getPaymentMethod() = runTest {
+//        val paymentResponse = PaymentResponse(
+//            code = 200,
+//            data = listOf(PaymentResponseData(
+//                item = listOf(PaymentResponseDataItem(
+//                    image = "null",
+//                    label = "null",
+//                    status = false
+//                )),
+//                title = "null"
+//            )),
+//            message = "null"
+//        )
+//        whenever(apiService.payment()).thenReturn(paymentResponse)
+//        fulfillmentRepository.getPaymentMethod().test {
+//            assertEquals(ResultState.Loading, awaitItem())
+//            assertEquals(ResultState.Success(paymentResponse.data?.map { it.toPayment() }), awaitItem())
+//        }
+//    }
 }
