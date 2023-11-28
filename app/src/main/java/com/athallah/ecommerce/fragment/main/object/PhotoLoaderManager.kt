@@ -28,8 +28,8 @@ object PhotoLoaderManager {
 
     private fun generateFilename() = "photos-${System.currentTimeMillis()}.jpg"
 
-    fun uriToFile(uri: Uri, context: Context, contentResolver: ContentResolver): File? {
-        contentResolver.openInputStream(uri)?.use { input ->
+    fun uriToFile(uri: Uri, context: Context): File? {
+        context.contentResolver.openInputStream(uri)?.use { input ->
             val cachedPhoto = File(
                 File(context.cacheDir, "photos").also { it.mkdir() },
                 generateFilename()

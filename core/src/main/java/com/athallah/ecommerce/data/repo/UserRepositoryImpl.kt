@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.HttpException
 import java.io.File
 
@@ -34,7 +35,7 @@ class UserRepositoryImpl(
 
     override suspend fun register(email: String, password: String): User {
         firebaseSubscribe.subscribe()
-        val firebaseToken: String = FirebaseMessaging.getInstance().token.await()
+        val firebaseToken = firebaseSubscribe.firebaseToken()
         Log.d("sss", "register: $firebaseToken")
         val request = AuthRequest(
             email = email,
@@ -47,7 +48,7 @@ class UserRepositoryImpl(
 
     override suspend fun login(email: String, password: String): User {
         firebaseSubscribe.subscribe()
-        val firebaseToken: String = FirebaseMessaging.getInstance().token.await()
+        val firebaseToken = firebaseSubscribe.firebaseToken()
         Log.d("sss", "login: $firebaseToken")
         val request = AuthRequest(
             email = email,
@@ -58,16 +59,15 @@ class UserRepositoryImpl(
         return response.data?.toUser() ?: throw Exception("Error uWu")
     }
 
-    override fun uploadProfile(userName: String, userImage: File?): Flow<ResultState<Boolean>> =
+    override fun uploadProfile(
+        userName: RequestBody,
+        userImage: MultipartBody.Part?
+    ): Flow<ResultState<Boolean>> =
         flow {
             emit(ResultState.Loading)
             try {
-                val userNamePart = MultipartBody.Part.createFormData("userName", userName)
-//                val userNameRequestBody = userName.toRequestBody("text/plain".toMediaType())
-                val userImagePart = userImage?.toMultipartBody("userImage")
-                val token = userDataStore.getAccToken().first().toBearerToken()
                 val response: ProfileResponse<ProfileDataResponse> =
-                    apiService.profile(userNamePart, userImagePart, token)
+                    apiService.profile(userName, userImage)
 
                 val dataResponse = response.data
                 val user = dataResponse?.toUser()
@@ -75,27 +75,10 @@ class UserRepositoryImpl(
                     userDataStore.setUserDataSession(user)
                     emit(ResultState.Success(true))
                 } else {
-                    emit(ResultState.Success(false))
+                    throw Exception("konz")
                 }
             } catch (e: Exception) {
-                val message = getApiErrorMessage(e)
                 emit(ResultState.Error(e))
             }
         }
-
-
-    fun getApiErrorMessage(e: Throwable): String? {
-        var message = e.message
-        if (e is HttpException) {
-            val errorResponse =
-                Gson().fromJson(
-                    e.response()?.errorBody()?.string(),
-                    ErrorResponse::class.java
-                ) ?: ErrorResponse()
-            errorResponse.message?.let { message = it }
-        }
-        return message
-    }
-
-
 }

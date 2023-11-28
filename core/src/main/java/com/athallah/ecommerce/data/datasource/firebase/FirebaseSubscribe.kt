@@ -14,8 +14,8 @@ class FirebaseSubscribe(
         firebaseMessaging.unsubscribeFromTopic("promo")
     }
 
-    fun firebaseToken() {
-        FirebaseMessaging.getInstance().token
+    suspend fun firebaseToken(): String {
+        return firebaseMessaging.token.await()
     }
 
 

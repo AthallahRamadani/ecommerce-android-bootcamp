@@ -33,6 +33,7 @@ import mockwebserver3.MockResponse
 import mockwebserver3.MockWebServer
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -117,9 +118,9 @@ class ApiServiceTest {
             .setResponseCode(HttpURLConnection.HTTP_OK)
             .setBody(getJson("profile.json"))
         mockWebServer.enqueue(response)
-        val userNamePart = MultipartBody.Part.createFormData("userName", "")
-        val token = ""
-        val actualData = apiService.profile(userNamePart, null, token)
+        val userName = "udin"
+        val userNamePart = userName.toRequestBody()
+        val actualData = apiService.profile(userNamePart, null)
         val expectedData = dummyProfileResponse
 
         assertEquals(expectedData, actualData)

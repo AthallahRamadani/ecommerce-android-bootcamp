@@ -25,12 +25,14 @@ import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.databinding.FragmentProfilBinding
 import com.athallah.ecommerce.fragment.main.`object`.PhotoLoaderManager
 import com.athallah.ecommerce.utils.extension.getErrorMessage
+import com.athallah.ecommerce.utils.extension.toMultipartBody
 import com.athallah.ecommerce.utils.showSnackbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.logEvent
 import com.google.firebase.ktx.Firebase
+import okhttp3.RequestBody.Companion.toRequestBody
 
 class ProfileFragment : Fragment() {
 
@@ -96,7 +98,7 @@ class ProfileFragment : Fragment() {
         observeUpload()
 
         binding.btSelesai.setOnClickListener {
-            firebaseAnalytics.logEvent("button_Click"){
+            firebaseAnalytics.logEvent("button_Click") {
                 param("button_name", "button_done")
             }
             uploadProfileData()
@@ -107,12 +109,13 @@ class ProfileFragment : Fragment() {
         val imageFile = viewModel.currentImageUri?.let { uri ->
             PhotoLoaderManager.uriToFile(
                 uri,
-                requireActivity(),
-                requireActivity().contentResolver
+                requireActivity()
             )
         }
         val name = binding.etNama.text.toString()
-        viewModel.uploadProfile(name, imageFile)
+        val nameRequestBody = name.toRequestBody()
+        val imageMultipartBody = imageFile?.toMultipartBody("userImage")
+        viewModel.uploadProfile(nameRequestBody, imageMultipartBody)
     }
 
     private fun actionOpenCamera() {
@@ -206,7 +209,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun observeUpload() {
-        viewModel.uploadState.observe(viewLifecycleOwner){ state ->
+        viewModel.uploadState.observe(viewLifecycleOwner) { state ->
             if (state != null) {
                 when (state) {
                     is ResultState.Loading -> {

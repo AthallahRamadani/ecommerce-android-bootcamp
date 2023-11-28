@@ -10,6 +10,8 @@ import com.athallah.ecommerce.data.repo.AppRepository
 import com.athallah.ecommerce.data.repo.UserRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import java.io.File
 
 class ProfileViewModel (
@@ -22,7 +24,7 @@ class ProfileViewModel (
     private val _uploadState = MutableLiveData<ResultState<Boolean>?>(null)
     val uploadState: LiveData<ResultState<Boolean>?> = _uploadState
 
-    fun uploadProfile(userName: String, userImage: File?) {
+    fun uploadProfile(userName: RequestBody, userImage: MultipartBody.Part?) {
         viewModelScope.launch {
             userRepository.uploadProfile(userName, userImage).collect { value ->
                 _uploadState.value = value
