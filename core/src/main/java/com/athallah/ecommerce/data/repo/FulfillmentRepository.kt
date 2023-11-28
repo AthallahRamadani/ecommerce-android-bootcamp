@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface FulfillmentRepository {
 
-    fun getPaymentMethod(): Flow<ResultState<List<Payment>>>
+//    fun getPaymentMethod(): Flow<ResultState<List<Payment>>>
     fun fulfillment(payment: String, listItem: List<Cart>): Flow<ResultState<Fulfillment>>
     fun rating(
         invoiceId: String,

@@ -92,6 +92,10 @@ dependencies {
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
     testImplementation("org.mockito:mockito-inline:5.2.0")
 
+    //turbin
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    testImplementation("app.cash.turbine:turbine:1.0.0")
+
 
 }
 

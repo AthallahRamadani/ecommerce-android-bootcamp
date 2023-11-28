@@ -19,20 +19,20 @@ import kotlinx.coroutines.flow.flow
 class FulfillmentRepositoryImpl(
     private val apiService: ApiService
 ) : FulfillmentRepository {
-    override fun getPaymentMethod(): Flow<ResultState<List<Payment>>> = flow {
-        emit(ResultState.Loading)
-        try {
-            val response = apiService.payment()
-            val data = response.data?.map { it.toPayment() }
-            if (data != null) {
-                emit(ResultState.Success(data))
-            } else {
-                throw Exception("Data is empty")
-            }
-        } catch (e: Exception) {
-            ResultState.Error(e)
-        }
-    }
+//    override fun getPaymentMethod(): Flow<ResultState<List<Payment>>> = flow {
+//        emit(ResultState.Loading)
+//        try {
+//            val response = apiService.payment()
+//            val data = response.data?.map { it.toPayment() }
+//            if (data != null) {
+//                emit(ResultState.Success(data))
+//            } else {
+//                throw Exception("Data is empty")
+//            }
+//        } catch (e: Exception) {
+//            ResultState.Error(e)
+//        }
+//    }
 
     override fun fulfillment(
         payment: String,
