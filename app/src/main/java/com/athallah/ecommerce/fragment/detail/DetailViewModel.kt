@@ -46,8 +46,8 @@ class DetailViewModel(
     fun getDetailProduct() {
         viewModelScope.launch {
             storeRepository.detailProducts(productId).collect { resultState ->
-                Log.d("TAG", "getDetailProduct: ${resultState}")
-                Log.d("TAG", "getDetailProduct: ${productId}")
+//                Log.d("TAG", "getDetailProduct: $resultState")
+//                Log.d("TAG", "getDetailProduct: $productId")
                 _detailProductState.value = resultState
             }
         }
@@ -85,7 +85,7 @@ class DetailViewModel(
             val isStockReady = runBlocking { cartRepository.isStockReady(cart) }
             if (isStockReady) {
                 viewModelScope.launch {
-                    Log.d("yolo", "insertCart: ${cart}")
+//                    Log.d("yolo", "insertCart: ")
                     cartRepository.insertCart(cart)
                 }
                 true

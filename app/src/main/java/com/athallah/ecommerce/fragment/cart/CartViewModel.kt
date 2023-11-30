@@ -13,14 +13,14 @@ class CartViewModel(
 ) : ViewModel() {
     var totalPrice = 0
 
-    val cartData: Flow<List<Cart>> = cartRepository.getCartData()
+    fun cartData(): Flow<List<Cart>> = cartRepository.getCartData()
 
     fun deleteCart(cart: Cart? = null) {
         viewModelScope.launch {
             if (cart != null) {
                 cartRepository.deleteCart(cart)
             } else {
-                val filteredCart = cartData.first().filter { it.isChecked}.toTypedArray()
+                val filteredCart = cartData().first().filter { it.isChecked}.toTypedArray()
                 cartRepository.deleteCart(*filteredCart)
             }
         }
@@ -38,8 +38,12 @@ class CartViewModel(
 
     fun updateCartChecked(isChecked: Boolean, cart: Cart? = null) {
         viewModelScope.launch {
-            if (cart!= null) cartRepository.updateCartChecked(isChecked, cart)
-            else cartRepository.updateCartChecked(isChecked, *cartData.first().toTypedArray())
+            if (cart!= null){
+                cartRepository.updateCartChecked(isChecked, cart)
+            }
+            else {
+                cartRepository.updateCartChecked(isChecked, *cartData().first().toTypedArray())
+            }
         }
     }
 

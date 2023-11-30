@@ -36,10 +36,10 @@ class StoreViewModel(
         storeRepository.getProducts(query)
     }.cachedIn(viewModelScope)
 
-    fun getFilterData(productsQuery: ProductsQuery) {
+    fun getFilterData(query: ProductsQuery) {
         viewModelScope.launch {
-            this@StoreViewModel.productsQuery.update{
-                productsQuery.copy(search = it.search)
+            productsQuery.update{
+                query.copy(search = it.search)
             }
         }
     }

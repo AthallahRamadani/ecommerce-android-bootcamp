@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="16dp"
+    android:clickable="true"
+    android:focusable="true"
     android:foreground="?attr/selectableItemBackground">
 
     <CheckBox
@@ -83,9 +83,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@id/card_cart_image"
         app:layout_constraintStart_toEndOf="@+id/card_cart_image"
+        app:layout_constraintTop_toBottomOf="@id/tv_cart_stock"
         tools:text="Rp23.499.000" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -94,8 +95,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:background="@drawable/background_cart_quantity"
-        app:layout_constraintBottom_toBottomOf="@+id/card_cart_image"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintBottom_toBottomOf="@+id/tv_cart_price"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_cart_price">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_plus_cart"
@@ -154,7 +156,7 @@
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
         android:src="@drawable/baseline_delete_24"
-        app:layout_constraintBottom_toBottomOf="@+id/card_cart_image"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
         app:layout_constraintEnd_toStartOf="@+id/constraintLayout"
         app:layout_constraintTop_toTopOf="@+id/constraintLayout"
         app:tint="?attr/colorOnSurface" />

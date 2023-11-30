@@ -182,7 +182,9 @@ class DetailFragment : Fragment() {
 
     private fun setData(data: DetailProduct) {
         viewModel.detailProduct = data
-        viewModel.productVariant = data.productVariant[0]
+        if (viewModel.productVariant == null) {
+            viewModel.productVariant = data.productVariant[0]
+        }
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM) {
             val bundleProduct = Bundle().apply {
                 putString(FirebaseAnalytics.Param.ITEM_ID, data.productId)
@@ -206,7 +208,7 @@ class DetailFragment : Fragment() {
     private fun setView(data: DetailProduct) {
         with(binding) {
             setImageView(data.image)
-            tvDetailPrice.text = data.productPrice.toCurrencyFormat()
+            tvDetailPrice.text = data.productPrice.plus(viewModel.productVariant!!.variantPrice).toCurrencyFormat()
             tvDetailName.text = data.productName
             tvDetailSale.text = getString(R.string.total_sales, data.sale)
             chipRating.text =
@@ -235,7 +237,7 @@ class DetailFragment : Fragment() {
             val chip = Chip(binding.chipVariantGroup.context)
             chip.text = variant.variantName
             chip.isCheckable = true
-            chip.isChecked = variant.variantName == productVariant[0].variantName
+            chip.isChecked = variant.variantName == viewModel.productVariant!!.variantName
 
             chip.setOnClickListener {
                 binding.tvDetailPrice.text =

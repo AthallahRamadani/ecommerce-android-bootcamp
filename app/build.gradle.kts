@@ -118,6 +118,21 @@ dependencies {
     //picasso
     implementation ("com.squareup.picasso:picasso:2.8")
 
+    //mock
+    testImplementation("com.squareup.okhttp3:mockwebserver:5.0.0-alpha.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+
+    //roboelectric
+    testImplementation("org.robolectric:robolectric:4.11.1")
+
+    //mockito
+    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
+    testImplementation("org.mockito:mockito-inline:5.2.0")
+
+    //turbin
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    testImplementation("app.cash.turbine:turbine:1.0.0")
+
 
 }
 

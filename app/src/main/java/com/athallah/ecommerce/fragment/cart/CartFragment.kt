@@ -89,7 +89,7 @@ class CartFragment : Fragment() {
     private fun observeCart() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.cartData.collect { data ->
+                viewModel.cartData().collect { data ->
                     showIsDataEmpty(data.isEmpty())
                     cartAdapter.submitList(data)
                     sendLogCart(data.toTypedArray(), FirebaseAnalytics.Event.VIEW_CART)
@@ -157,7 +157,7 @@ class CartFragment : Fragment() {
             findNavController().navigateUp()
         }
         binding.btnBuy.setOnClickListener {
-            val listData = runBlocking { viewModel.cartData.first().filter { it.isChecked }}
+            val listData = runBlocking { viewModel.cartData().first().filter { it.isChecked }}
             val bundle = Bundle().apply {
                 putParcelableArrayList(CheckoutFragment.ARG_DATA, ArrayList<Cart>(listData))
             }

@@ -33,7 +33,7 @@ class CheckoutViewModel(
         setData(savedStateHandle.get<ArrayList<Cart>>(CheckoutFragment.ARG_DATA) ?: ArrayList())
     }
 
-    fun setData(data: ArrayList<Cart>) {
+    private fun setData(data: ArrayList<Cart>) {
         _listData.value = data.map { it.copy(quantity = it.quantity ?: 1) }
     }
 

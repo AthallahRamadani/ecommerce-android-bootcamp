@@ -15,6 +15,7 @@
 
     <style name="Theme_Ecommerce" parent="Base.Theme.Ecommerce">
         <item name="android:windowSoftInputMode">adjustPan</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
 
