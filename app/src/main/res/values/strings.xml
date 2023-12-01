@@ -93,6 +93,10 @@
     <string name="review_transaction">Review</string>
     <string name="total_item">%1$d items</string>
     <string name="date_time">%1$s, %2$s</string>
+    <string name="checkout">Checkout</string>
+    <string name="product_detail">Product Detail</string>
+    <string name="choose_payment">Choose payment</string>
+    <string name="profile">Profile</string>
 
 
 </resources>

@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:navigationIcon="@drawable/baseline_arrow_back_24"
-            app:title="Ulasan Pembeli" />
+            app:title="@string/buyer_review" />
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/divider_top"

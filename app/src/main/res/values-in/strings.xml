@@ -93,4 +93,10 @@
     <string name="review_transaction">Ulas</string>
     <string name="total_item">%1$d item</string>
     <string name="date_time">%1$s, %2$s</string>
+    <string name="checkout">Checkout</string>
+    <string name="product_detail">Detail Produk</string>
+    <string name="choose_payment">Pilih pembayaran</string>
+    <string name="profile">Profil</string>
+
+
 </resources>

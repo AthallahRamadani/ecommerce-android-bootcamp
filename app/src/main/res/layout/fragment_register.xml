@@ -16,7 +16,7 @@
             android:id="@+id/top_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:title="Daftar"
+            app:title="@string/register"
             app:titleCentered="true" />
 
         <com.google.android.material.divider.MaterialDivider

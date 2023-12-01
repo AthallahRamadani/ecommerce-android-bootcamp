@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:gravity="center"
-            app:title="Masuk"
+            app:title="@string/login"
             app:titleCentered="true">
 
 
