@@ -30,9 +30,9 @@ class UserDataStore(private val dataStore: DataStore<Preferences>) {
         }
     }
 
-    suspend fun setLanguage(value: String) {
+    suspend fun setLanguage(value: String?) {
         dataStore.edit {
-            it[language] = value
+            it[language] = value ?: "en"
         }
     }
 

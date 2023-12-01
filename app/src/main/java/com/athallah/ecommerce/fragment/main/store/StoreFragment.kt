@@ -32,6 +32,7 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.logEvent
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.IOException
 
@@ -277,7 +278,10 @@ class StoreFragment : Fragment() {
     private fun openFilter() {
         with(viewModel.productsQuery.value) {
             val filterSheetFragment = FilterSheetFragment.newInstance(
-                sort, brand, lowest, highest
+                viewModel.resSortFilterProduct?.let { getString(it) },
+                viewModel.resBrandFilterProduct?.let { getString(it) },
+                lowest,
+                highest
             )
             filterSheetFragment.show(childFragmentManager, FilterSheetFragment.TAG)
         }
@@ -316,9 +320,15 @@ class StoreFragment : Fragment() {
             )
 
             viewModel.resSortFilterProduct =
-                bundle.getInt(FilterSheetFragment.BUNDLE_SORT_RES_ID_KEY)
+                bundle.getInt(FilterSheetFragment.BUNDLE_SORT_RES_ID_KEY,-1).let{
+                    if (it == -1) null
+                    else it
+                }
             viewModel.resBrandFilterProduct =
-                bundle.getInt(FilterSheetFragment.BUNDLE_BRAND_RES_ID_KEY)
+                bundle.getInt(FilterSheetFragment.BUNDLE_BRAND_RES_ID_KEY,-1).let{
+                    if (it == -1) null
+                    else it
+                }
 
 
             viewModel.getFilterData(productFilter)

@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface AppRepository {
     //pref
     fun getLanguage(): Flow<String>
-    suspend fun setLanguage(value: String)
+    suspend fun setLanguage(value: String?)
     fun getRefToken(): Flow<String>
     suspend fun setRefToken(value: String)
     fun getAccToken(): Flow<String>

@@ -12,22 +12,27 @@ import kotlinx.coroutines.runBlocking
 
 class MainViewModel(
     private val appRepository: AppRepository,
-    wishlistRepository: WishlistRepository,
-    cartRepository: CartRepository,
-    savedStateHandle: SavedStateHandle,
-    notificationRepository: NotificationRepository
+    private val wishlistRepository: WishlistRepository,
+    private val cartRepository: CartRepository,
+    private val savedStateHandle: SavedStateHandle,
+    private val notificationRepository: NotificationRepository
 ) : ViewModel() {
 
 
-    fun prefGetAccToken(): String = runBlocking { appRepository.getAccToken().first() }
-    fun prefGetUsername(): String = runBlocking { appRepository.getUsername().first() }
+    fun prefGetAccToken(): String = runBlocking {
+        appRepository.getAccToken().first()
+    }
 
-    val wishlistSize: Flow<Int> = wishlistRepository.getWishlistDataSize()
+    fun prefGetUsername(): String = runBlocking {
+        appRepository.getUsername().first()
+    }
+
+    fun wishlistSize(): Flow<Int> = wishlistRepository.getWishlistDataSize()
 
 
     var shouldMoveToTransaction =
         savedStateHandle.get<Boolean>(MainFragment.MOVE_TRANSACTION_BUNDLE_KEY) ?: false
 
-    val cartSize: Flow<Int> = cartRepository.getCartDataSize()
-    val notificationSize: Flow<Int> = notificationRepository.getNotificationDataSize()
+    fun cartSize(): Flow<Int> = cartRepository.getCartDataSize()
+    fun notificationSize(): Flow<Int> = notificationRepository.getNotificationDataSize()
 }

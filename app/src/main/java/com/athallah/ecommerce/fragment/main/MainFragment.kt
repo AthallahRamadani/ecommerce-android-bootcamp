@@ -79,7 +79,7 @@ class MainFragment : Fragment() {
         val badge = binding.bottomNavView.getOrCreateBadge(R.id.wishlistFragment)
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.wishlistSize.collect() { size ->
+                viewModel.wishlistSize().collect() { size ->
                     if (size >= 1) {
                         badge.isVisible = true
                         badge.number = size
@@ -100,7 +100,7 @@ class MainFragment : Fragment() {
         )
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.cartSize.collect { size ->
+                viewModel.cartSize().collect { size ->
                     if (size >= 1) {
                         badgeDrawable.isVisible = true
                         badgeDrawable.number = size
@@ -121,7 +121,7 @@ class MainFragment : Fragment() {
         )
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.notificationSize.collect { size ->
+                viewModel.notificationSize().collect { size ->
                     if (size >= 1) {
                         badgeDrawable.isVisible = true
                         badgeDrawable.number = size

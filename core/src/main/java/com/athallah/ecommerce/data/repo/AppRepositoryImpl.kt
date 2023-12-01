@@ -21,7 +21,7 @@ class AppRepositoryImpl(
 ): AppRepository {
     //pref
     override fun getLanguage(): Flow<String> = sharedPref.getLanguage()
-    override suspend fun setLanguage(value: String) {
+    override suspend fun setLanguage(value: String?) {
         sharedPref.setLanguage(value)
     }
 
