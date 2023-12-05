@@ -12,6 +12,7 @@ import kotlinx.coroutines.runBlocking
 class SearchViewModel(
     private val storeRepository: StoreRepository
 ) : ViewModel() {
+
     private val _searchEditText: MutableStateFlow<String> = MutableStateFlow("")
     private val _searchQuery: Flow<String> = _searchEditText.debounce(1000)
     val searchData: Flow<ResultState<List<String>>> = _searchQuery.flatMapLatest { query ->

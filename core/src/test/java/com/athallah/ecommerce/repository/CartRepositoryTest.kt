@@ -9,7 +9,6 @@ import com.athallah.ecommerce.utils.extension.toCart
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -65,7 +64,6 @@ class CartRepositoryTest {
         assertEquals(2, actualData)
     }
 
-
     @Test
     fun isStockReady() = runTest {
         val cart = CartEntity(
@@ -118,7 +116,6 @@ class CartRepositoryTest {
         whenever(cartDao.checkExistData(cart.productId)).thenReturn(false)
         cartRepository.insertCart(cart.toCart())
         verify(cartDao).insert(cart)
-
     }
 
     @Test
@@ -162,7 +159,7 @@ class CartRepositoryTest {
             true
         )
         whenever(cartDao.getDetailData(cart.productId)).thenReturn(flowOf(cartEntity))
-        cartRepository.updateCartQuantity(cart,true)
+        cartRepository.updateCartQuantity(cart, true)
         verify(cartDao).update(cartEntity.copy(quantity = 5))
     }
 
@@ -187,7 +184,7 @@ class CartRepositoryTest {
             4,
             true
         )
-        cartRepository.updateCartChecked(isChecked = true,cartEntity.toCart())
+        cartRepository.updateCartChecked(isChecked = true, cartEntity.toCart())
         verify(cartDao).update(cartEntity)
     }
 

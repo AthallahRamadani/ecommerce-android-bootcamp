@@ -3,11 +3,9 @@ package com.athallah.ecommerce.data.datasource.room.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.athallah.ecommerce.data.datasource.model.DetailProduct
-
 
 @Entity(tableName = "wishlist")
-data class WishlistEntity (
+data class WishlistEntity(
     @PrimaryKey
     @ColumnInfo(name = "product_id") val productId: String,
     @ColumnInfo(name = "product_name") val productName: String,

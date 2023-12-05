@@ -2,29 +2,25 @@ package com.athallah.ecommerce.fragment.status
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isInvisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.ResultState
-import com.athallah.ecommerce.databinding.FragmentCheckoutBinding
 import com.athallah.ecommerce.databinding.FragmentStatusBinding
-import com.athallah.ecommerce.fragment.checkout.CheckoutViewModel
 import com.athallah.ecommerce.fragment.main.MainFragment
 import com.athallah.ecommerce.utils.extension.getErrorMessage
 import com.athallah.ecommerce.utils.showSnackbar
 import com.athallah.ecommerce.utils.toCurrencyFormat
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import kotlin.math.log
-
 
 class StatusFragment : Fragment() {
 
@@ -32,7 +28,8 @@ class StatusFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: StatusViewModel by viewModel()
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentStatusBinding.inflate(inflater, container, false)
@@ -49,19 +46,20 @@ class StatusFragment : Fragment() {
 
     private fun setupAction() {
         binding.btnFinish.setOnClickListener {
-            val rating: Int? = with(binding.rbStatus.rating.toInt()){
-                if (this == 0) null
-                else this
+            val rating: Int? = with(binding.rbStatus.rating.toInt()) {
+                if (this == 0) {
+                    null
+                } else {
+                    this
+                }
             }
-            val review: String? =with(binding.etLeaveReview.text.toString()){
+            val review: String? = with(binding.etLeaveReview.text.toString()) {
                 this.ifEmpty { null }
             }
             val invoiceId = viewModel.detailTransaction!!.invoiceId
             viewModel.sendRating(invoiceId, rating, review)
             Log.d("rating", "setupAction: $invoiceId, $review, $rating")
         }
-
-
     }
 
     private fun observeRating() {
@@ -121,19 +119,19 @@ class StatusFragment : Fragment() {
         with(binding) {
             tvIdResult.text = data?.invoiceId
             tvStatusResult.text =
-                if (data?.status == true) getString(R.string.success)
-                else getString(R.string.failed)
+                if (data?.status == true) {
+                    getString(R.string.success)
+                } else {
+                    getString(R.string.failed)
+                }
             tvDateResult.text = data?.date
             tvTimeResult.text = data?.time
             tvPaymentMethodResult.text = data?.payment
             tvPaymentTotalResult.text = data?.total?.toCurrencyFormat()
             rbStatus.rating = viewModel.rating?.toFloat() ?: 0F
             etLeaveReview.setText(viewModel.review)
-
         }
-
     }
-
 
     companion object {
         const val RATING_BUNDLE_KEY = "rating_bundle_key"

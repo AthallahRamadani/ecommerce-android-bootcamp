@@ -1,13 +1,10 @@
 package com.athallah.ecommerce.fragment.detail
 
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.data.datasource.model.DetailProduct
-import com.athallah.ecommerce.data.datasource.model.Wishlist
 import com.athallah.ecommerce.data.repo.CartRepository
 import com.athallah.ecommerce.data.repo.StoreRepository
 import com.athallah.ecommerce.data.repo.WishlistRepository
@@ -27,13 +24,10 @@ class DetailViewModel(
 
     var isWishlist: Boolean = false
 
-
-    var productId: String = savedStateHandle["product_id"]?:""
+    var productId: String = savedStateHandle["product_id"] ?: ""
 
     var detailProduct: DetailProduct? = null
     var productVariant: DetailProduct.ProductVariant? = null
-
-
 
     private val _detailProductState = MutableStateFlow<ResultState<DetailProduct>?>(null)
     val detailProductState: StateFlow<ResultState<DetailProduct>?> = _detailProductState
@@ -41,7 +35,6 @@ class DetailViewModel(
     init {
         getDetailProduct()
     }
-
 
     fun getDetailProduct() {
         viewModelScope.launch {
@@ -77,10 +70,8 @@ class DetailViewModel(
         }
     }
 
-
     fun insertCart(): Boolean {
         return if (detailProduct != null) {
-
             val cart = detailProduct!!.toCart(productVariant!!)
             val isStockReady = runBlocking { cartRepository.isStockReady(cart) }
             if (isStockReady) {
@@ -92,6 +83,8 @@ class DetailViewModel(
             } else {
                 false
             }
-        } else false
+        } else {
+            false
+        }
     }
 }

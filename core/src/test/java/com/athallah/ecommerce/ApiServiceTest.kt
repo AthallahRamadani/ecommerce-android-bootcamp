@@ -31,7 +31,6 @@ import com.athallah.ecommerce.data.datasource.api.service.ApiService
 import kotlinx.coroutines.test.runTest
 import mockwebserver3.MockResponse
 import mockwebserver3.MockWebServer
-import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.junit.After
@@ -384,13 +383,10 @@ class ApiServiceTest {
         )
     )
 
-
     private fun getJson(path: String): String {
         // Load the JSON response
         val uri = this.javaClass.classLoader?.getResource(path)
         val file = File(uri?.path ?: "")
         return String(file.readBytes())
     }
-
-
 }

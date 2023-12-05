@@ -1,12 +1,9 @@
 package com.athallah.ecommerce.fragment.main.wishlist
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.athallah.ecommerce.data.datasource.model.DetailProduct
 import com.athallah.ecommerce.data.datasource.model.Wishlist
 import com.athallah.ecommerce.data.repo.CartRepository
-import com.athallah.ecommerce.data.repo.StoreRepository
 import com.athallah.ecommerce.data.repo.WishlistRepository
 import com.athallah.ecommerce.utils.extension.toCart
 import kotlinx.coroutines.flow.Flow
@@ -19,9 +16,7 @@ class WishlistViewModel(
 ) : ViewModel() {
 
     var recyclerViewType = WishlistAdapter.ONE_COLUMN_VIEW_TYPE
-    val wishlistData: Flow<List<Wishlist>> = wishlistRepository.getWishlistData()
-    var detailProduct: DetailProduct? = null
-    var productVariant: DetailProduct.ProductVariant? = null
+    fun wishlistData(): Flow<List<Wishlist>> = wishlistRepository.getWishlistData()
 
     fun deleteWishlist(wishlist: Wishlist) {
         viewModelScope.launch {
@@ -41,5 +36,4 @@ class WishlistViewModel(
             false
         }
     }
-
 }

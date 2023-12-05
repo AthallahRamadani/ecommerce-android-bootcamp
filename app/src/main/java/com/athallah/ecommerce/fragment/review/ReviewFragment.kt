@@ -13,10 +13,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.databinding.FragmentReviewBinding
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 
 class ReviewFragment : Fragment() {
     private val viewModel: ReviewViewModel by viewModel()
@@ -25,7 +23,8 @@ class ReviewFragment : Fragment() {
     private val adapter = ReviewAdapter()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentReviewBinding.inflate(inflater, container, false)
@@ -42,12 +41,12 @@ class ReviewFragment : Fragment() {
 
     private fun observeReviewProduct() {
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.reviewProductState.collect{result->
-                    if(result!= null){
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.reviewProductState.collect { result ->
+                    if (result != null) {
                         showLoading(result is ResultState.Loading)
                         when (result) {
-                            is ResultState.Loading ->{}
+                            is ResultState.Loading -> {}
                             is ResultState.Success -> adapter.submitList(result.data)
                             is ResultState.Error -> showError()
                         }

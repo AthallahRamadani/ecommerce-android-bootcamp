@@ -23,12 +23,10 @@ class AppFirebaseRemoteConfig(
             remoteConfig.fetchAndActivate().await()
 
             val dataJson = remoteConfig.getString(REMOTE_DATA_KEY)
-            Log.d("sss", "fetchPaymentMethod: ${dataJson}")
+            Log.d("sss", "fetchPaymentMethod: $dataJson")
 
             val data = extractJsonToObject(dataJson)
-            Log.d("sss", "fetchPaymentMethod: ${data}")
-
-
+            Log.d("sss", "fetchPaymentMethod: $data")
 
             emit(ResultState.Success(data))
         } catch (e: Exception) {
@@ -51,7 +49,6 @@ class AppFirebaseRemoteConfig(
             override fun onError(error: FirebaseRemoteConfigException) {
                 callback(ResultState.Error(error))
             }
-
         })
     }
 
@@ -65,6 +62,4 @@ class AppFirebaseRemoteConfig(
     companion object {
         private const val REMOTE_DATA_KEY = "data"
     }
-
-
 }

@@ -6,7 +6,7 @@ import com.athallah.ecommerce.data.repo.AppRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class HomeViewModel (
+class HomeViewModel(
     private val appRepository: AppRepository
 ) : ViewModel() {
 
@@ -16,9 +16,9 @@ class HomeViewModel (
         }
     }
 
-    fun getAppTheme()= appRepository.getLight()
+    fun getAppTheme() = appRepository.getLight()
 
-    fun setAppTheme(isDarkTheme: Boolean){
+    fun setAppTheme(isDarkTheme: Boolean) {
         runBlocking { appRepository.setLight(isDarkTheme) }
     }
 
@@ -27,7 +27,4 @@ class HomeViewModel (
     fun setAppLanguage(isIdLanguage: Boolean) {
         runBlocking { appRepository.setLanguage(if (isIdLanguage) "id" else null) }
     }
-
-
-
 }

@@ -2,10 +2,8 @@ package com.athallah.ecommerce.data.repo
 
 import kotlinx.coroutines.flow.Flow
 
-
-
 interface AppRepository {
-    //pref
+    // pref
     fun getLanguage(): Flow<String>
     suspend fun setLanguage(value: String?)
     fun getRefToken(): Flow<String>
@@ -24,5 +22,4 @@ interface AppRepository {
 
     fun checkUserAuthorization(): Flow<Boolean>
     suspend fun setUserAuthorization(value: Boolean)
-
 }

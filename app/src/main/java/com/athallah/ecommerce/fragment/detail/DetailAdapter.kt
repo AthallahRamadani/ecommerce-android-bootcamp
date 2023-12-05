@@ -1,6 +1,5 @@
 package com.athallah.ecommerce.fragment.detail
 
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -23,7 +22,6 @@ class DetailAdapter :
         holder.bind(getItem(position))
     }
 
-
     class DetailViewHolder(private val binding: DetailItemImageBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: String) {
@@ -40,6 +38,4 @@ class DetailAdapter :
         override fun areContentsTheSame(oldItem: String, newItem: String): Boolean =
             oldItem == newItem
     }
-
-
 }

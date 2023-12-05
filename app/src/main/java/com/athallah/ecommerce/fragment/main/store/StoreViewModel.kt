@@ -1,14 +1,12 @@
 package com.athallah.ecommerce.fragment.main.store
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.athallah.ecommerce.data.datasource.model.Product
 import com.athallah.ecommerce.data.datasource.api.request.ProductsQuery
+import com.athallah.ecommerce.data.datasource.model.Product
 import com.athallah.ecommerce.data.repo.AppRepository
 import com.athallah.ecommerce.data.repo.StoreRepository
 import com.athallah.ecommerce.fragment.main.store.storeadapter.ProductAdapter
@@ -22,7 +20,6 @@ class StoreViewModel(
     private val storeRepository: StoreRepository,
     private val appRepository: AppRepository
 ) : ViewModel() {
-
 
     var recyclerViewType = ProductAdapter.ONE_COLUMN_VIEW_TYPE
 
@@ -38,7 +35,7 @@ class StoreViewModel(
 
     fun getFilterData(query: ProductsQuery) {
         viewModelScope.launch {
-            productsQuery.update{
+            productsQuery.update {
                 query.copy(search = it.search)
             }
         }
@@ -52,7 +49,7 @@ class StoreViewModel(
         }
     }
 
-    fun prefGetAccToken(): LiveData<String> = appRepository.getAccToken().asLiveData()
+    fun prefGetAccToken(): Flow<String> = appRepository.getAccToken()
     fun resetData() {
         viewModelScope.launch {
             productsQuery.value = ProductsQuery()
@@ -60,6 +57,4 @@ class StoreViewModel(
             resBrandFilterProduct = null
         }
     }
-
-
 }

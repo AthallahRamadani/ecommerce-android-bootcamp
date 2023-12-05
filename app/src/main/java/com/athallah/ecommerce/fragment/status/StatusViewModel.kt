@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class StatusViewModel(
     private val fulfillmentRepository: FulfillmentRepository,
     savedStateHandle: SavedStateHandle
-): ViewModel() {
+) : ViewModel() {
 
     val detailTransaction = savedStateHandle.get<Fulfillment>(StatusFragment.DATA_BUNDLE_KEY)
     val rating = savedStateHandle.get<Int>(StatusFragment.RATING_BUNDLE_KEY)
@@ -29,5 +29,4 @@ class StatusViewModel(
             }
         }
     }
-
 }

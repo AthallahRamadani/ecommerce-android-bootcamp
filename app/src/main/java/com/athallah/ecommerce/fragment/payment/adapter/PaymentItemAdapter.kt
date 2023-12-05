@@ -18,7 +18,11 @@ class PaymentItemAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PaymentItemViewHolder {
         val binding =
-            PaymentItemLayoutItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            PaymentItemLayoutItemLayoutBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         return PaymentItemViewHolder(binding, itemClickCallback)
     }
 
@@ -26,13 +30,12 @@ class PaymentItemAdapter(
         holder.bind(getItem(position))
     }
 
-
     class PaymentItemViewHolder(
         private val binding: PaymentItemLayoutItemLayoutBinding,
         private val itemClickCallback: (Payment.PaymentItem) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: Payment.PaymentItem) {
-            Log.d("TAs", "bind: ${data}")
+            Log.d("TAs", "bind: $data")
             binding.ivPayment.load(data.image) {
                 crossfade(true)
                 placeholder(R.drawable.product_image_placeholder)
@@ -70,6 +73,4 @@ class PaymentItemAdapter(
             newItem: Payment.PaymentItem
         ): Boolean = oldItem == newItem
     }
-
-
 }

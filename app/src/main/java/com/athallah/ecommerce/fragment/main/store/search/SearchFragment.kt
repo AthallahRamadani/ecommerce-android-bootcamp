@@ -26,15 +26,14 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class SearchFragment : DialogFragment() {
 
-    private val viewModel : SearchViewModel by viewModel()
+    private val viewModel: SearchViewModel by viewModel()
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var query: String
-    private val searchAdapter: SearchAdapter by lazy{
-        SearchAdapter {searchKeyword->
+    private val searchAdapter: SearchAdapter by lazy {
+        SearchAdapter { searchKeyword ->
             sendSearchResult(searchKeyword)
         }
     }
@@ -54,7 +53,8 @@ class SearchFragment : DialogFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
@@ -90,14 +90,15 @@ class SearchFragment : DialogFragment() {
 
     private fun observeSearch() {
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.searchData.collect{result->
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.searchData.collect { result ->
                     showSearchLoading(result is ResultState.Loading)
-                    when (result){
+                    when (result) {
                         is ResultState.Loading -> {}
                         is ResultState.Success -> {
                             searchAdapter.submitList(result.data)
                         }
+
                         is ResultState.Error -> {}
                     }
                 }
@@ -112,7 +113,7 @@ class SearchFragment : DialogFragment() {
     private fun setupRecyclerView() {
         binding.rvSearch.adapter = searchAdapter
         binding.rvSearch.layoutManager = LinearLayoutManager(requireActivity())
-        searchAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver(){
+        searchAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 super.onItemRangeInserted(positionStart, itemCount)
                 binding.rvSearch.scrollToPosition(0)
@@ -120,18 +121,16 @@ class SearchFragment : DialogFragment() {
         })
     }
 
-
-    private fun sendSearchResult(data: String= binding.etSearch.text.toString()) {
+    private fun sendSearchResult(data: String = binding.etSearch.text.toString()) {
         val bundle = bundleOf(
             BUNDLE_QUERY_KEY to data.ifEmpty { null },
         )
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_SEARCH_RESULTS) {
             param(FirebaseAnalytics.Param.SEARCH_TERM, data)
         }
-        setFragmentResult(FRAGMENT_REQUEST_KEY,bundle)
+        setFragmentResult(FRAGMENT_REQUEST_KEY, bundle)
         dismiss()
     }
-
 
     companion object {
         private const val ARG_QUERY = "arg_query"
@@ -147,6 +146,4 @@ class SearchFragment : DialogFragment() {
                 }
             }
     }
-
-
 }

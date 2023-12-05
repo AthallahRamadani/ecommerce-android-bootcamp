@@ -2,7 +2,6 @@ package com.athallah.ecommerce.fragment.cart
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.widget.ThemedSpinnerAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -92,6 +91,4 @@ class CartAdapter(
         override fun areContentsTheSame(oldItem: Cart, newItem: Cart): Boolean =
             oldItem == newItem
     }
-
-
 }

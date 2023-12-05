@@ -70,12 +70,13 @@ class NotificationAdapter(
             itemView.setOnClickListener { itemClickedCallback(data) }
         }
     }
+
     object NotificationComparator : DiffUtil.ItemCallback<Notification>() {
         override fun areItemsTheSame(oldItem: Notification, newItem: Notification): Boolean =
             oldItem.title == newItem.title &&
-                    oldItem.body == newItem.body &&
-                    oldItem.date == newItem.date &&
-                    oldItem.time == newItem.time
+                oldItem.body == newItem.body &&
+                oldItem.date == newItem.date &&
+                oldItem.time == newItem.time
 
         override fun areContentsTheSame(oldItem: Notification, newItem: Notification): Boolean =
             oldItem == newItem

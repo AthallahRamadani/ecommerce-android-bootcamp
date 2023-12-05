@@ -12,9 +12,9 @@
         android:id="@+id/tv_filter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
         android:text="@string/filter"
         android:textFontWeight="700"
-        android:layout_marginTop="25dp"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,15 +24,14 @@
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/poppinsmedium"
         android:text="Reset"
-        android:visibility="gone"
         android:textColor="@color/md_theme_light_primary"
         android:textSize="14sp"
-        android:layout_marginTop="16dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:fontFamily="@font/poppinsmedium"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_sort"
@@ -168,8 +167,8 @@
                 android:id="@+id/et_lowest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:hint="@string/lowest" />
+                android:hint="@string/lowest"
+                android:inputType="number" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -186,8 +185,8 @@
                 android:id="@+id/et_highest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:hint="@string/highest" />
+                android:hint="@string/highest"
+                android:inputType="number" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

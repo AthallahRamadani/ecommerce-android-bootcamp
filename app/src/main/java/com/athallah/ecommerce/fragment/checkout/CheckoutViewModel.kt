@@ -7,7 +7,6 @@ import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.data.datasource.model.Cart
 import com.athallah.ecommerce.data.datasource.model.Fulfillment
 import com.athallah.ecommerce.data.datasource.model.Payment
-import com.athallah.ecommerce.data.repo.CartRepository
 import com.athallah.ecommerce.data.repo.FulfillmentRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,7 +17,7 @@ import kotlinx.coroutines.launch
 class CheckoutViewModel(
     private val fulfillmentRepository: FulfillmentRepository,
     savedStateHandle: SavedStateHandle
-): ViewModel() {
+) : ViewModel() {
 
     private val _listData: MutableStateFlow<List<Cart>> = MutableStateFlow(ArrayList())
     val listData: StateFlow<List<Cart>> = _listData
@@ -57,7 +56,7 @@ class CheckoutViewModel(
         }
     }
 
-    fun  makePayment() {
+    fun makePayment() {
         if (paymentItem != null) {
             viewModelScope.launch {
                 val data = listData.first()

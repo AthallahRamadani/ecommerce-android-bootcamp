@@ -2,7 +2,6 @@ package com.athallah.ecommerce.firebase
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
@@ -40,7 +39,7 @@ class FirebaseCloudMessage : FirebaseMessagingService() {
         Log.d("TAGTAGTAG", "onMessageReceived: $data")
     }
 
-    private fun sendNotification(data : Notification) {
+    private fun sendNotification(data: Notification) {
         val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = NavDeepLinkBuilder(this)
@@ -60,7 +59,8 @@ class FirebaseCloudMessage : FirebaseMessagingService() {
             .setSound(defaultSoundUri)
             .setContentIntent(pendingIntent)
 
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         // Since android Oreo notification channel is needed.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

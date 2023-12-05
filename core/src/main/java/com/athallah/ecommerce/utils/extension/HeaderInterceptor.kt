@@ -16,14 +16,14 @@ class HeaderInterceptor(
         val isPreloginRequest = Constant.PRELOGIN_ENDPOINT.contains(requestUrl)
 
         val newRequest = originalRequest.newBuilder().apply {
-            if (isPreloginRequest)
+            if (isPreloginRequest) {
                 addHeader("API_KEY", Constant.API_KEY)
-            else {
+            } else {
                 val user = runBlocking { preferences.getUserDataSession().first() }
                 val bearerToken: String = user.accessToken?.toBearerToken() ?: ""
                 addHeader("Authorization", bearerToken)
             }
         }.build()
-        return  chain.proceed(newRequest)
+        return chain.proceed(newRequest)
     }
 }

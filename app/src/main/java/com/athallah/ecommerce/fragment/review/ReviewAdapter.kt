@@ -1,6 +1,5 @@
 package com.athallah.ecommerce.fragment.review
 
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -10,7 +9,6 @@ import coil.load
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.datasource.model.Review
 import com.athallah.ecommerce.databinding.ReviewItemLayoutBinding
-
 
 class ReviewAdapter :
     ListAdapter<Review, ReviewAdapter.ReviewViewHolder>(ReviewImageDiffUtil()) {
@@ -45,5 +43,4 @@ class ReviewAdapter :
         override fun areContentsTheSame(oldItem: Review, newItem: Review): Boolean =
             oldItem == newItem
     }
-
 }

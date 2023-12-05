@@ -11,7 +11,6 @@ import com.athallah.ecommerce.data.datasource.firebase.AppFirebaseRemoteConfig
 import com.athallah.ecommerce.data.datasource.firebase.FirebaseSubscribe
 import com.athallah.ecommerce.data.datasource.preference.UserDataStore
 import com.athallah.ecommerce.data.datasource.room.AppDatabase
-import com.athallah.ecommerce.data.datasource.room.dao.WishlistDao
 import com.athallah.ecommerce.data.repo.AppRepository
 import com.athallah.ecommerce.data.repo.AppRepositoryImpl
 import com.athallah.ecommerce.data.repo.CartRepository
@@ -33,11 +32,7 @@ import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-
 import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-import com.google.firebase.remoteconfig.remoteConfig
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
@@ -50,7 +45,7 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "AP
 
 val repositoryModule = module {
     single { AppRepositoryImpl(get(), get(), get(), get(), get()) } bind AppRepository::class
-    single { UserRepositoryImpl(get(), get(),get()) } bind UserRepository::class
+    single { UserRepositoryImpl(get(), get(), get(), get()) } bind UserRepository::class
     single { StoreRepositoryImpl(get(), get()) } bind StoreRepository::class
     single { WishlistRepositoryImpl(get()) } bind WishlistRepository::class
     single { CartRepositoryImpl(get()) } bind CartRepository::class
@@ -60,8 +55,8 @@ val repositoryModule = module {
 
 val firebaseModule = module {
     single { AppFirebaseRemoteConfig(get()) } bind AppFirebaseRemoteConfig::class
-    single { FirebaseSubscribe(get())} bind FirebaseSubscribe::class
-    single { FirebaseMessaging.getInstance()}
+    single { FirebaseSubscribe(get()) } bind FirebaseSubscribe::class
+    single { FirebaseMessaging.getInstance() }
 }
 
 val roomModule = module {
@@ -133,10 +128,3 @@ val remoteConfigModule = module {
         }
     }
 }
-
-
-
-
-
-
-

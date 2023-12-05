@@ -9,7 +9,7 @@ class MainViewModel(
     private val appRepository: AppRepository
 ) : ViewModel() {
     fun checkUserLogin() = appRepository.checkUserAuthorization()
-    fun logout()  {
+    fun logout() {
         viewModelScope.launch {
             appRepository.logout()
         }

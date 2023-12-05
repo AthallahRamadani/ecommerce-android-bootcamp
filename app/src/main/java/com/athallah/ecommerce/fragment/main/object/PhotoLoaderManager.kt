@@ -1,6 +1,5 @@
 package com.athallah.ecommerce.fragment.main.`object`
 
-import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -12,11 +11,9 @@ import java.io.FileOutputStream
 
 object PhotoLoaderManager {
 
-
     private const val PHOTOS_DIR = "photos"
     private const val FILE_PROVIDER = "fileprovider"
     private const val IMAGE_MAX_SIZE = 1000000
-
 
     fun buildNewUri(context: Context): Uri {
         val photosDir = File(context.cacheDir, PHOTOS_DIR)
@@ -64,6 +61,4 @@ object PhotoLoaderManager {
         bitmap?.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
         return file
     }
-
-
 }

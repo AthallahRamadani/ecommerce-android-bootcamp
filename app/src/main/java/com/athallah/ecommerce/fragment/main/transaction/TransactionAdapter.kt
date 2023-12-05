@@ -1,5 +1,6 @@
 package com.athallah.ecommerce.fragment.main.transaction
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -36,6 +37,7 @@ class TransactionAdapter(private val onItemClick: (Transaction) -> Unit) :
                     error(R.drawable.product_image_placeholder)
                 }
                 tvProduct.text = data.name
+                Log.d("udin", "bind: ${data.name}")
                 tvTotalItem.text =
                     itemView.context.getString(R.string.total_item, data.items.size)
                 tvTransactionTotalItem.text = data.total.toCurrencyFormat()

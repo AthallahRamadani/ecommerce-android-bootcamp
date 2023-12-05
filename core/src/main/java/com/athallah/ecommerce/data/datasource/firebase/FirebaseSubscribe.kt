@@ -10,6 +10,7 @@ class FirebaseSubscribe(
     fun subscribe() {
         firebaseMessaging.subscribeToTopic("promo")
     }
+
     fun unsubscribe() {
         firebaseMessaging.unsubscribeFromTopic("promo")
     }
@@ -17,6 +18,4 @@ class FirebaseSubscribe(
     suspend fun firebaseToken(): String {
         return firebaseMessaging.token.await()
     }
-
-
 }

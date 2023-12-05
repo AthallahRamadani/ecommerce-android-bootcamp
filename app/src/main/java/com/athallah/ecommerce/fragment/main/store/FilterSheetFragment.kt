@@ -46,7 +46,8 @@ class FilterSheetFragment : BottomSheetDialogFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val contextThemeWrapper = ContextThemeWrapper(requireActivity(), R.style.Theme_Ecommerce)
@@ -107,7 +108,6 @@ class FilterSheetFragment : BottomSheetDialogFragment() {
                 changeResetButtonVisibility()
             }
         }
-
     }
 
     private fun setBrandChipView() {
@@ -145,9 +145,7 @@ class FilterSheetFragment : BottomSheetDialogFragment() {
                 changeResetButtonVisibility()
             }
         }
-
     }
-
 
     private fun initAction() {
         binding.btReset.setOnClickListener {
@@ -308,7 +306,6 @@ class FilterSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-
     companion object {
         private const val ARG_SORT = "arg_sort"
         private const val ARG_BRAND = "arg_brand"
@@ -336,6 +333,4 @@ class FilterSheetFragment : BottomSheetDialogFragment() {
                 }
             }
     }
-
-
 }

@@ -11,17 +11,12 @@ class NotificationViewModel(
     private val notificationRepository: NotificationRepository
 ) : ViewModel() {
 
-    val notificationData: Flow<List<Notification>> = notificationRepository.getNotificationData()
+    fun notificationData(): Flow<List<Notification>> =
+        notificationRepository.getNotificationData()
 
     fun readNotification(data: Notification) {
         viewModelScope.launch {
             notificationRepository.updateNotification(data.copy(isRead = true))
         }
     }
-
-
-
-
-
 }
-

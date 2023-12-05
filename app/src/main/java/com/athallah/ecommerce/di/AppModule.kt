@@ -3,8 +3,8 @@ package com.athallah.ecommerce.di
 import com.athallah.ecommerce.fragment.cart.CartViewModel
 import com.athallah.ecommerce.fragment.checkout.CheckoutViewModel
 import com.athallah.ecommerce.fragment.detail.DetailViewModel
-import com.athallah.ecommerce.fragment.main.home.HomeViewModel
 import com.athallah.ecommerce.fragment.main.MainViewModel
+import com.athallah.ecommerce.fragment.main.home.HomeViewModel
 import com.athallah.ecommerce.fragment.main.profile.ProfileViewModel
 import com.athallah.ecommerce.fragment.main.store.StoreViewModel
 import com.athallah.ecommerce.fragment.main.store.search.SearchViewModel
@@ -19,7 +19,6 @@ import com.athallah.ecommerce.fragment.review.ReviewViewModel
 import com.athallah.ecommerce.fragment.status.StatusViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-
 
 val vmModule = module {
     viewModel { OnboardingViewModel(get()) }
@@ -39,6 +38,5 @@ val vmModule = module {
     viewModel { PaymentViewModel(get()) }
     viewModel { StatusViewModel(get(), get()) }
     viewModel { TransactionViewModel(get()) }
-    viewModel { NotificationViewModel(get())}
-
+    viewModel { NotificationViewModel(get()) }
 }

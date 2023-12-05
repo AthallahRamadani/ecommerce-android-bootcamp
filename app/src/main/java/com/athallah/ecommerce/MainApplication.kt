@@ -13,25 +13,25 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
-class MainApplication :Application() {
+class MainApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
 
-        startKoin{
+        startKoin {
             androidLogger(Level.NONE)
             androidContext(this@MainApplication)
             modules(
                 listOf(
-                    //core
+                    // core
                     preferenceModule,
                     repositoryModule,
                     apiModule,
-                    //room
+                    // room
                     roomModule,
-                    //app
+                    // app
                     vmModule,
-                    //firebase remote config
+                    // firebase remote config
                     remoteConfigModule,
                     firebaseModule
 

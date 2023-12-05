@@ -15,7 +15,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.ResultState
-import com.athallah.ecommerce.data.datasource.model.Cart
 import com.athallah.ecommerce.data.datasource.model.DetailProduct
 import com.athallah.ecommerce.databinding.FragmentDetailBinding
 import com.athallah.ecommerce.fragment.checkout.CheckoutFragment
@@ -29,11 +28,8 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.logEvent
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 
 class DetailFragment : Fragment() {
 
@@ -46,7 +42,8 @@ class DetailFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
@@ -91,21 +88,26 @@ class DetailFragment : Fragment() {
     }
 
     private fun actionAddCart() {
-        if (viewModel.insertCart()){
+        if (viewModel.insertCart()) {
             firebaseAnalytics.logEvent(FirebaseAnalytics.Event.ADD_TO_CART) {
                 val bundleProduct = Bundle().apply {
                     putString(FirebaseAnalytics.Param.ITEM_ID, viewModel.detailProduct!!.productId)
-                    putString(FirebaseAnalytics.Param.ITEM_NAME, viewModel.detailProduct!!.productName)
+                    putString(
+                        FirebaseAnalytics.Param.ITEM_NAME,
+                        viewModel.detailProduct!!.productName
+                    )
                     putString(FirebaseAnalytics.Param.ITEM_BRAND, viewModel.detailProduct!!.brand)
-                    putString(FirebaseAnalytics.Param.ITEM_VARIANT, viewModel.productVariant!!.variantName)
+                    putString(
+                        FirebaseAnalytics.Param.ITEM_VARIANT,
+                        viewModel.productVariant!!.variantName
+                    )
                 }
                 param(FirebaseAnalytics.Param.ITEMS, arrayOf(bundleProduct))
             }
             binding.root.showSnackbar(getString(R.string.cart_insert_successful))
-        }
-
-        else
+        } else {
             binding.root.showSnackbar(getString(R.string.stock_is_unavailable))
+        }
     }
 
     private fun actionOpenReview() {
@@ -124,9 +126,15 @@ class DetailFragment : Fragment() {
             firebaseAnalytics.logEvent(FirebaseAnalytics.Event.ADD_TO_WISHLIST) {
                 val bundleProduct = Bundle().apply {
                     putString(FirebaseAnalytics.Param.ITEM_ID, viewModel.detailProduct!!.productId)
-                    putString(FirebaseAnalytics.Param.ITEM_NAME, viewModel.detailProduct!!.productName)
+                    putString(
+                        FirebaseAnalytics.Param.ITEM_NAME,
+                        viewModel.detailProduct!!.productName
+                    )
                     putString(FirebaseAnalytics.Param.ITEM_BRAND, viewModel.detailProduct!!.brand)
-                    putString(FirebaseAnalytics.Param.ITEM_VARIANT, viewModel.productVariant!!.variantName)
+                    putString(
+                        FirebaseAnalytics.Param.ITEM_VARIANT,
+                        viewModel.productVariant!!.variantName
+                    )
                 }
                 param(FirebaseAnalytics.Param.ITEMS, arrayOf(bundleProduct))
             }
@@ -142,8 +150,11 @@ class DetailFragment : Fragment() {
 
     private fun setWishlistIcon() {
         binding.ivFavorite.setImageResource(
-            if (viewModel.isWishlist) R.drawable.baseline_favorite_purple_24
-            else R.drawable.baseline_favorite_border_24
+            if (viewModel.isWishlist) {
+                R.drawable.baseline_favorite_purple_24
+            } else {
+                R.drawable.baseline_favorite_border_24
+            }
         )
     }
 
@@ -208,7 +219,8 @@ class DetailFragment : Fragment() {
     private fun setView(data: DetailProduct) {
         with(binding) {
             setImageView(data.image)
-            tvDetailPrice.text = data.productPrice.plus(viewModel.productVariant!!.variantPrice).toCurrencyFormat()
+            tvDetailPrice.text =
+                data.productPrice.plus(viewModel.productVariant!!.variantPrice).toCurrencyFormat()
             tvDetailName.text = data.productName
             tvDetailSale.text = getString(R.string.total_sales, data.sale)
             chipRating.text =
@@ -225,7 +237,6 @@ class DetailFragment : Fragment() {
                 getString(R.string.rating_and_review_total, data.totalRating, data.totalReview)
             tvDetailRating.text = String.format("%.1f", data.productRating)
         }
-
     }
 
     private fun setChipVariants(
@@ -258,10 +269,12 @@ class DetailFragment : Fragment() {
         val pager = binding.pagerDetail
         pager.adapter = adapter
 
-        if (image.size > 1) TabLayoutMediator(
-            binding.tabLayout,
-            pager
-        ) { _, _ -> }.attach()
+        if (image.size > 1) {
+            TabLayoutMediator(
+                binding.tabLayout,
+                pager
+            ) { _, _ -> }.attach()
+        }
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -271,7 +284,6 @@ class DetailFragment : Fragment() {
         binding.dividerBottom.isVisible = !isLoading
         binding.layoutEmpty.isVisible = false
     }
-
 
     companion object {
         const val BUNDLE_PRODUCT_ID_KEY = "product_id"

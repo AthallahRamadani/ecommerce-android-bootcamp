@@ -21,7 +21,7 @@ class MainViewModelActivityTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     @Before
-    fun setUp(){
+    fun setUp() {
         mainViewModel = MainViewModel(appRepository)
     }
 

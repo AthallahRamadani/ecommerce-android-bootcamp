@@ -1,12 +1,11 @@
 package com.athallah.ecommerce.fragment.main.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.accessibility.AccessibilityEventCompat.setAction
 import androidx.core.view.isGone
+import androidx.fragment.app.Fragment
 import com.athallah.ecommerce.MainActivity
 import com.athallah.ecommerce.databinding.FragmentHomeBinding
 import com.athallah.ecommerce.utils.Helper
@@ -20,9 +19,9 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModel()
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
@@ -46,7 +45,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-
     private fun initAction() {
         binding.btnLogout.setOnClickListener {
             viewModel.makeLogout()
@@ -59,7 +57,7 @@ class HomeFragment : Fragment() {
         binding.switchLanguage.setOnCheckedChangeListener { _, isChecked ->
             viewModel.setAppLanguage(isChecked)
             val appLanguage = if (isChecked) "id" else "en"
-            Helper.setAppLanguage(requireActivity(),appLanguage)
+            Helper.setAppLanguage(requireActivity(), appLanguage)
             requireActivity().recreate()
         }
     }

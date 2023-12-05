@@ -32,4 +32,3 @@ data class AuthDataResponse(
     @field:SerializedName("refreshToken")
     val refreshToken: String? = null
 )
-

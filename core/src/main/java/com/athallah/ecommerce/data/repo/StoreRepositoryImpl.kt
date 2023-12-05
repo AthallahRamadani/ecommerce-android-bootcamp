@@ -6,13 +6,12 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.data.datasource.ProductsPagingSource
+import com.athallah.ecommerce.data.datasource.api.request.ProductsQuery
+import com.athallah.ecommerce.data.datasource.api.service.ApiService
 import com.athallah.ecommerce.data.datasource.model.DetailProduct
 import com.athallah.ecommerce.data.datasource.model.Product
 import com.athallah.ecommerce.data.datasource.model.Review
-import com.athallah.ecommerce.data.datasource.api.request.ProductsQuery
-import com.athallah.ecommerce.data.datasource.api.service.ApiService
 import com.athallah.ecommerce.data.datasource.preference.UserDataStore
-import com.athallah.ecommerce.utils.extension.getErrorMessage
 import com.athallah.ecommerce.utils.extension.toDetailProduct
 import com.athallah.ecommerce.utils.extension.toProduct
 import com.athallah.ecommerce.utils.extension.toReview
@@ -52,13 +51,16 @@ class StoreRepositoryImpl(
         }
     }
 
-    override fun detailProducts(id: String): Flow<ResultState<DetailProduct>> = flow{
+    override fun detailProducts(id: String): Flow<ResultState<DetailProduct>> = flow {
         emit(ResultState.Loading)
         try {
             val response = apiService.detailProducts(id)
             val data = response.data?.toDetailProduct()
-            if (data != null) emit(ResultState.Success(data))
-            else throw Exception("No data")
+            if (data != null) {
+                emit(ResultState.Success(data))
+            } else {
+                throw Exception("No data")
+            }
         } catch (e: Exception) {
             emit(ResultState.Error(e))
         }
@@ -66,9 +68,9 @@ class StoreRepositoryImpl(
 
     override fun reviewProducts(id: String): Flow<ResultState<List<Review>>> = flow {
         emit(ResultState.Loading)
-        try{
+        try {
             val response = apiService.reviewProducts(id)
-            val data = response.data?.map{ it.toReview()} ?: emptyList()
+            val data = response.data?.map { it.toReview() } ?: emptyList()
             emit(ResultState.Success(data))
         } catch (e: Exception) {
             emit(ResultState.Error(e))

@@ -102,16 +102,10 @@ class ProductAdapter(
 
         override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean =
             oldItem == newItem
-
-
     }
 
     companion object {
         const val ONE_COLUMN_VIEW_TYPE = 1
         const val MORE_COLUMN_VIEW_TYPE = 2
     }
-
-
 }
-
-

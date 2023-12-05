@@ -18,19 +18,19 @@ import com.athallah.ecommerce.utils.toCurrencyFormat
 
 class WishlistAdapter(
     private val callback: WishlistCallback
-) : ListAdapter<Wishlist, WishlistAdapter.WishlistViewHolder<ViewBinding>>(WishlistComparator){
-
+) : ListAdapter<Wishlist, WishlistAdapter.WishlistViewHolder<ViewBinding>>(WishlistComparator) {
 
     var viewType = ONE_COLUMN_VIEW_TYPE
 
     override fun getItemViewType(position: Int): Int {
         return viewType
     }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): WishlistViewHolder<ViewBinding> {
-        if (viewType == ONE_COLUMN_VIEW_TYPE){
+        if (viewType == ONE_COLUMN_VIEW_TYPE) {
             val binding =
                 ProductWishlistListLayoutBinding.inflate(
                     LayoutInflater.from(parent.context),
@@ -60,10 +60,10 @@ class WishlistAdapter(
         private val binding: T,
         private val viewType: Int,
         private val callback: WishlistCallback
-    ) : RecyclerView.ViewHolder(binding.root){
-        fun bind(data: Wishlist){
-            if (viewType == ONE_COLUMN_VIEW_TYPE){
-                with(binding as ProductWishlistListLayoutBinding){
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(data: Wishlist) {
+            if (viewType == ONE_COLUMN_VIEW_TYPE) {
+                with(binding as ProductWishlistListLayoutBinding) {
                     bindView(
                         data,
                         ivProduct,
@@ -76,7 +76,7 @@ class WishlistAdapter(
                     )
                 }
             } else {
-                with(binding as ProductWishlistGridLayoutBinding){
+                with(binding as ProductWishlistGridLayoutBinding) {
                     bindView(
                         data,
                         ivProductImage,
@@ -102,7 +102,7 @@ class WishlistAdapter(
             buttonDelete: Button,
             buttonAddCart: Button
         ) {
-            productImage.load(data.image){
+            productImage.load(data.image) {
                 crossfade(true)
                 placeholder(R.drawable.product_image_placeholder)
                 error(R.drawable.product_image_placeholder)
@@ -127,8 +127,6 @@ class WishlistAdapter(
         fun addCartCallback(wishlist: Wishlist)
     }
 
-
-
     object WishlistComparator : DiffUtil.ItemCallback<Wishlist>() {
         override fun areItemsTheSame(oldItem: Wishlist, newItem: Wishlist): Boolean =
             oldItem.productId == newItem.productId
@@ -141,7 +139,4 @@ class WishlistAdapter(
         const val ONE_COLUMN_VIEW_TYPE = 1
         const val MORE_COLUMN_VIEW_TYPE = 2
     }
-
-
-
 }

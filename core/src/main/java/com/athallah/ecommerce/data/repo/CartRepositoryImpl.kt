@@ -12,7 +12,7 @@ class CartRepositoryImpl(
     private val cartDao: CartDao
 ) : CartRepository {
     override fun getCartData(): Flow<List<Cart>> = cartDao.getData().map { value ->
-        value.map { it.toCart()}
+        value.map { it.toCart() }
     }
 
     override fun getCartDataSize(): Flow<Int> = cartDao.getDataSize()
@@ -21,8 +21,11 @@ class CartRepositoryImpl(
         val stock = cart.stock
         val quantity = if (cart.quantity == null) {
             val cartIsExisted = cartDao.checkExistData(cart.productId)
-            if (cartIsExisted) cartDao.getDetailData(cart.productId).first().quantity
-            else 0
+            if (cartIsExisted) {
+                cartDao.getDetailData(cart.productId).first().quantity
+            } else {
+                0
+            }
         } else {
             cart.quantity
         }
@@ -58,7 +61,7 @@ class CartRepositoryImpl(
     }
 
     override suspend fun deleteCart(vararg cart: Cart) {
-        val arrayCartEntity = cart.map {it.toCartEntity()}.toTypedArray()
+        val arrayCartEntity = cart.map { it.toCartEntity() }.toTypedArray()
         cartDao.delete(*arrayCartEntity)
     }
 }

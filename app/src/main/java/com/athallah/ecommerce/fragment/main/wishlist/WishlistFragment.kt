@@ -18,10 +18,8 @@ import com.athallah.ecommerce.data.datasource.model.Wishlist
 import com.athallah.ecommerce.databinding.FragmentWishlistBinding
 import com.athallah.ecommerce.fragment.detail.DetailFragment
 import com.athallah.ecommerce.utils.showSnackbar
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 
 class WishlistFragment : Fragment() {
 
@@ -65,11 +63,11 @@ class WishlistFragment : Fragment() {
 
     private fun observeWishlist() {
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.wishlistData.collect{data->
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.wishlistData().collect { data ->
                     showIsDataEmpty(data.isEmpty())
                     binding.tvWishlistTotalItem.text =
-                        getString(R.string.total_wishlist_item,data.size)
+                        getString(R.string.total_wishlist_item, data.size)
                     wishlistAdapter.submitList(data)
                 }
             }
@@ -84,14 +82,15 @@ class WishlistFragment : Fragment() {
         binding.layoutEmpty.isVisible = isEmpty
     }
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentWishlistBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     private fun setupAction() {
         binding.ivWishlist.setOnClickListener {
             viewModel.recyclerViewType =
@@ -123,10 +122,11 @@ class WishlistFragment : Fragment() {
 
     private fun setImageBtnChangeRecyclerView() {
         binding.ivWishlist.setImageResource(
-            if (viewModel.recyclerViewType == WishlistAdapter.ONE_COLUMN_VIEW_TYPE)
+            if (viewModel.recyclerViewType == WishlistAdapter.ONE_COLUMN_VIEW_TYPE) {
                 R.drawable.baseline_grid_view_24
-            else
+            } else {
                 R.drawable.baseline_format_list_bulleted_24
+            }
         )
     }
 
@@ -145,11 +145,10 @@ class WishlistFragment : Fragment() {
     }
 
     private fun actionAddCart(wishlist: Wishlist) {
-        if (viewModel.insertCart(wishlist))
+        if (viewModel.insertCart(wishlist)) {
             binding.root.showSnackbar(getString(R.string.cart_insert_successful))
-        else
+        } else {
             binding.root.showSnackbar(getString(R.string.stock_is_unavailable))
+        }
     }
-
-
 }

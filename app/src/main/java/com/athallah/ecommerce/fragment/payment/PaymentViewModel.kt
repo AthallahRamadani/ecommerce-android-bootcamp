@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.data.datasource.firebase.AppFirebaseRemoteConfig
 import com.athallah.ecommerce.data.datasource.model.Payment
-import com.athallah.ecommerce.data.repo.FulfillmentRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -30,10 +29,9 @@ class PaymentViewModel(
         }
     }
 
-    private fun updatePayment(){
+    private fun updatePayment() {
         remoteConfig.updateConfig { resultState ->
             _paymentState.value = resultState
         }
     }
-
 }

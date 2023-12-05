@@ -1,11 +1,11 @@
 package com.athallah.ecommerce.fragment.payment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -23,7 +23,6 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.IOException
-
 
 class PaymentFragment : Fragment() {
     private val viewModel: PaymentViewModel by viewModel()
@@ -46,9 +45,9 @@ class PaymentFragment : Fragment() {
         }
     }
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPaymentBinding.inflate(inflater, container, false)
@@ -78,7 +77,6 @@ class PaymentFragment : Fragment() {
                             is ResultState.Loading -> {}
                             is ResultState.Success -> paymentAdapter.submitList(result.data)
                             is ResultState.Error -> showError(result.e)
-
                         }
                     }
                 }
@@ -136,7 +134,6 @@ class PaymentFragment : Fragment() {
         val divider = MaterialDividerItemDecoration(requireActivity(), LinearLayoutManager.VERTICAL)
         divider.isLastItemDecorated = false
         divider.dividerThickness = 12
-
 
         binding.rvPayment.apply {
             adapter = paymentAdapter

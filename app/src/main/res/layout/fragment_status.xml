@@ -31,9 +31,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/app_bar"
         app:layout_constraintBottom_toTopOf="@id/divider_2"
-        >
+        app:layout_constraintTop_toBottomOf="@id/app_bar">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -67,8 +67,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                app:cardCornerRadius="8dp"
                 android:layout_marginTop="32dp"
+                app:cardCornerRadius="8dp"
                 app:layout_constraintTop_toTopOf="@id/civ">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -165,9 +165,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:textAlignment="textEnd"
                 android:textFontWeight="600"
                 android:textSize="12sp"
-                android:textAlignment="textEnd"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/space"
                 app:layout_constraintTop_toBottomOf="@id/tv_transaction_detail"
@@ -314,10 +314,10 @@
         android:layout_height="wrap_content"
         android:indeterminate="true"
         android:visibility="invisible"
-        app:layout_constraintTop_toTopOf="@id/btn_finish"
         app:layout_constraintBottom_toBottomOf="@id/btn_finish"
+        app:layout_constraintEnd_toEndOf="@id/btn_finish"
         app:layout_constraintStart_toStartOf="@id/btn_finish"
-        app:layout_constraintEnd_toEndOf="@id/btn_finish"/>
+        app:layout_constraintTop_toTopOf="@id/btn_finish" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_finish"
@@ -330,8 +330,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider_2" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

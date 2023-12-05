@@ -1,20 +1,20 @@
 package com.athallah.ecommerce.fragment.cart
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.datasource.model.Cart
 import com.athallah.ecommerce.databinding.FragmentCartBinding
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.lifecycle.lifecycleScope
 import com.athallah.ecommerce.fragment.checkout.CheckoutFragment
 import com.athallah.ecommerce.fragment.detail.DetailFragment
 import com.athallah.ecommerce.utils.toCurrencyFormat
@@ -70,7 +70,8 @@ class CartFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCartBinding.inflate(inflater, container, false)
@@ -157,7 +158,7 @@ class CartFragment : Fragment() {
             findNavController().navigateUp()
         }
         binding.btnBuy.setOnClickListener {
-            val listData = runBlocking { viewModel.cartData().first().filter { it.isChecked }}
+            val listData = runBlocking { viewModel.cartData().first().filter { it.isChecked } }
             val bundle = Bundle().apply {
                 putParcelableArrayList(CheckoutFragment.ARG_DATA, ArrayList<Cart>(listData))
             }
@@ -171,7 +172,6 @@ class CartFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireActivity())
             itemAnimator = null
         }
-
     }
 
     private fun moveToDetailProduct(productId: String) {
@@ -180,5 +180,4 @@ class CartFragment : Fragment() {
             bundleOf(DetailFragment.BUNDLE_PRODUCT_ID_KEY to productId)
         )
     }
-
 }

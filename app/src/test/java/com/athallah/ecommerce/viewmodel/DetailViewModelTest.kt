@@ -9,7 +9,6 @@ import com.athallah.ecommerce.data.datasource.api.response.ProductsDetailRespons
 import com.athallah.ecommerce.data.repo.CartRepository
 import com.athallah.ecommerce.data.repo.StoreRepository
 import com.athallah.ecommerce.data.repo.WishlistRepository
-import com.athallah.ecommerce.fragment.checkout.CheckoutFragment
 import com.athallah.ecommerce.fragment.detail.DetailFragment
 import com.athallah.ecommerce.fragment.detail.DetailViewModel
 import com.athallah.ecommerce.utils.extension.toCart
@@ -66,7 +65,6 @@ class DetailViewModelTest {
             )
         )
     )
-
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()

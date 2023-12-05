@@ -2,13 +2,11 @@ package com.athallah.ecommerce.fragment.checkout
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.datasource.model.Cart
-import com.athallah.ecommerce.databinding.CartItemLayoutBinding
 import com.athallah.ecommerce.databinding.CheckoutItemLayoutBinding
 import com.athallah.ecommerce.fragment.cart.CartAdapter
 import com.athallah.ecommerce.utils.Helper
@@ -44,7 +42,6 @@ class CheckoutAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: Cart) {
             with(binding) {
-
                 ivCartImage.load(data.image) {
                     crossfade(true)
                     placeholder(R.drawable.product_image_placeholder)

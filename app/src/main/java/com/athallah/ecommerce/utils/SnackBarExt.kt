@@ -31,6 +31,3 @@ fun Number.toCurrencyFormat(lang: String = "in", country: String = "ID"): String
     formatter.maximumFractionDigits = 0
     return formatter.format(this)
 }
-
-
-

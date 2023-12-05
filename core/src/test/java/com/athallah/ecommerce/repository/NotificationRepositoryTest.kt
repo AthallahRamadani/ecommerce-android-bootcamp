@@ -1,18 +1,14 @@
 package com.athallah.ecommerce.repository
 
-import com.athallah.ecommerce.data.datasource.model.Notification
 import com.athallah.ecommerce.data.datasource.room.dao.NotificationDao
 import com.athallah.ecommerce.data.datasource.room.entity.NotificationEntity
-import com.athallah.ecommerce.data.repo.CartRepositoryImpl
 import com.athallah.ecommerce.data.repo.NotificationRepository
 import com.athallah.ecommerce.data.repo.NotificationRepositoryImpl
-import com.athallah.ecommerce.utils.extension.toCart
 import com.athallah.ecommerce.utils.extension.toNotification
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert

@@ -18,7 +18,6 @@ class MainViewModel(
     private val notificationRepository: NotificationRepository
 ) : ViewModel() {
 
-
     fun prefGetAccToken(): String = runBlocking {
         appRepository.getAccToken().first()
     }
@@ -28,7 +27,6 @@ class MainViewModel(
     }
 
     fun wishlistSize(): Flow<Int> = wishlistRepository.getWishlistDataSize()
-
 
     var shouldMoveToTransaction =
         savedStateHandle.get<Boolean>(MainFragment.MOVE_TRANSACTION_BUNDLE_KEY) ?: false

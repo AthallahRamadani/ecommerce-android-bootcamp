@@ -2,11 +2,11 @@ package com.athallah.ecommerce.fragment.notification
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -16,7 +16,6 @@ import com.athallah.ecommerce.R
 import com.athallah.ecommerce.databinding.FragmentNotificationBinding
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 
 class NotificationFragment : Fragment() {
 
@@ -33,7 +32,8 @@ class NotificationFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentNotificationBinding.inflate(inflater, container, false)
@@ -50,7 +50,7 @@ class NotificationFragment : Fragment() {
     private fun observeNotification() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.notificationData.collect { data ->
+                viewModel.notificationData().collect { data ->
                     showIsDataEmpty(data.isEmpty())
                     notificationAdapter.submitList(data)
                 }
@@ -75,9 +75,5 @@ class NotificationFragment : Fragment() {
         binding.topAppBar.setNavigationOnClickListener {
             findNavController().navigate(R.id.action_notificationFragment_to_mainFragment)
         }
-    }
-
-    companion object {
-
     }
 }

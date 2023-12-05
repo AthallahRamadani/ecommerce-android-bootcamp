@@ -1,13 +1,12 @@
 package com.athallah.ecommerce.fragment.checkout
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -19,14 +18,12 @@ import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.data.datasource.model.Cart
 import com.athallah.ecommerce.data.datasource.model.Fulfillment
-import com.athallah.ecommerce.databinding.FragmentCartBinding
 import com.athallah.ecommerce.databinding.FragmentCheckoutBinding
 import com.athallah.ecommerce.fragment.detail.DetailFragment
 import com.athallah.ecommerce.fragment.payment.PaymentFragment
 import com.athallah.ecommerce.fragment.status.StatusFragment
 import com.athallah.ecommerce.utils.extension.getErrorMessage
 import com.athallah.ecommerce.utils.parcelable
-import com.athallah.ecommerce.utils.parcelableArrayList
 import com.athallah.ecommerce.utils.showSnackbar
 import com.athallah.ecommerce.utils.toCurrencyFormat
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -34,12 +31,10 @@ import com.google.firebase.analytics.FirebaseAnalytics.Event
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.logEvent
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 
 class CheckoutFragment : Fragment() {
 
@@ -68,9 +63,9 @@ class CheckoutFragment : Fragment() {
         })
     }
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCheckoutBinding.inflate(inflater, container, false)
@@ -97,12 +92,13 @@ class CheckoutFragment : Fragment() {
                             is ResultState.Success -> {
                                 sendLogPurchase(result.data)
                                 actionToStatus(result.data)
-
                             }
+
                             is ResultState.Error -> {
                                 val message = result.e.getErrorMessage()
                                 binding.root.showSnackbar(message)
                             }
+
                             else -> {}
                         }
                     }
@@ -112,7 +108,7 @@ class CheckoutFragment : Fragment() {
     }
 
     private fun sendLogPurchase(data: Fulfillment) {
-        firebaseAnalytics.logEvent(Event.PURCHASE){
+        firebaseAnalytics.logEvent(Event.PURCHASE) {
             val listCart = runBlocking { viewModel.listData.first() }
             val bundle = ArrayList<Bundle>()
             listCart.map { cart ->
@@ -200,10 +196,13 @@ class CheckoutFragment : Fragment() {
     }
 
     private fun setupAction() {
-        binding.cvPayment.setOnClickListener { findNavController().navigate(R.id.action_checkoutFragment_to_paymentFragment) }
+        binding.cvPayment.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_checkoutFragment_to_paymentFragment
+            )
+        }
         binding.btnBuy.setOnClickListener {
             viewModel.makePayment()
-
         }
         binding.topAppBar.setNavigationOnClickListener { findNavController().navigateUp() }
     }
@@ -227,9 +226,7 @@ class CheckoutFragment : Fragment() {
         )
     }
 
-
     companion object {
         const val ARG_DATA = "arg_data"
     }
-
 }

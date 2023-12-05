@@ -10,7 +10,6 @@ import com.athallah.ecommerce.databinding.SearchItemBinding
 class SearchAdapter(private val itemClickCallback: (String) -> Unit) :
     ListAdapter<String, SearchAdapter.SearchProductViewHolder>(SearchComparator) {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchProductViewHolder {
         val binding =
             SearchItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -22,13 +21,12 @@ class SearchAdapter(private val itemClickCallback: (String) -> Unit) :
         holder.bind(data)
     }
 
-
     class SearchProductViewHolder(
         private val binding: SearchItemBinding,
         private val itemClickCallback: (String) -> Unit
     ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data:String){
+        fun bind(data: String) {
             binding.tvSearch.text = data
             itemView.setOnClickListener { itemClickCallback(data) }
         }

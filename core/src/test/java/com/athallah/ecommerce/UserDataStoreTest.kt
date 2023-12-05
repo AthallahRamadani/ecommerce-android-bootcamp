@@ -25,6 +25,22 @@ class UserDataStoreTest {
     }
 
     @Test
+    fun testGetLanguage() = runTest {
+        userDataStore.setLanguage("en")
+        val actualData = userDataStore.getLanguage().first()
+
+        assertEquals("en", actualData)
+    }
+
+    @Test
+    fun testGetLight() = runTest {
+        userDataStore.setLight(true)
+        val actualData = userDataStore.getLight().first()
+
+        assertEquals(true, actualData)
+    }
+
+    @Test
     fun testGetRefToken() = runTest {
         userDataStore.setRefToken("ABC")
         val actualData = userDataStore.getRefToken().first()
@@ -101,7 +117,6 @@ class UserDataStoreTest {
         )
         val actualUser = userDataStore.getUserDataSession().first()
 
-
         assertEquals(expectedUser, actualUser)
     }
 
@@ -111,7 +126,7 @@ class UserDataStoreTest {
         userDataStore.setUserTokenSession(expectedToken)
         val actualToken = userDataStore.getUserDataSession().first()
 
-        assertEquals(expectedToken,actualToken.accessToken)
+        assertEquals(expectedToken, actualToken.accessToken)
     }
 
     @Test
@@ -119,8 +134,6 @@ class UserDataStoreTest {
         userDataStore.setUserAuthorization(true)
         val actualData = userDataStore.checkUserAuthorization().first()
 
-        assertEquals(true , actualData)
+        assertEquals(true, actualData)
     }
-
-
 }

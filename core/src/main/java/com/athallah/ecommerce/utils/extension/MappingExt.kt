@@ -1,11 +1,6 @@
 package com.athallah.ecommerce.utils.extension
 
 import com.athallah.ecommerce.data.datasource.api.request.FulfillmentRequest
-import com.athallah.ecommerce.data.datasource.model.DetailProduct
-import com.athallah.ecommerce.data.datasource.model.Product
-import com.athallah.ecommerce.data.datasource.model.Review
-import com.athallah.ecommerce.data.datasource.model.User
-import com.athallah.ecommerce.data.datasource.model.Wishlist
 import com.athallah.ecommerce.data.datasource.api.request.ProductsQuery
 import com.athallah.ecommerce.data.datasource.api.response.FulfillmentResponseData
 import com.athallah.ecommerce.data.datasource.api.response.LoginDataResponse
@@ -20,10 +15,15 @@ import com.athallah.ecommerce.data.datasource.api.response.ReviewResponseItem
 import com.athallah.ecommerce.data.datasource.api.response.TransactionResponseData
 import com.athallah.ecommerce.data.datasource.api.response.TransactionResponseItem
 import com.athallah.ecommerce.data.datasource.model.Cart
+import com.athallah.ecommerce.data.datasource.model.DetailProduct
 import com.athallah.ecommerce.data.datasource.model.Fulfillment
 import com.athallah.ecommerce.data.datasource.model.Notification
 import com.athallah.ecommerce.data.datasource.model.Payment
+import com.athallah.ecommerce.data.datasource.model.Product
+import com.athallah.ecommerce.data.datasource.model.Review
 import com.athallah.ecommerce.data.datasource.model.Transaction
+import com.athallah.ecommerce.data.datasource.model.User
+import com.athallah.ecommerce.data.datasource.model.Wishlist
 import com.athallah.ecommerce.data.datasource.room.entity.CartEntity
 import com.athallah.ecommerce.data.datasource.room.entity.NotificationEntity
 import com.athallah.ecommerce.data.datasource.room.entity.WishlistEntity
@@ -31,7 +31,6 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
-
 
 fun LoginDataResponse.toUser(): User =
     User(
@@ -47,7 +46,6 @@ fun RegisterDataResponse.toUser(): User =
 
 fun ProfileDataResponse.toUser(): User =
     User(userName = userName, userImage = userImage)
-
 
 fun File.toMultipartBody(field: String): MultipartBody.Part {
     val requestImageFile = this.asRequestBody("image/*".toMediaType())
@@ -336,7 +334,6 @@ fun NotificationEntity.toNotification(): Notification =
         time,
         isRead
     )
-
 
 fun Notification.toNotificationEntity(): NotificationEntity =
     NotificationEntity(

@@ -2,11 +2,10 @@ package com.athallah.ecommerce.data.datasource.room.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
-import com.athallah.ecommerce.data.datasource.room.entity.NotificationEntity
-import kotlinx.coroutines.flow.Flow
 import androidx.room.Query
 import androidx.room.Update
-import com.athallah.ecommerce.data.datasource.model.Notification
+import com.athallah.ecommerce.data.datasource.room.entity.NotificationEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NotificationDao {

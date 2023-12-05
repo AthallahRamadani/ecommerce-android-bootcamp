@@ -21,8 +21,6 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.junit.Before
 import org.junit.Test
@@ -37,17 +35,17 @@ class UserRepositoryTest {
     private val apiService: ApiService = mock()
     private val userDataStore: UserDataStore = mock()
     private val firebaseSubscribe: FirebaseSubscribe = mock()
+    private val appPreferences: UserDataStore = mock()
 
     @Before
     fun setUp() {
         userRepository = UserRepositoryImpl(
-            apiService, userDataStore, firebaseSubscribe
+            apiService, userDataStore, firebaseSubscribe, appPreferences
         )
     }
 
     @Test
     fun register() = runTest {
-
         val request = AuthRequest(
             email = "udin",
             password = "password",
@@ -64,11 +62,14 @@ class UserRepositoryTest {
         )
         whenever(firebaseSubscribe.firebaseToken()).thenReturn("firebaseToken")
         whenever(apiService.register(request)).thenReturn(registerResponse)
-        val actualData = userRepository.register("udin", "password")
+        userRepository.register("udin", "password").test {
+            assertEquals(ResultState.Loading, awaitItem())
+            assertEquals(ResultState.Success(true), awaitItem())
+            awaitComplete()
+        }
         verify(firebaseSubscribe).subscribe()
-
-
-        assertEquals(registerResponse.data!!.toUser(), actualData)
+        verify(appPreferences).setUserAuthorization(true)
+        verify(appPreferences).setUserDataSession(registerResponse.data!!.toUser())
     }
 
     @Test
@@ -92,12 +93,16 @@ class UserRepositoryTest {
 
         whenever(firebaseSubscribe.firebaseToken()).thenReturn("firebaseToken")
         whenever(apiService.login(request)).thenReturn(loginResponse)
-        val actualData = userRepository.login("udin", "password")
+
+        userRepository.login("udin", "password").test {
+            assertEquals(ResultState.Loading, awaitItem())
+            assertEquals(ResultState.Success(true), awaitItem())
+            awaitComplete()
+        }
+
+        verify(appPreferences).setUserAuthorization(true)
+        verify(appPreferences).setUserDataSession(loginResponse.data!!.toUser())
         verify(firebaseSubscribe).subscribe()
-
-
-        assertEquals(loginResponse.data!!.toUser(), actualData)
-
     }
 
     @Test

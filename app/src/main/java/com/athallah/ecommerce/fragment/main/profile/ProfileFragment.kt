@@ -9,7 +9,6 @@ import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.util.TypedValue
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +17,11 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.databinding.FragmentProfilBinding
@@ -32,7 +34,9 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.logEvent
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.launch
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileFragment : Fragment() {
 
@@ -44,9 +48,10 @@ class ProfileFragment : Fragment() {
         Firebase.analytics
     }
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfilBinding.inflate(inflater, container, false)
         return binding.root
@@ -55,18 +60,15 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         changeColor()
 
         binding.btSelesai.isEnabled = false
 
         binding.etNama.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -77,15 +79,16 @@ class ProfileFragment : Fragment() {
             val items = arrayOf("Kamera", "Galeri")
 
             MaterialAlertDialogBuilder(
-                requireContext(), R.drawable.background_dialog
+                requireContext(),
+                R.drawable.background_dialog
             ).setBackground(
                 ContextCompat.getDrawable(
-                    requireActivity(), R.drawable.background_dialog
+                    requireActivity(),
+                    R.drawable.background_dialog
                 )
             ).setTitle(resources.getString(R.string.title_dialog)).setItems(items) { _, which ->
                 when (which) {
                     0 -> {
-
                         actionOpenCamera()
                     }
 
@@ -123,7 +126,6 @@ class ProfileFragment : Fragment() {
         cameraIntentLauncher.launch(tempUri)
     }
 
-
     private val cameraIntentLauncher = registerForActivityResult(
         ActivityResultContracts.TakePicture()
     ) { isSuccess ->
@@ -140,10 +142,8 @@ class ProfileFragment : Fragment() {
         binding.ivImage.setImageURI(viewModel.currentImageUri)
     }
 
-
     private fun actionOpenGallery() {
         pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-
     }
 
     private val pickMedia =
@@ -156,20 +156,17 @@ class ProfileFragment : Fragment() {
             }
         }
 
-
     private fun updateButtonState() {
         val nama = binding.etNama.text.toString()
 
         val isNamaValid = isNamaValid(nama)
 
         binding.btSelesai.isEnabled = isNamaValid
-
     }
 
     private fun isNamaValid(nama: String): Boolean {
         return nama.isNotEmpty()
     }
-
 
     private fun changeColor() {
         val typedValue = TypedValue()
@@ -209,29 +206,36 @@ class ProfileFragment : Fragment() {
     }
 
     private fun observeUpload() {
-        viewModel.uploadState.observe(viewLifecycleOwner) { state ->
-            if (state != null) {
-                when (state) {
-                    is ResultState.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                        binding.btSelesai.visibility = View.INVISIBLE
-                    }
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uploadState.collect { state ->
+                    if (state != null) {
+                        when (state) {
+                            is ResultState.Loading -> {
+                                binding.progressBar.visibility = View.VISIBLE
+                                binding.btSelesai.visibility = View.INVISIBLE
+                            }
 
-                    is ResultState.Error -> {
-                        binding.root.showSnackbar(state.e.getErrorMessage())
-                        binding.progressBar.visibility = View.INVISIBLE
-                        binding.btSelesai.visibility = View.VISIBLE
-                    }
+                            is ResultState.Error -> {
+                                binding.root.showSnackbar(state.e.getErrorMessage())
+                                binding.progressBar.visibility = View.INVISIBLE
+                                binding.btSelesai.visibility = View.VISIBLE
+                            }
 
-                    is ResultState.Success -> {
+                            is ResultState.Success -> {
 //                        viewModel.prefSetUsername(state.data.userName?:"")
-                        viewModel.prefSetUsername(binding.etNama.text.toString())
-                        val isSuccessful = state.data
-                        if (isSuccessful) findNavController().navigate(R.id.action_profilFragment_to_mainFragment)
+                                viewModel.prefSetUsername(binding.etNama.text.toString())
+                                val isSuccessful = state.data
+                                if (isSuccessful) {
+                                    findNavController().navigate(
+                                        R.id.action_profilFragment_to_mainFragment
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
     }
-
 }

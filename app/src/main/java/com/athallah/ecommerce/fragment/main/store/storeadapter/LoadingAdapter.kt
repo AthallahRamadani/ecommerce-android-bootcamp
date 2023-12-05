@@ -23,13 +23,10 @@ class LoadingAdapter : LoadStateAdapter<LoadingAdapter.LoadingStateViewHolder>()
         return LoadingStateViewHolder(binding)
     }
 
-
     class LoadingStateViewHolder(private val binding: PagingLoadingBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(loadState: LoadState) {
             binding.loadingPaging.isVisible = loadState is LoadState.Loading
         }
     }
-
-
 }

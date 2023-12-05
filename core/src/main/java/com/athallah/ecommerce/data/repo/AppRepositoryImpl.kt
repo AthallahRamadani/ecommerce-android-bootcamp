@@ -1,13 +1,10 @@
 package com.athallah.ecommerce.data.repo
 
-import android.util.Log
 import com.athallah.ecommerce.data.datasource.firebase.FirebaseSubscribe
 import com.athallah.ecommerce.data.datasource.preference.UserDataStore
 import com.athallah.ecommerce.data.datasource.room.dao.CartDao
 import com.athallah.ecommerce.data.datasource.room.dao.NotificationDao
 import com.athallah.ecommerce.data.datasource.room.dao.WishlistDao
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.ktx.messaging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -18,8 +15,8 @@ class AppRepositoryImpl(
     private val notificationDao: NotificationDao,
     private val cartDao: CartDao,
     private val firebaseSubscribe: FirebaseSubscribe
-): AppRepository {
-    //pref
+) : AppRepository {
+    // pref
     override fun getLanguage(): Flow<String> = sharedPref.getLanguage()
     override suspend fun setLanguage(value: String?) {
         sharedPref.setLanguage(value)
@@ -56,7 +53,7 @@ class AppRepositoryImpl(
     }
 
     override suspend fun logout() {
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             wishlistDao.clearTable()
             cartDao.clearTable()
             notificationDao.clearTable()
@@ -70,5 +67,4 @@ class AppRepositoryImpl(
     override suspend fun setUserAuthorization(value: Boolean) {
         sharedPref.setUserAuthorization(value)
     }
-
 }

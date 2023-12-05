@@ -26,5 +26,3 @@ data class RegisterDataResponse(
     @field:SerializedName("refreshToken")
     val refreshToken: String? = null
 )
-
-

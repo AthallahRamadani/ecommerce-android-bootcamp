@@ -13,6 +13,9 @@ import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.ResultState
@@ -23,6 +26,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.logEvent
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterFragment : Fragment() {
@@ -35,7 +39,8 @@ class RegisterFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
@@ -50,31 +55,32 @@ class RegisterFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        viewModel.registerLiveData.observe(viewLifecycleOwner) { state ->
-            if (state != null) {
-                when (state) {
-                    is ResultState.Error -> {
-                        binding.root.showSnackbar(state.e.getErrorMessage())
-                        binding.progressBar.visibility = View.INVISIBLE
-                        binding.btDaftar.visibility = View.VISIBLE
-                    }
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.registerState.collect { state ->
+                    if (state != null) {
+                        when (state) {
+                            is ResultState.Error -> {
+                                binding.root.showSnackbar(state.e.getErrorMessage())
+                                binding.progressBar.visibility = View.INVISIBLE
+                                binding.btDaftar.visibility = View.VISIBLE
+                            }
 
-                    is ResultState.Loading -> {
-                        binding.progressBar.visibility = View.VISIBLE
-                        binding.btDaftar.visibility = View.INVISIBLE
-                    }
+                            is ResultState.Loading -> {
+                                binding.progressBar.visibility = View.VISIBLE
+                                binding.btDaftar.visibility = View.INVISIBLE
+                            }
 
-                    is ResultState.Success -> {
-                        viewModel.prefSetAccToken(state.data.accessToken ?: "")
-                        viewModel.prefSetRefToken(state.data.refreshToken ?: "")
-                        viewModel.setUserAuthorization(true)
-                        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP) {
-                            param(FirebaseAnalytics.Param.METHOD, "email")
+                            is ResultState.Success -> {
+                                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP) {
+                                    param(FirebaseAnalytics.Param.METHOD, "email")
+                                }
+                                findNavController().navigate(R.id.action_global_main_navigation)
+                            }
+
+                            else -> {}
                         }
-                        findNavController().navigate(R.id.action_global_main_navigation)
                     }
-
-                    else -> {}
                 }
             }
         }
@@ -103,22 +109,19 @@ class RegisterFragment : Fragment() {
         initViewBtnValid()
         changeColor()
         binding.btMasuk.setOnClickListener {
-            firebaseAnalytics.logEvent("button_Click"){
+            firebaseAnalytics.logEvent("button_Click") {
                 param("button_name", "button_login")
             }
             findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
 
         binding.btDaftar.setOnClickListener {
-            firebaseAnalytics.logEvent("button_Click"){
+            firebaseAnalytics.logEvent("button_Click") {
                 param("button_name", "button_register")
             }
             val email = binding.etEmail.text.toString()
             val pass = binding.etPassword.text.toString()
-            viewModel.register(
-                email = email,
-                password = pass
-            )
+            viewModel.makeRegister(email, pass)
         }
     }
 

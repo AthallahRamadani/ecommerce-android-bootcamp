@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class TransactionViewModel(
     private val fulfillmentRepository: FulfillmentRepository
-): ViewModel() {
+) : ViewModel() {
     private val _transactionState = MutableStateFlow<ResultState<List<Transaction>>?>(null)
     val transactionState: StateFlow<ResultState<List<Transaction>>?> = _transactionState
 

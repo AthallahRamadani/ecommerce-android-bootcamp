@@ -5,4 +5,3 @@ sealed class ResultState<out T> {
     data class Error(val e: Throwable) : ResultState<Nothing>()
     data object Loading : ResultState<Nothing>()
 }
-

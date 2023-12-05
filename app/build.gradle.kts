@@ -3,15 +3,78 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
-//    kotlin("kapt")
+    kotlin("kapt")
+    id("jacoco")
+    id("io.gitlab.arturbosch.detekt")
 }
 
-//kapt {
-//    correctErrorTypes = true
-//}
+kapt {
+    correctErrorTypes = true
+}
+
+private val coverageExclusions = listOf(
+    "**/R.class",
+    "**/R\$*.class",
+    "**/BuildConfig.*",
+    "**/Manifest*.*"
+)
+
+tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+    autoCorrect = true
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        txt.required.set(true)
+        sarif.required.set(true)
+        md.required.set(true)
+    }
+}
+
 
 
 android {
+
+    configure<JacocoPluginExtension> {
+        toolVersion = "0.8.10"
+    }
+    val jacocoTestReport = tasks.create("jacocoTestReport")
+
+    androidComponents.onVariants { variant ->
+        val testTaskName = "test${variant.name.capitalize()}UnitTest"
+
+        val reportTask =
+            tasks.register("jacoco${testTaskName.capitalize()}Report", JacocoReport::class) {
+                dependsOn(testTaskName)
+
+                reports {
+                    html.required.set(true)
+                }
+
+                classDirectories.setFrom(
+                    fileTree("$buildDir/tmp/kotlin-classes/${variant.name}") {
+                        exclude(coverageExclusions)
+                    }
+                )
+
+                sourceDirectories.setFrom(
+                    files("$projectDir/src/main/java")
+                )
+                executionData.setFrom(file("$buildDir/jacoco/$testTaskName.exec"))
+//                executionData.setFrom(file("$buildDir/outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec"))
+            }
+
+        jacocoTestReport.dependsOn(reportTask)
+    }
+
+    tasks.withType<Test>().configureEach {
+        configure<JacocoTaskExtension> {
+            isIncludeNoLocationClasses = true
+            excludes = listOf("jdk.internal.*")
+        }
+    }
+
+
+
     namespace = "com.athallah.ecommerce"
     compileSdk = 34
 
@@ -99,7 +162,7 @@ dependencies {
     implementation("com.airbnb.android:lottie:6.1.0")
 
     //shimmer
-    implementation ("com.facebook.shimmer:shimmer:0.5.0")
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 
     //paging
     implementation("androidx.paging:paging-runtime-ktx:3.2.1")
@@ -116,7 +179,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
     //picasso
-    implementation ("com.squareup.picasso:picasso:2.8")
+    implementation("com.squareup.picasso:picasso:2.8")
 
     //mock
     testImplementation("com.squareup.okhttp3:mockwebserver:5.0.0-alpha.2")
@@ -132,6 +195,9 @@ dependencies {
     //turbin
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("app.cash.turbine:turbine:1.0.0")
+
+    //detekt
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.3")
 
 
 }

@@ -1,7 +1,6 @@
 package com.athallah.ecommerce.fragment.main.store
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,10 +31,8 @@ import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.logEvent
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.IOException
-
 
 class StoreFragment : Fragment() {
     private var _binding: FragmentStoreBinding? = null
@@ -70,9 +67,9 @@ class StoreFragment : Fragment() {
 
     private lateinit var gridLayoutManager: GridLayoutManager
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentStoreBinding.inflate(inflater, container, false)
@@ -113,7 +110,6 @@ class StoreFragment : Fragment() {
         }
     }
 
-
     private fun getAccToken() {
         viewModel.prefGetAccToken()
     }
@@ -141,9 +137,14 @@ class StoreFragment : Fragment() {
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return if (viewModel.recyclerViewType == ProductAdapter.MORE_COLUMN_VIEW_TYPE) {
-                    if (position == productAdapter.itemCount && loadingAdapter.itemCount > 0) 2
-                    else 1
-                } else 1
+                    if (position == productAdapter.itemCount && loadingAdapter.itemCount > 0) {
+                        2
+                    } else {
+                        1
+                    }
+                } else {
+                    1
+                }
             }
         }
     }
@@ -167,11 +168,9 @@ class StoreFragment : Fragment() {
         if (viewModel.recyclerViewType == ProductAdapter.ONE_COLUMN_VIEW_TYPE) {
             productAdapter.viewType = ProductAdapter.ONE_COLUMN_VIEW_TYPE
             gridLayoutManager.spanCount = 1
-
         } else {
             productAdapter.viewType = ProductAdapter.MORE_COLUMN_VIEW_TYPE
             gridLayoutManager.spanCount = 2
-
         }
     }
 
@@ -232,9 +231,7 @@ class StoreFragment : Fragment() {
             productAdapter.refresh()
             binding.layoutConnection.isVisible = false
         }
-
     }
-
 
     private fun showShimmerLoading(isLoading: Boolean) {
         with(binding) {
@@ -248,9 +245,9 @@ class StoreFragment : Fragment() {
 
             if (isLoading) {
                 includeLoading.loadingShimmer.startShimmer()
-            } else if (includeLoading.loadingShimmer.isShimmerStarted)
+            } else if (includeLoading.loadingShimmer.isShimmerStarted) {
                 includeLoading.loadingShimmer.stopShimmer()
-
+            }
         }
     }
 
@@ -300,10 +297,11 @@ class StoreFragment : Fragment() {
 
     private fun setImageChange() {
         binding.includeContent.ivList.setImageResource(
-            if (viewModel.recyclerViewType == ProductAdapter.ONE_COLUMN_VIEW_TYPE)
+            if (viewModel.recyclerViewType == ProductAdapter.ONE_COLUMN_VIEW_TYPE) {
                 R.drawable.baseline_grid_view_24
-            else
+            } else {
                 R.drawable.baseline_format_list_bulleted_24
+            }
         )
     }
 
@@ -320,20 +318,24 @@ class StoreFragment : Fragment() {
             )
 
             viewModel.resSortFilterProduct =
-                bundle.getInt(FilterSheetFragment.BUNDLE_SORT_RES_ID_KEY,-1).let{
-                    if (it == -1) null
-                    else it
+                bundle.getInt(FilterSheetFragment.BUNDLE_SORT_RES_ID_KEY, -1).let {
+                    if (it == -1) {
+                        null
+                    } else {
+                        it
+                    }
                 }
             viewModel.resBrandFilterProduct =
-                bundle.getInt(FilterSheetFragment.BUNDLE_BRAND_RES_ID_KEY,-1).let{
-                    if (it == -1) null
-                    else it
+                bundle.getInt(FilterSheetFragment.BUNDLE_BRAND_RES_ID_KEY, -1).let {
+                    if (it == -1) {
+                        null
+                    } else {
+                        it
+                    }
                 }
-
 
             viewModel.getFilterData(productFilter)
             setChipView()
-
         }
     }
 
@@ -347,7 +349,6 @@ class StoreFragment : Fragment() {
             this.lowest?.let { filterList.add("> ${it.toInt().toCurrencyFormat()}") }
             this.highest?.let { filterList.add("< ${it.toInt().toCurrencyFormat()}") }
         }
-
 
         for (filter in filterList) {
             val chip = Chip(binding.includeContent.chipFilterGroup.context)

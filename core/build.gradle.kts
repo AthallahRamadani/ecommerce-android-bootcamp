@@ -4,6 +4,25 @@ plugins {
     kotlin("kapt")
     id("kotlin-parcelize")
     id("com.google.gms.google-services")
+    id("jacoco")
+    id("io.gitlab.arturbosch.detekt")
+}
+private val coverageExclusions = listOf(
+    "**/R.class",
+    "**/R\$*.class",
+    "**/BuildConfig.*",
+    "**/Manifest*.*"
+)
+
+tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+    autoCorrect = true
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        txt.required.set(true)
+        sarif.required.set(true)
+        md.required.set(true)
+    }
 }
 
 kapt {
@@ -11,6 +30,45 @@ kapt {
 }
 
 android {
+    configure<JacocoPluginExtension> {
+        toolVersion = "0.8.10"
+    }
+    val jacocoTestReport = tasks.create("jacocoTestReport")
+
+    androidComponents.onVariants { variant ->
+        val testTaskName = "test${variant.name.capitalize()}UnitTest"
+
+        val reportTask =
+            tasks.register("jacoco${testTaskName.capitalize()}Report", JacocoReport::class) {
+                dependsOn(testTaskName)
+
+                reports {
+                    html.required.set(true)
+                }
+
+                classDirectories.setFrom(
+                    fileTree("$buildDir/tmp/kotlin-classes/${variant.name}") {
+                        exclude(coverageExclusions)
+                    }
+                )
+
+                sourceDirectories.setFrom(
+                    files("$projectDir/src/main/java")
+                )
+                executionData.setFrom(file("$buildDir/jacoco/$testTaskName.exec"))
+//                executionData.setFrom(file("$buildDir/outputs/unit_test_code_coverage/${variant.name}UnitTest/$testTaskName.exec"))
+            }
+
+        jacocoTestReport.dependsOn(reportTask)
+    }
+
+    tasks.withType<Test>().configureEach {
+        configure<JacocoTaskExtension> {
+            isIncludeNoLocationClasses = true
+            excludes = listOf("jdk.internal.*")
+        }
+    }
+
     testOptions {
         unitTests.isReturnDefaultValues = true
     }
@@ -96,6 +154,8 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("app.cash.turbine:turbine:1.0.0")
 
+    //detekt
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.3")
 
 }
 

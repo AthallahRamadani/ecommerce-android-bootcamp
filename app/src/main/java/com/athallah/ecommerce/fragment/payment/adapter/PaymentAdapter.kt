@@ -18,7 +18,7 @@ class PaymentAdapter(
         viewType: Int
     ): PaymentViewHolder {
         val binding =
-            PaymentItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent,false)
+            PaymentItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PaymentViewHolder(binding, subitemClickCallback)
     }
 
@@ -47,7 +47,7 @@ class PaymentAdapter(
         }
     }
 
-    object PaymentComparator: DiffUtil.ItemCallback<Payment>() {
+    object PaymentComparator : DiffUtil.ItemCallback<Payment>() {
         override fun areItemsTheSame(oldItem: Payment, newItem: Payment): Boolean =
             oldItem.title == newItem.title
 

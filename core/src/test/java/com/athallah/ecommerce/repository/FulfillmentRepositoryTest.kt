@@ -6,28 +6,18 @@ import com.athallah.ecommerce.data.datasource.api.request.FulfillmentRequest
 import com.athallah.ecommerce.data.datasource.api.request.RatingRequest
 import com.athallah.ecommerce.data.datasource.api.response.FulfillmentResponse
 import com.athallah.ecommerce.data.datasource.api.response.FulfillmentResponseData
-import com.athallah.ecommerce.data.datasource.api.response.PaymentResponse
-import com.athallah.ecommerce.data.datasource.api.response.PaymentResponseData
-import com.athallah.ecommerce.data.datasource.api.response.PaymentResponseDataItem
 import com.athallah.ecommerce.data.datasource.api.response.RatingResponse
 import com.athallah.ecommerce.data.datasource.api.response.TransactionResponse
 import com.athallah.ecommerce.data.datasource.api.response.TransactionResponseData
 import com.athallah.ecommerce.data.datasource.api.response.TransactionResponseItem
 import com.athallah.ecommerce.data.datasource.api.service.ApiService
 import com.athallah.ecommerce.data.datasource.model.Cart
-import com.athallah.ecommerce.data.datasource.model.Fulfillment
-import com.athallah.ecommerce.data.datasource.model.Payment
-import com.athallah.ecommerce.data.datasource.model.Transaction
-import com.athallah.ecommerce.data.datasource.room.dao.CartDao
-import com.athallah.ecommerce.data.repo.CartRepository
 import com.athallah.ecommerce.data.repo.FulfillmentRepository
 import com.athallah.ecommerce.data.repo.FulfillmentRepositoryImpl
 import com.athallah.ecommerce.utils.extension.toFulfillment
-import com.athallah.ecommerce.utils.extension.toPayment
 import com.athallah.ecommerce.utils.extension.toTransaction
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -154,7 +144,6 @@ class FulfillmentRepositoryTest {
             awaitComplete()
         }
     }
-
 
 //    @Test
 //    fun getPaymentMethod() = runTest {

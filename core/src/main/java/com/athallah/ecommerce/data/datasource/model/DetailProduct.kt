@@ -16,7 +16,7 @@ data class DetailProduct(
     val productPrice: Int,
     val totalReview: Int
 ) {
-    data class ProductVariant (
+    data class ProductVariant(
         val variantPrice: Int,
         val variantName: String
     )

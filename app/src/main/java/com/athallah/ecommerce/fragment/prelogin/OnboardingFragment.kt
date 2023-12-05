@@ -10,7 +10,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.athallah.ecommerce.R
 import com.athallah.ecommerce.databinding.FragmentOnboardingBinding
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.analytics.FirebaseAnalytics.Event
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.logEvent
 import com.google.firebase.ktx.Firebase
@@ -27,9 +26,9 @@ class OnboardingFragment : Fragment() {
         Firebase.analytics
     }
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentOnboardingBinding.inflate(inflater, container, false)
@@ -39,7 +38,7 @@ class OnboardingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        initViewModel()
+//        initViewModel()
     }
 
     override fun onDestroyView() {
@@ -73,7 +72,7 @@ class OnboardingFragment : Fragment() {
     private fun initView() {
         initViewPager()
         binding.btNext.setOnClickListener {
-            firebaseAnalytics.logEvent("button_Click"){
+            firebaseAnalytics.logEvent("button_Click") {
                 param("button_name", "button_next")
             }
             val adapter = viewPager2.adapter
@@ -84,30 +83,19 @@ class OnboardingFragment : Fragment() {
             }
         }
         binding.btLewati.setOnClickListener {
-            firebaseAnalytics.logEvent("button_Click"){
+            firebaseAnalytics.logEvent("button_Click") {
                 param("button_name", "button_skip")
             }
-            viewModel.setAlreadyOnboard(ActionOnboard.LOGIN)
+            viewModel.setFirstTimeRunApp(true)
+            findNavController().navigate(R.id.action_onboardingFragment_to_loginFragment)
         }
-
 
         binding.btGabung.setOnClickListener {
-            firebaseAnalytics.logEvent("button_Click"){
+            firebaseAnalytics.logEvent("button_Click") {
                 param("button_name", "button_join")
             }
-            viewModel.setAlreadyOnboard(ActionOnboard.REGISTER)
+            viewModel.setFirstTimeRunApp(true)
+            findNavController().navigate(R.id.action_onboardingFragment_to_registerFragment)
         }
     }
-
-    private fun initViewModel() {
-        viewModel.prefSetIsOnBoard.observe(viewLifecycleOwner) { nextNav ->
-            if (nextNav != null) {
-                when (nextNav) {
-                    ActionOnboard.LOGIN -> findNavController().navigate(R.id.action_onboardingFragment_to_loginFragment)
-                    ActionOnboard.REGISTER -> findNavController().navigate(R.id.action_onboardingFragment_to_registerFragment)
-                }
-            }
-        }
-    }
-
 }

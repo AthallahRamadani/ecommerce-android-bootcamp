@@ -13,7 +13,6 @@ import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -30,11 +29,38 @@ class AppRepositoryTest {
     private val cartDao: CartDao = mock()
     private val firebaseSubscribe: FirebaseSubscribe = mock()
 
-
     @Before
     fun setUp() {
         appRepository =
             AppRepositoryImpl(sharedPref, wishlistDao, notificationDao, cartDao, firebaseSubscribe)
+    }
+
+    @Test
+    fun getLanguage() = runTest {
+        whenever(sharedPref.getLanguage()).thenReturn(flowOf("en"))
+        val actualData = appRepository.getLanguage().first()
+
+        assertEquals("en", actualData)
+    }
+
+    @Test
+    fun setLanguage() = runTest {
+        appRepository.setLanguage("")
+        verify(sharedPref).setLanguage("")
+    }
+
+    @Test
+    fun getLight() = runTest {
+        whenever(sharedPref.getLight()).thenReturn(flowOf(true))
+        val actualData = appRepository.getLight().first()
+
+        assertEquals(true, actualData)
+    }
+
+    @Test
+    fun setLight() = runTest {
+        appRepository.setLight(true)
+        verify(sharedPref).setLight(true)
     }
 
     @Test
@@ -43,7 +69,6 @@ class AppRepositoryTest {
         val actualData = appRepository.getRefToken().first()
 
         assertEquals("123", actualData)
-
     }
 
     @Test
@@ -58,7 +83,6 @@ class AppRepositoryTest {
         val actualData = appRepository.getAccToken().first()
 
         assertEquals("123", actualData)
-
     }
 
     @Test
@@ -132,6 +156,4 @@ class AppRepositoryTest {
         appRepository.setUserAuthorization(true)
         verify(sharedPref).setUserAuthorization(true)
     }
-
-
 }

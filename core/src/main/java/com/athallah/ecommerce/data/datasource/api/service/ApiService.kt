@@ -48,7 +48,7 @@ interface ApiService {
     @Multipart
     @POST("profile")
     suspend fun profile(
-        @Part ("userName") userName: RequestBody,
+        @Part("userName") userName: RequestBody,
         @Part userImage: MultipartBody.Part?
     ): ProfileResponse<ProfileDataResponse>
 
@@ -71,15 +71,15 @@ interface ApiService {
     @GET("products/{id}")
     suspend fun detailProducts(
         @Path("id") id: String
-    ) : ProductsDetailResponse
+    ): ProductsDetailResponse
 
     @GET("review/{id}")
     suspend fun reviewProducts(
         @Path("id") id: String
-    ) : ReviewResponse
+    ): ReviewResponse
 
     @GET("payment")
-    suspend fun payment() : PaymentResponse
+    suspend fun payment(): PaymentResponse
 
     @POST("fulfillment")
     suspend fun fulfillment(

@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class ReviewViewModel(
     private val storeRepository: StoreRepository
-): ViewModel() {
+) : ViewModel() {
 
     var productId: String? = null
 
@@ -19,9 +19,9 @@ class ReviewViewModel(
     val reviewProductState: StateFlow<ResultState<List<Review>>?> = _reviewProductsState
 
     fun getListReview() {
-        if (productId!= null) {
+        if (productId != null) {
             viewModelScope.launch {
-                storeRepository.reviewProducts(productId!!).collect{resultState->
+                storeRepository.reviewProducts(productId!!).collect { resultState ->
                     _reviewProductsState.value = resultState
                 }
             }

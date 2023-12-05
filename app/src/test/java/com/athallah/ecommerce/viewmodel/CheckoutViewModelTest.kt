@@ -1,12 +1,10 @@
 package com.athallah.ecommerce.viewmodel
 
-import androidx.core.os.bundleOf
 import androidx.lifecycle.SavedStateHandle
 import com.athallah.ecommerce.MainDispatcherRule
 import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.data.datasource.api.response.FulfillmentResponse
 import com.athallah.ecommerce.data.datasource.api.response.FulfillmentResponseData
-import com.athallah.ecommerce.data.datasource.model.Cart
 import com.athallah.ecommerce.data.datasource.model.Payment
 import com.athallah.ecommerce.data.datasource.room.entity.CartEntity
 import com.athallah.ecommerce.data.repo.FulfillmentRepository
@@ -14,13 +12,10 @@ import com.athallah.ecommerce.fragment.checkout.CheckoutFragment
 import com.athallah.ecommerce.fragment.checkout.CheckoutViewModel
 import com.athallah.ecommerce.utils.extension.toCart
 import com.athallah.ecommerce.utils.extension.toFulfillment
-import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -97,7 +92,6 @@ class CheckoutViewModelTest {
         }
 
         assertEquals(listCart, checkoutViewModel.listData.value)
-
     }
 
     @Test
@@ -115,7 +109,6 @@ class CheckoutViewModelTest {
         }
 
         assertEquals(listCart, checkoutViewModel.listData.value)
-
     }
 
     @Test
@@ -140,9 +133,4 @@ class CheckoutViewModelTest {
             checkoutViewModel.paymentState.value
         )
     }
-
-
 }
-
-
-
