@@ -52,7 +52,7 @@ class MainFragment : Fragment() {
 
     private fun initView() {
         binding.topAppBar.title = viewModel.prefGetUsername()
-        setBottomNavigation()
+        allNavigationController()
         observeWishlist()
         observeCart()
         observeNotification()
@@ -71,15 +71,15 @@ class MainFragment : Fragment() {
     }
 
     private fun observeWishlist() {
-        val badge = binding.bottomNavView.getOrCreateBadge(R.id.wishlistFragment)
+        val badge = binding.bottomNavView?.getOrCreateBadge(R.id.wishlistFragment)
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.wishlistSize().collect { size ->
                     if (size >= 1) {
-                        badge.isVisible = true
-                        badge.number = size
+                        badge?.isVisible = true
+                        badge?.number = size
                     } else {
-                        badge.isVisible = false
+                        badge?.isVisible = false
                     }
                 }
             }
@@ -88,11 +88,13 @@ class MainFragment : Fragment() {
 
     private fun observeCart() {
         val badgeDrawable = BadgeDrawable.create(requireActivity())
-        BadgeUtils.attachBadgeDrawable(
-            badgeDrawable,
-            binding.topAppBar,
-            R.id.menu_cart
-        )
+        binding.topAppBar.let {
+            BadgeUtils.attachBadgeDrawable(
+                badgeDrawable,
+                it,
+                R.id.menu_cart
+            )
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.cartSize().collect { size ->
@@ -109,11 +111,13 @@ class MainFragment : Fragment() {
 
     private fun observeNotification() {
         val badgeDrawable = BadgeDrawable.create(requireActivity())
-        BadgeUtils.attachBadgeDrawable(
-            badgeDrawable,
-            binding.topAppBar,
-            R.id.menu_notification
-        )
+        binding.topAppBar.let {
+            BadgeUtils.attachBadgeDrawable(
+                badgeDrawable,
+                it,
+                R.id.menu_notification
+            )
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.notificationSize().collect { size ->
@@ -128,16 +132,36 @@ class MainFragment : Fragment() {
         }
     }
 
+    private fun allNavigationController() {
+        setNavRail()
+        setNavView()
+        setBottomNavigation()
+    }
+
     private fun setBottomNavigation() {
         val navHostFragment =
             childFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
         val navController = navHostFragment.findNavController()
-        binding.bottomNavView.setupWithNavController(navController)
+        binding.bottomNavView?.setupWithNavController(navController)
 
         if (viewModel.shouldMoveToTransaction) {
-            binding.bottomNavView.selectedItemId = R.id.transactionFragment
+            binding.bottomNavView?.selectedItemId = R.id.transactionFragment
             viewModel.shouldMoveToTransaction = false
         }
+    }
+
+    private fun setNavRail() {
+        val navHostFragment =
+            childFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
+        val navController = navHostFragment.findNavController()
+        binding.navRail?.setupWithNavController(navController)
+    }
+
+    private fun setNavView() {
+        val navHostFragment =
+            childFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
+        val navController = navHostFragment.findNavController()
+        binding.navView?.setupWithNavController(navController)
     }
 
     companion object {
