@@ -57,8 +57,7 @@ class HomeFragment : Fragment() {
         binding.switchLanguage.setOnCheckedChangeListener { _, isChecked ->
             viewModel.setAppLanguage(isChecked)
             val appLanguage = if (isChecked) "id" else "en"
-            Helper.setAppLanguage(requireActivity(), appLanguage)
-            requireActivity().recreate()
+            Helper.setAppLanguage(appLanguage)
         }
     }
 

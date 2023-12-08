@@ -19,6 +19,7 @@ import com.athallah.ecommerce.data.datasource.model.DetailProduct
 import com.athallah.ecommerce.databinding.FragmentDetailBinding
 import com.athallah.ecommerce.fragment.checkout.CheckoutFragment
 import com.athallah.ecommerce.fragment.review.ReviewFragment
+import com.athallah.ecommerce.fragment.review.ReviewFragmentCompose
 import com.athallah.ecommerce.utils.extension.toCart
 import com.athallah.ecommerce.utils.showSnackbar
 import com.athallah.ecommerce.utils.toCurrencyFormat
@@ -112,8 +113,8 @@ class DetailFragment : Fragment() {
 
     private fun actionOpenReview() {
         findNavController().navigate(
-            R.id.action_detailFragment_to_reviewFragment,
-            bundleOf(ReviewFragment.BUNDLE_PRODUCT_ID_KEY to viewModel.productId)
+            R.id.action_detailFragment_to_reviewFragmentCompose,
+            bundleOf(ReviewFragmentCompose.BUNDLE_PRODUCT_ID_KEY to viewModel.productId)
         )
     }
 

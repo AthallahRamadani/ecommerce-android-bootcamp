@@ -56,6 +56,9 @@
         <action
             android:id="@+id/action_detailFragment_to_checkoutFragment"
             app:destination="@id/checkoutFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_reviewFragmentCompose"
+            app:destination="@id/reviewFragmentCompose" />
     </fragment>
     <fragment
         android:id="@+id/reviewFragment"
@@ -113,5 +116,9 @@
             android:id="@+id/action_notificationFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/reviewFragmentCompose"
+        android:name="com.athallah.ecommerce.fragment.review.ReviewFragmentCompose"
+        android:label="ReviewFragmentCompose" />
 
 </navigation>

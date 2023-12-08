@@ -1,5 +1,6 @@
 package com.athallah.ecommerce.fragment.review
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.athallah.ecommerce.data.ResultState
@@ -10,14 +11,18 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ReviewViewModel(
-    private val storeRepository: StoreRepository
+    private val storeRepository: StoreRepository,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    var productId: String? = null
+    var productId: String? = savedStateHandle[ReviewFragmentCompose.BUNDLE_PRODUCT_ID_KEY] ?: ""
 
     private val _reviewProductsState = MutableStateFlow<ResultState<List<Review>>?>(null)
     val reviewProductState: StateFlow<ResultState<List<Review>>?> = _reviewProductsState
 
+    init {
+        getListReview()
+    }
     fun getListReview() {
         if (productId != null) {
             viewModelScope.launch {

@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Build
 import android.util.TypedValue
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import java.util.Locale
 
 object Helper {
@@ -36,17 +37,8 @@ object Helper {
         }
     }
 
-    fun setAppLanguage(context: Context, appLanguage: String) {
-        val locale = Locale(appLanguage)
-        Locale.setDefault(locale)
+    fun setAppLanguage(appLanguage: String) {
+        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(appLanguage))
 
-        val config = context.resources.configuration
-        config.setLocale(locale)
-
-        context.createConfigurationContext(config)
-        context.resources.updateConfiguration(
-            config,
-            context.resources.displayMetrics
-        )
     }
 }

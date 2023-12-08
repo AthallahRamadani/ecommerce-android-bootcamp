@@ -1,5 +1,6 @@
 package com.athallah.ecommerce.fragment.main.home
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.athallah.ecommerce.data.repo.AppRepository
@@ -7,8 +8,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class HomeViewModel(
-    private val appRepository: AppRepository
+    private val appRepository: AppRepository,
 ) : ViewModel() {
+
+
+    init {
+        getAppTheme()
+        getAppLanguage()
+    }
 
     fun makeLogout() {
         viewModelScope.launch {

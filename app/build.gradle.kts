@@ -34,6 +34,8 @@ tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
 
 android {
 
+
+
     configure<JacocoPluginExtension> {
         toolVersion = "0.8.10"
     }
@@ -108,6 +110,11 @@ android {
 
     buildFeatures {
         viewBinding = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.2"
     }
 
 
@@ -200,6 +207,19 @@ dependencies {
     //detekt
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.3")
 
+    // Compose
+    implementation(platform("androidx.compose:compose-bom:2023.10.01"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+    implementation ("androidx.compose.runtime:runtime")
+
+    // Photo Online Loader
+    implementation("io.coil-kt:coil:2.5.0")
+    implementation("io.coil-kt:coil-compose:2.5.0")
 }
 

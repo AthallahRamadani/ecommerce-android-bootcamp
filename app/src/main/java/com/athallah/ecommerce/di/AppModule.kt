@@ -30,7 +30,7 @@ val vmModule = module {
     viewModel { StoreViewModel(get(), get()) }
     viewModel { SearchViewModel(get()) }
     viewModel { DetailViewModel(get(), get(), get(), get()) }
-    viewModel { ReviewViewModel(get()) }
+    viewModel { ReviewViewModel(get(), get()) }
     viewModel { com.athallah.ecommerce.MainViewModel(get()) }
     viewModel { WishlistViewModel(get(), get()) }
     viewModel { CheckoutViewModel(get(), get()) }

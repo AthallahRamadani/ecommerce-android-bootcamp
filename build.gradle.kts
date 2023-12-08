@@ -12,5 +12,3 @@ plugins {
     id("com.android.library") version "8.1.2" apply false
     id("io.gitlab.arturbosch.detekt") version "1.23.3" apply false
 }
-
-
