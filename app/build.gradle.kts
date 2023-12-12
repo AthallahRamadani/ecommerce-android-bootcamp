@@ -35,7 +35,6 @@ tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
 android {
 
 
-
     configure<JacocoPluginExtension> {
         toolVersion = "0.8.10"
     }
@@ -216,7 +215,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-    implementation ("androidx.compose.runtime:runtime")
+    implementation("androidx.compose.runtime:runtime")
 
     // Photo Online Loader
     implementation("io.coil-kt:coil:2.5.0")

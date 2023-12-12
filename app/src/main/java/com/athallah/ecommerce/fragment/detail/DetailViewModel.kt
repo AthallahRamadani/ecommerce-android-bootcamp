@@ -39,8 +39,6 @@ class DetailViewModel(
     fun getDetailProduct() {
         viewModelScope.launch {
             storeRepository.detailProducts(productId).collect { resultState ->
-//                Log.d("TAG", "getDetailProduct: $resultState")
-//                Log.d("TAG", "getDetailProduct: $productId")
                 _detailProductState.value = resultState
             }
         }

@@ -45,10 +45,9 @@
         android:layout_height="0dp"
         android:alpha="0.25"
         android:background="?attr/colorOnSurface"
-        app:layout_constraintStart_toEndOf="@id/nav_rail"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/app_bar"
-         />
+        app:layout_constraintStart_toEndOf="@id/nav_rail"
+        app:layout_constraintTop_toBottomOf="@id/app_bar" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"

@@ -14,7 +14,7 @@ class MainViewModel(
     private val appRepository: AppRepository,
     private val wishlistRepository: WishlistRepository,
     private val cartRepository: CartRepository,
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val notificationRepository: NotificationRepository
 ) : ViewModel() {
 

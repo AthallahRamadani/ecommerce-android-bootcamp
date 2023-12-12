@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_mainFragment_to_notificationFragment"
             app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_detailFragmentCompose"
+            app:destination="@id/detailFragmentCompose" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -76,6 +79,9 @@
         <action
             android:id="@+id/action_cartFragment_to_checkoutFragment"
             app:destination="@id/checkoutFragment" />
+        <action
+            android:id="@+id/action_cartFragment_to_detailFragmentCompose"
+            app:destination="@id/detailFragmentCompose" />
     </fragment>
     <fragment
         android:id="@+id/checkoutFragment"
@@ -103,6 +109,7 @@
         tools:layout="@layout/fragment_status">
         <action
             android:id="@+id/action_statusFragment_to_mainFragment"
+            app:launchSingleTop="true"
             app:destination="@id/mainFragment"
             app:popUpTo="@id/statusFragment"
             app:popUpToInclusive="true" />
@@ -120,5 +127,16 @@
         android:id="@+id/reviewFragmentCompose"
         android:name="com.athallah.ecommerce.fragment.review.ReviewFragmentCompose"
         android:label="ReviewFragmentCompose" />
+    <fragment
+        android:id="@+id/detailFragmentCompose"
+        android:name="com.athallah.ecommerce.fragment.detail.DetailFragmentCompose"
+        android:label="DetailFragmentCompose">
+        <action
+            android:id="@+id/action_detailFragmentCompose_to_reviewFragmentCompose"
+            app:destination="@id/reviewFragmentCompose" />
+        <action
+            android:id="@+id/action_detailFragmentCompose_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
+    </fragment>
 
 </navigation>

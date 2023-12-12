@@ -29,7 +29,8 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.MyApp.MySplash">
+            android:theme="@style/Theme.MyApp.MySplash"
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <nav-graph android:value="@navigation/app_navigation" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

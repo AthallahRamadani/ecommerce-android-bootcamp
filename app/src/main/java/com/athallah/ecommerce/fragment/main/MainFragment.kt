@@ -1,5 +1,6 @@
 package com.athallah.ecommerce.fragment.main
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -133,9 +134,16 @@ class MainFragment : Fragment() {
     }
 
     private fun allNavigationController() {
+
         setNavRail()
         setNavView()
         setBottomNavigation()
+        if (viewModel.shouldMoveToTransaction) {
+            binding.bottomNavView?.selectedItemId = R.id.transactionFragment
+            binding.navRail?.selectedItemId = R.id.transactionFragment
+            binding.navView?.menu?.performIdentifierAction(R.id.transactionFragment, 0)
+            viewModel.shouldMoveToTransaction = false
+        }
     }
 
     private fun setBottomNavigation() {
@@ -143,11 +151,6 @@ class MainFragment : Fragment() {
             childFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
         val navController = navHostFragment.findNavController()
         binding.bottomNavView?.setupWithNavController(navController)
-
-        if (viewModel.shouldMoveToTransaction) {
-            binding.bottomNavView?.selectedItemId = R.id.transactionFragment
-            viewModel.shouldMoveToTransaction = false
-        }
     }
 
     private fun setNavRail() {

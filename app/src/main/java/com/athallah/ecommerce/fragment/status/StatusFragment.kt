@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
@@ -27,11 +28,17 @@ class StatusFragment : Fragment() {
     private var _binding: FragmentStatusBinding? = null
     private val binding get() = _binding!!
     private val viewModel: StatusViewModel by viewModel()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentStatusBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -108,6 +115,8 @@ class StatusFragment : Fragment() {
             }
         }
     }
+
+
 
     private fun showLoading(isLoading: Boolean) {
         binding.btnFinish.isInvisible = isLoading

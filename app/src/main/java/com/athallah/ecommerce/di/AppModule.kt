@@ -3,6 +3,7 @@ package com.athallah.ecommerce.di
 import com.athallah.ecommerce.fragment.cart.CartViewModel
 import com.athallah.ecommerce.fragment.checkout.CheckoutViewModel
 import com.athallah.ecommerce.fragment.detail.DetailViewModel
+import com.athallah.ecommerce.fragment.detail.DetailViewModelCompose
 import com.athallah.ecommerce.fragment.main.MainViewModel
 import com.athallah.ecommerce.fragment.main.home.HomeViewModel
 import com.athallah.ecommerce.fragment.main.profile.ProfileViewModel
@@ -39,4 +40,5 @@ val vmModule = module {
     viewModel { StatusViewModel(get(), get()) }
     viewModel { TransactionViewModel(get()) }
     viewModel { NotificationViewModel(get()) }
+    viewModel { DetailViewModelCompose(get(), get(), get(), get()) }
 }

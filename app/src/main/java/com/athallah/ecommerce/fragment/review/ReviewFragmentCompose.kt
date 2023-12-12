@@ -58,13 +58,13 @@ import com.athallah.ecommerce.utils.compose.AppTheme
 import com.athallah.ecommerce.utils.compose.poppinsFamily
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class ReviewFragmentCompose : Fragment() {
 
     private val viewModel: ReviewViewModel by viewModel()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Membuat tampilan menggunakan ComposeView
@@ -126,6 +126,7 @@ fun ReviewFragmentScreen(
                         .verticalScroll(rememberScrollState()),
                     onErrorAction
                 )
+
                 else -> {} // Kasus lainnya (mungkin tidak ada aksi)
             }
         }
@@ -182,8 +183,11 @@ fun ReviewItem(data: Review) {
                 Row {
                     for (i in 1..5) {
                         val color =
-                            if (i <= data.userRating) MaterialTheme.colorScheme.onSurfaceVariant
-                            else MaterialTheme.colorScheme.outlineVariant
+                            if (i <= data.userRating) {
+                                MaterialTheme.colorScheme.onSurfaceVariant
+                            } else {
+                                MaterialTheme.colorScheme.outlineVariant
+                            }
                         Icon(
                             imageVector = Icons.Default.Star,
                             contentDescription = null,
@@ -211,7 +215,6 @@ fun ReviewItem(data: Review) {
         Divider(modifier = Modifier.padding(top = 16.dp))
     }
 }
-
 
 @Composable
 fun Loading(modifier: Modifier = Modifier) {
@@ -251,7 +254,9 @@ fun ReviewAppBar(onBackAction: () -> Unit) {
                 // Menampilkan tombol navigasi (back button)
                 IconButton(onClick = { onBackAction() }) {
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_arrow_back_24), // Mengambil ikon dari sumber daya
+                        painter = painterResource(
+                            id = R.drawable.baseline_arrow_back_24
+                        ), // Mengambil ikon dari sumber daya
                         contentDescription = null
                     )
                 }
@@ -264,7 +269,6 @@ fun ReviewAppBar(onBackAction: () -> Unit) {
 
 @Composable
 fun Error(modifier: Modifier = Modifier, onErrorAction: () -> Unit) {
-
     // Column digunakan untuk mengatur tata letak vertikal
     Column(
         modifier,
@@ -327,9 +331,8 @@ fun Error(modifier: Modifier = Modifier, onErrorAction: () -> Unit) {
 @Composable
 fun ReviewFragmentPreview() {
     ReviewFragmentScreen(
-        resultState = ResultState.Success(listOf(Review("","joko","wwww",3))),
+        resultState = ResultState.Success(listOf(Review("", "joko", "wwww", 3))),
         onBackAction = {},
         onErrorAction = {}
     )
 }
-

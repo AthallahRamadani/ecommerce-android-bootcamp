@@ -97,6 +97,8 @@
     <string name="product_detail">Product Detail</string>
     <string name="choose_payment">Choose payment</string>
     <string name="profile">Profile</string>
+    <string name="error">Error</string>
+    <string name="wishlist_insert_successful">Successfully insert wishlist</string>
 
 
 </resources>

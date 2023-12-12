@@ -19,7 +19,7 @@ import com.athallah.ecommerce.R
 import com.athallah.ecommerce.data.datasource.api.request.ProductsQuery
 import com.athallah.ecommerce.data.datasource.model.Product
 import com.athallah.ecommerce.databinding.FragmentStoreBinding
-import com.athallah.ecommerce.fragment.detail.DetailFragment
+import com.athallah.ecommerce.fragment.detail.DetailFragmentCompose
 import com.athallah.ecommerce.fragment.main.store.search.SearchFragment
 import com.athallah.ecommerce.fragment.main.store.storeadapter.LoadingAdapter
 import com.athallah.ecommerce.fragment.main.store.storeadapter.ProductAdapter
@@ -46,8 +46,8 @@ class StoreFragment : Fragment() {
         ProductAdapter { product ->
             sendLogSelectItem(product)
             Navigation.findNavController(requireActivity(), R.id.fcv_main).navigate(
-                R.id.action_mainFragment_to_detailFragment,
-                bundleOf(DetailFragment.BUNDLE_PRODUCT_ID_KEY to product.productId)
+                R.id.action_mainFragment_to_detailFragmentCompose,
+                bundleOf(DetailFragmentCompose.BUNDLE_PRODUCT_ID_KEY to product.productId)
             )
         }
     }

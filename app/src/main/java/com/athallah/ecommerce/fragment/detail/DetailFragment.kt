@@ -18,7 +18,6 @@ import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.data.datasource.model.DetailProduct
 import com.athallah.ecommerce.databinding.FragmentDetailBinding
 import com.athallah.ecommerce.fragment.checkout.CheckoutFragment
-import com.athallah.ecommerce.fragment.review.ReviewFragment
 import com.athallah.ecommerce.fragment.review.ReviewFragmentCompose
 import com.athallah.ecommerce.utils.extension.toCart
 import com.athallah.ecommerce.utils.showSnackbar

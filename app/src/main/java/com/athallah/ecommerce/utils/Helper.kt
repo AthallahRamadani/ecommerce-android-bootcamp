@@ -6,7 +6,6 @@ import android.os.Build
 import android.util.TypedValue
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
-import java.util.Locale
 
 object Helper {
     fun getColorTheme(context: Context, colorName: Int): Int {
@@ -39,6 +38,5 @@ object Helper {
 
     fun setAppLanguage(appLanguage: String) {
         AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(appLanguage))
-
     }
 }
