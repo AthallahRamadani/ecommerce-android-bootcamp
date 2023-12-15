@@ -73,7 +73,7 @@ class UserDataStore(private val dataStore: DataStore<Preferences>) {
 
     fun getLight(): Flow<Boolean> {
         return dataStore.data.map {
-            it[light] ?: true
+            it[light] ?: false
         }
     }
 

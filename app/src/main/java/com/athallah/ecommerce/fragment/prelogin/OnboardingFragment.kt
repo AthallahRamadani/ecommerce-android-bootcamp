@@ -38,7 +38,6 @@ class OnboardingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-//        initViewModel()
     }
 
     override fun onDestroyView() {

@@ -12,19 +12,6 @@ fun View.showSnackbar(message: String) {
     Snackbar.make(this, message, Snackbar.LENGTH_LONG).show()
 }
 
-fun getApiErrorMessage(e: Throwable): String? {
-    var message = e.message
-    if (e is HttpException) {
-        val errorResponse =
-            Gson().fromJson(
-                e.response()?.errorBody()?.string(),
-                ErrorResponse::class.java
-            ) ?: ErrorResponse()
-        errorResponse.message?.let { message = it }
-    }
-    return message
-}
-
 fun Number.toCurrencyFormat(lang: String = "in", country: String = "ID"): String {
     val localId = Locale(lang, country)
     val formatter = NumberFormat.getCurrencyInstance(localId)
