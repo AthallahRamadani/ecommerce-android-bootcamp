@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -34,6 +35,7 @@ class MainFragment : Fragment() {
         } else if (viewModel.prefGetUsername().isEmpty()) {
             findNavController().navigate(R.id.action_mainFragment_to_profilFragment)
         }
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
     }
 
     override fun onCreateView(
@@ -57,6 +59,7 @@ class MainFragment : Fragment() {
         observeWishlist()
         observeCart()
         observeNotification()
+        observeWishlistNavRail()
         setActionAppbar()
     }
 
@@ -69,6 +72,23 @@ class MainFragment : Fragment() {
             }
             return@setOnMenuItemClickListener true
         }
+    }
+
+    private fun observeWishlistNavRail() {
+        val badge = binding.navRail?.getOrCreateBadge(R.id.wishlistFragment)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.wishlistSize().collect {
+                    if (it >= 1) {
+                        badge?.isVisible = true
+                        badge?.number = it
+                    } else {
+                        badge?.isVisible = false
+                    }
+                }
+            }
+        }
+
     }
 
     private fun observeWishlist() {

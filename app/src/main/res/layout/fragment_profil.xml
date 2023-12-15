@@ -73,10 +73,11 @@
         android:text="@string/finish"
         app:layout_constraintTop_toBottomOf="@id/til_nama" />
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:indeterminate="true"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/bt_selesai"
         app:layout_constraintEnd_toEndOf="@id/bt_selesai"
