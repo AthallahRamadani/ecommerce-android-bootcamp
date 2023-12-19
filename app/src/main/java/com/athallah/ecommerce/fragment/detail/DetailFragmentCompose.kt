@@ -66,7 +66,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.os.bundleOf
@@ -634,13 +633,15 @@ fun ImageBanner(dataImage: List<String>) {
                     } else {
                         MaterialTheme.colorScheme.outlineVariant
                     }
-                Box(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .clip(CircleShape)
-                        .background(color)
-                        .size(8.dp)
-                )
+                if (pagerState.pageCount > 1){
+                    Box(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .clip(CircleShape)
+                            .background(color)
+                            .size(8.dp)
+                    )
+                }
             }
         }
     }
@@ -859,4 +860,3 @@ fun DetailAppBar(onBackPressed: () -> Unit) {
         Divider()
     }
 }
-

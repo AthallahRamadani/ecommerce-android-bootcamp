@@ -74,8 +74,17 @@ class PaymentFragment : Fragment() {
                     if (result != null) {
                         showLoading(result is ResultState.Loading)
                         when (result) {
-                            is ResultState.Loading -> {}
-                            is ResultState.Success -> paymentAdapter.submitList(result.data)
+                            is ResultState.Loading -> {
+                                binding.layoutEmpty.isVisible = false
+                                binding.layoutConnection.isVisible = false
+                                binding.layoutServer.isVisible = false
+                            }
+                            is ResultState.Success -> {
+                                binding.layoutEmpty.isVisible = false
+                                binding.layoutConnection.isVisible = false
+                                binding.layoutServer.isVisible = false
+                                paymentAdapter.submitList(result.data)
+                            }
                             is ResultState.Error -> showError(result.e)
                         }
                     }

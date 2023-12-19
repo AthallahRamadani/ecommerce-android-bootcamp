@@ -99,6 +99,9 @@
     <string name="profile">Profile</string>
     <string name="error">Error</string>
     <string name="wishlist_insert_successful">Successfully insert wishlist</string>
+    <string name="helper_email">Example: test@gmail.com</string>
+    <string name="helper_password">Minimum 8 characters</string>
+
 
 
 </resources>

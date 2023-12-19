@@ -61,11 +61,4 @@ class LoginViewModelTest {
         val actualData = loginViewModel.prefGetIsOnboard().first()
         assertEquals(true, actualData)
     }
-
-    @Test
-    fun prefGetUsername() = runTest {
-        whenever(appRepository.getUsername()).thenReturn(flowOf("hahaha"))
-        val actualData = loginViewModel.prefGetUsername()
-        assertEquals("hahaha", actualData)
-    }
 }

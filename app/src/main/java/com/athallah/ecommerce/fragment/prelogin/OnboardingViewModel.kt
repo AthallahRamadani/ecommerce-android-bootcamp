@@ -8,7 +8,7 @@ class OnboardingViewModel(
     private val appRepository: AppRepository
 ) : ViewModel() {
 
-    fun setFirstTimeRunApp(isFirstTime: Boolean = true) {
+    fun setFirstTimeRunApp(isFirstTime: Boolean) {
         runBlocking {
             appRepository.setIsOnBoard(isFirstTime)
         }

@@ -7,7 +7,6 @@ import com.athallah.ecommerce.data.datasource.api.request.RefreshRequest
 import com.athallah.ecommerce.data.datasource.api.response.FulfillmentResponse
 import com.athallah.ecommerce.data.datasource.api.response.LoginDataResponse
 import com.athallah.ecommerce.data.datasource.api.response.LoginResponse
-import com.athallah.ecommerce.data.datasource.api.response.PaymentResponse
 import com.athallah.ecommerce.data.datasource.api.response.ProductsDetailResponse
 import com.athallah.ecommerce.data.datasource.api.response.ProductsResponse
 import com.athallah.ecommerce.data.datasource.api.response.ProfileDataResponse
@@ -77,9 +76,6 @@ interface ApiService {
     suspend fun reviewProducts(
         @Path("id") id: String
     ): ReviewResponse
-
-    @GET("payment")
-    suspend fun payment(): PaymentResponse
 
     @POST("fulfillment")
     suspend fun fulfillment(

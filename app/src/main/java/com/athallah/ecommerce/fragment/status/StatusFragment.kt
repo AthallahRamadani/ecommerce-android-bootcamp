@@ -116,8 +116,6 @@ class StatusFragment : Fragment() {
         }
     }
 
-
-
     private fun showLoading(isLoading: Boolean) {
         binding.btnFinish.isInvisible = isLoading
         binding.cpiFinish.isInvisible = !isLoading

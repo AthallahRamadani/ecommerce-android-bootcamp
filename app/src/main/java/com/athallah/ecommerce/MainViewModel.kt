@@ -14,4 +14,6 @@ class MainViewModel(
             appRepository.logout()
         }
     }
+
+    fun getAppLanguage() = appRepository.getLanguage()
 }

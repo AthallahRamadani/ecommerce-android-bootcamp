@@ -10,6 +10,7 @@ import com.athallah.ecommerce.data.datasource.model.Product
 import com.athallah.ecommerce.data.repo.AppRepository
 import com.athallah.ecommerce.data.repo.StoreRepository
 import com.athallah.ecommerce.fragment.main.store.storeadapter.ProductAdapter
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -28,6 +29,7 @@ class StoreViewModel(
 
     var productsQuery: MutableStateFlow<ProductsQuery> = MutableStateFlow(ProductsQuery())
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     val productsData: Flow<PagingData<Product>> = productsQuery.flatMapLatest { query ->
         Log.d("bebaslah", ": bau ll ")
         storeRepository.getProducts(query)

@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import android.util.Patterns
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -56,7 +55,6 @@ class LoginFragment : Fragment() {
         initViewModel()
         initView()
         checkNotificationPermission()
-        Log.d("lol", "onViewCreated: ${viewModel.prefGetUsername()}")
     }
 
     private fun checkNotificationPermission() {

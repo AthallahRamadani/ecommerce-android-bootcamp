@@ -2,10 +2,8 @@ package com.athallah.ecommerce.fragment.main.profile
 
 import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
-import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.util.TypedValue
@@ -16,7 +14,9 @@ import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -64,17 +64,11 @@ class ProfileFragment : Fragment() {
 
         binding.btSelesai.isEnabled = false
 
-        binding.etNama.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+        binding.etNama.doOnTextChanged { _, _, _, _ ->
+            binding.btSelesai.isEnabled = true
+            updateButtonState()
+        }
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                updateButtonState()
-            }
-        })
         binding.ivImage.setOnClickListener {
             val items = arrayOf("Kamera", "Galeri")
 
@@ -133,7 +127,7 @@ class ProfileFragment : Fragment() {
             viewModel.currentImageUri = tempUri
             showImage()
         } else {
-            val toast = Toast.makeText(requireContext(), "Error", Toast.LENGTH_LONG) // in Activity
+            val toast = Toast.makeText(requireContext(), "Error", Toast.LENGTH_LONG)
             toast.show()
         }
     }
@@ -223,15 +217,12 @@ class ProfileFragment : Fragment() {
                             }
 
                             is ResultState.Success -> {
-//                        viewModel.prefSetUsername(state.data.userName?:"")
                                 viewModel.prefSetUsername(binding.etNama.text.toString())
-                                val isSuccessful = state.data
-                                if (isSuccessful) {
-                                    findNavController().navigate(
-                                        R.id.action_profilFragment_to_mainFragment
-                                    )
-                                }
+                                findNavController().navigate(
+                                    R.id.action_profilFragment_to_mainFragment
+                                )
                             }
+                            else -> {}
                         }
                     }
                 }

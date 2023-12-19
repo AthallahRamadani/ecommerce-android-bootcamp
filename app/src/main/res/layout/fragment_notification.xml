@@ -7,6 +7,64 @@
     tools:context=".fragment.notification.NotificationFragment">
 
     <!-- TODO: Update blank fragment layout -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/app_bar"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/app_bar">
+
+            <ImageView
+                android:id="@+id/iv_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="195dp"
+                android:src="@drawable/smartphone"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_title_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/empty_title"
+                android:textFontWeight="500"
+                android:textSize="32sp"
+                app:layout_constraintTop_toBottomOf="@id/iv_empty" />
+
+            <TextView
+                android:id="@+id/tv_subtitle_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/empty_subtitle"
+                app:layout_constraintTop_toBottomOf="@id/tv_title_empty" />
+
+            <Button
+                android:id="@+id/bt_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/reset"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_subtitle_empty"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="195dp"
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -36,53 +94,7 @@
         tools:itemCount="2"
         tools:listitem="@layout/notification_item_layout" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_empty"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/app_bar">
 
-        <ImageView
-            android:id="@+id/iv_empty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="195dp"
-            android:src="@drawable/smartphone"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_title_empty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="@string/empty_title"
-            android:textFontWeight="500"
-            android:textSize="32sp"
-            app:layout_constraintTop_toBottomOf="@id/iv_empty" />
-
-        <TextView
-            android:id="@+id/tv_subtitle_empty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/empty_subtitle"
-            app:layout_constraintTop_toBottomOf="@id/tv_title_empty" />
-
-        <Button
-            android:id="@+id/bt_empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/reset"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_subtitle_empty" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

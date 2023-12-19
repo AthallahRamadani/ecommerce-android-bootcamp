@@ -99,6 +99,8 @@
     <string name="profile">Profil</string>
     <string name="error">Error</string>
     <string name="wishlist_insert_successful">Berhasil menambahkan ke daftar keinginan</string>
+    <string name="helper_email">Contoh: test@gmail.com</string>
+    <string name="helper_password">Minimal 8 karakter</string>
 
 
 </resources>

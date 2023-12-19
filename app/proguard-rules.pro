@@ -57,7 +57,9 @@
 #-keep class com.google.gson.stream.** { *; }
 
 # Application classes that will be serialized/deserialized over Gson
--keep class com.google.gson.examples.android.model.** { <fields>; }
+-keep class com.athallah.ecommerce.data.datasource.api.response.** { <fields>; }
+-keep class com.athallah.ecommerce.data.datasource.api.request.** { <fields>; }
+-keep class com.athallah.ecommerce.data.datasource.model.Payment{ <fields>;}
 
 # Prevent proguard from stripping interface information from TypeAdapter, TypeAdapterFactory,
 # JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)

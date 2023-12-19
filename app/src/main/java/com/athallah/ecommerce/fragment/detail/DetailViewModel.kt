@@ -74,7 +74,6 @@ class DetailViewModel(
             val isStockReady = runBlocking { cartRepository.isStockReady(cart) }
             if (isStockReady) {
                 viewModelScope.launch {
-//                    Log.d("yolo", "insertCart: ")
                     cartRepository.insertCart(cart)
                 }
                 true

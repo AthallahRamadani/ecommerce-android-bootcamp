@@ -43,6 +43,10 @@ class HomeFragment : Fragment() {
         binding.switchLanguage.isChecked = runBlocking {
             viewModel.getAppLanguage().first() == "id"
         }
+//        viewModel.getAppLanguage().observe(viewLifecycleOwner){
+//            binding.switchLanguage.isChecked = it == "id"
+//            Helper.setAppLanguage(it)
+//        }
     }
 
     private fun initAction() {

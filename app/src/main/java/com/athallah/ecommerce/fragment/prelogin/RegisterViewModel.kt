@@ -7,9 +7,7 @@ import com.athallah.ecommerce.data.repo.AppRepository
 import com.athallah.ecommerce.data.repo.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class RegisterViewModel(
     private val userRepository: UserRepository,
@@ -18,8 +16,6 @@ class RegisterViewModel(
 
     private val _registerState = MutableStateFlow<ResultState<Boolean>?>(null)
     val registerState: StateFlow<ResultState<Boolean>?> = _registerState
-
-    fun prefGetUsername(): String = runBlocking { appRepository.getUsername().first() }
 
     fun makeRegister(email: String, password: String) {
         viewModelScope.launch {

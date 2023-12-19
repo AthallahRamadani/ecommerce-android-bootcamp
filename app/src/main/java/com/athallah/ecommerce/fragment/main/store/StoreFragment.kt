@@ -44,7 +44,7 @@ class StoreFragment : Fragment() {
 
     private val productAdapter by lazy {
         ProductAdapter { product ->
-            sendLogSelectItem(product)
+            logSelectItem(product)
             Navigation.findNavController(requireActivity(), R.id.fcv_main).navigate(
                 R.id.action_mainFragment_to_detailFragmentCompose,
                 bundleOf(DetailFragmentCompose.BUNDLE_PRODUCT_ID_KEY to product.productId)
@@ -52,8 +52,8 @@ class StoreFragment : Fragment() {
         }
     }
 
-    private fun sendLogSelectItem(product: Product) {
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+    private fun logSelectItem(product: Product) {
+        firebaseAnalytics.logEvent(Event.SELECT_ITEM) {
             val bundleProduct = Bundle().apply {
                 putString(FirebaseAnalytics.Param.ITEM_ID, product.productId)
                 putString(FirebaseAnalytics.Param.ITEM_NAME, product.productName)
@@ -130,7 +130,7 @@ class StoreFragment : Fragment() {
 
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 super.onItemRangeInserted(positionStart, itemCount)
-                sendLogViewItemList(productAdapter.snapshot().items)
+                logViewItemList(productAdapter.snapshot().items)
             }
         })
 
@@ -149,7 +149,7 @@ class StoreFragment : Fragment() {
         }
     }
 
-    private fun sendLogViewItemList(items: List<Product>) {
+    private fun logViewItemList(items: List<Product>) {
         firebaseAnalytics.logEvent(Event.VIEW_ITEM_LIST) {
             val bundle = ArrayList<Bundle>()
             items.map { product ->
@@ -243,6 +243,7 @@ class StoreFragment : Fragment() {
             includeLoading.loadingShimmer.isVisible = isLoading
             includeContent.layoutContent.isVisible = !isLoading
 
+
             if (isLoading) {
                 includeLoading.loadingShimmer.startShimmer()
             } else if (includeLoading.loadingShimmer.isShimmerStarted) {
@@ -263,6 +264,9 @@ class StoreFragment : Fragment() {
         }
         binding.swipeRefresh.setOnRefreshListener {
             productAdapter.refresh()
+            binding.layoutEmpty.isVisible = false
+            binding.layoutServer.isVisible = false
+            binding.layoutConnection.isVisible = false
             binding.swipeRefresh.isRefreshing = false
         }
     }

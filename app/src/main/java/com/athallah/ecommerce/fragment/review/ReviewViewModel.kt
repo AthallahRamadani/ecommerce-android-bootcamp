@@ -25,11 +25,9 @@ class ReviewViewModel(
     }
 
     fun getListReview() {
-        if (productId != null) {
-            viewModelScope.launch {
-                storeRepository.reviewProducts(productId!!).collect { resultState ->
-                    _reviewProductsState.value = resultState
-                }
+        viewModelScope.launch {
+            storeRepository.reviewProducts(productId!!).collect { resultState ->
+                _reviewProductsState.value = resultState
             }
         }
     }

@@ -159,7 +159,7 @@ class CheckoutFragment : Fragment() {
     }
 
     private fun sendLogBeginCheckout(listCart: List<Cart>) {
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.BEGIN_CHECKOUT) {
+        firebaseAnalytics.logEvent(Event.BEGIN_CHECKOUT) {
             val bundle = ArrayList<Bundle>()
             listCart.map { cart ->
                 val itemBundle = Bundle().apply {

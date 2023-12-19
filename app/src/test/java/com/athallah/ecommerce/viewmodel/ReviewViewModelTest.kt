@@ -1,10 +1,12 @@
 package com.athallah.ecommerce.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import com.athallah.ecommerce.MainDispatcherRule
 import com.athallah.ecommerce.data.ResultState
 import com.athallah.ecommerce.data.datasource.api.response.ReviewResponse
 import com.athallah.ecommerce.data.datasource.api.response.ReviewResponseItem
 import com.athallah.ecommerce.data.repo.StoreRepository
+import com.athallah.ecommerce.fragment.review.ReviewFragment
 import com.athallah.ecommerce.fragment.review.ReviewViewModel
 import com.athallah.ecommerce.utils.extension.toReview
 import com.nhaarman.mockitokotlin2.mock
@@ -46,16 +48,25 @@ class ReviewViewModelTest {
         )
     )
 
+    private val savedStateHandle: SavedStateHandle =
+        SavedStateHandle(mapOf(ReviewFragment.BUNDLE_PRODUCT_ID_KEY to "productId"))
+
     @Before
     fun setUp() {
-        reviewViewModel = ReviewViewModel(storeRepository)
+        whenever(storeRepository.reviewProducts("productId")).thenReturn(
+            flowOf(
+                ResultState.Loading,
+                ResultState.Success(dummyProductsReviewResponse.data!!.map { it.toReview() })
+            )
+        )
+        reviewViewModel = ReviewViewModel(storeRepository, savedStateHandle)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getListReview() = runTest {
-        val productId = "sss"
-        reviewViewModel.productId = "sss"
+        val productId = "productId"
+        reviewViewModel.productId = "productId"
         whenever(storeRepository.reviewProducts(productId)).thenReturn(
             flowOf(
                 ResultState.Loading,

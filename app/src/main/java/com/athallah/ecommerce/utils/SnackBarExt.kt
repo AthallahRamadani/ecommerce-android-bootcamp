@@ -1,10 +1,7 @@
 package com.athallah.ecommerce.utils
 
 import android.view.View
-import com.athallah.ecommerce.data.datasource.api.response.ErrorResponse
 import com.google.android.material.snackbar.Snackbar
-import com.google.gson.Gson
-import retrofit2.HttpException
 import java.text.NumberFormat
 import java.util.Locale
 

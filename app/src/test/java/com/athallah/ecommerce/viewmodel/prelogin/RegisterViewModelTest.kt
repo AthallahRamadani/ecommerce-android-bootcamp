@@ -42,11 +42,4 @@ class RegisterViewModelTest {
 
         assertEquals(ResultState.Success(true), registerViewModel.registerState.value)
     }
-
-    @Test
-    fun prefGetUsername() = runTest {
-        whenever(appRepository.getUsername()).thenReturn(flowOf("hahaha"))
-        val actualData = registerViewModel.prefGetUsername()
-        assertEquals("hahaha", actualData)
-    }
 }

@@ -1,6 +1,7 @@
 package com.athallah.ecommerce.fragment.main.home
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.athallah.ecommerce.data.repo.AppRepository
 import kotlinx.coroutines.launch

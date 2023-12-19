@@ -23,10 +23,8 @@ class UserDataStore(private val dataStore: DataStore<Preferences>) {
     private val userExpires = longPreferencesKey("user_expires")
     private val USER_AUTHORIZE_KEY = booleanPreferencesKey("user_authorize")
 
-    fun getLanguage(): Flow<String> {
-        return dataStore.data.map {
-            it[language] ?: "en"
-        }
+    fun getLanguage(): Flow<String> = dataStore.data.map{
+        it[language] ?: "en"
     }
 
     suspend fun setLanguage(value: String?) {

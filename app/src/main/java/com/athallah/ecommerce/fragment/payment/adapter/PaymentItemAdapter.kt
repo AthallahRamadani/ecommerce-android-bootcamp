@@ -44,7 +44,7 @@ class PaymentItemAdapter(
             binding.tvPayment.text = data.label
             if (!data.status) {
                 with(binding.layoutPaymentSubitem) {
-                    alpha = 0.5F
+                    alpha = 0.25F
                     isClickable = false
                     isFocusable = false
                     foreground = null
@@ -55,7 +55,7 @@ class PaymentItemAdapter(
                         )
                     )
                 }
-                binding.layoutPaymentSubitem.alpha = 0.5F
+                binding.layoutPaymentSubitem.alpha = 0.25F
             } else {
                 itemView.setOnClickListener { itemClickCallback(data) }
             }

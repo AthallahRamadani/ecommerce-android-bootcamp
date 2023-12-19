@@ -1,6 +1,5 @@
 package com.athallah.ecommerce.fragment.main
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -30,9 +29,7 @@ class MainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (viewModel.prefGetAccToken().isEmpty()) {
-            findNavController().navigate(R.id.action_global_prelogin_navigation)
-        } else if (viewModel.prefGetUsername().isEmpty()) {
+        if (viewModel.prefGetUsername().isEmpty()) {
             findNavController().navigate(R.id.action_mainFragment_to_profilFragment)
         }
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
@@ -88,7 +85,6 @@ class MainFragment : Fragment() {
                 }
             }
         }
-
     }
 
     private fun observeWishlist() {
@@ -154,7 +150,6 @@ class MainFragment : Fragment() {
     }
 
     private fun allNavigationController() {
-
         setNavRail()
         setNavView()
         setBottomNavigation()

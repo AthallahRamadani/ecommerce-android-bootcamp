@@ -8,9 +8,7 @@ import com.athallah.ecommerce.data.repo.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class LoginViewModel(
     private val appRepository: AppRepository,
@@ -30,5 +28,4 @@ class LoginViewModel(
 
     // preference
     fun prefGetIsOnboard(): Flow<Boolean> = appRepository.getIsOnboard()
-    fun prefGetUsername(): String = runBlocking { appRepository.getUsername().first() }
 }

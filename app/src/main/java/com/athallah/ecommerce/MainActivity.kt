@@ -9,10 +9,13 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.athallah.ecommerce.databinding.ActivityMainBinding
+import com.athallah.ecommerce.utils.Helper
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -23,11 +26,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val remoteConfig: FirebaseRemoteConfig by inject()
     override fun onCreate(savedInstanceState: Bundle?) {
+        checkAppLanguage()
         installSplashScreen()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setupNavController()
         observeLoginSession()
         setupRemoteConfig()
@@ -57,6 +60,13 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+    }
+
+    private fun checkAppLanguage() {
+        runBlocking {
+            val appLanguage = viewModel.getAppLanguage().first()
+            Helper.setAppLanguage(appLanguage)
         }
     }
 
