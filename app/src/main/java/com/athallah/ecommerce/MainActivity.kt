@@ -27,7 +27,11 @@ class MainActivity : AppCompatActivity() {
     private val remoteConfig: FirebaseRemoteConfig by inject()
     override fun onCreate(savedInstanceState: Bundle?) {
         checkAppLanguage()
-        installSplashScreen()
+        installSplashScreen().apply {
+            setKeepOnScreenCondition {
+                !viewModel.isReady.value
+            }
+        }
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

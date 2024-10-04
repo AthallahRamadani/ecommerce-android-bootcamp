@@ -8,6 +8,7 @@ import com.athallah.ecommerce.data.di.remoteConfigModule
 import com.athallah.ecommerce.data.di.repositoryModule
 import com.athallah.ecommerce.data.di.roomModule
 import com.athallah.ecommerce.di.vmModule
+import com.google.android.gms.common.util.CollectionUtils.listOf
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin

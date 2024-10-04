@@ -31,7 +31,6 @@ class StoreViewModel(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val productsData: Flow<PagingData<Product>> = productsQuery.flatMapLatest { query ->
-        Log.d("bebaslah", ": bau ll ")
         storeRepository.getProducts(query)
     }.cachedIn(viewModelScope)
 

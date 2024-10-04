@@ -19,13 +19,13 @@ class CheckoutAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): CheckoutAdapter.CheckoutViewHolder {
+    ): CheckoutViewHolder {
         val binding =
             CheckoutItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CheckoutViewHolder(binding, callback)
     }
 
-    override fun onBindViewHolder(holder: CheckoutAdapter.CheckoutViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CheckoutViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 

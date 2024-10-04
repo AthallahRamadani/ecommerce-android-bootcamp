@@ -2,6 +2,7 @@ package com.athallah.ecommerce.fragment.main.store.storeadapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +28,7 @@ class ProductAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         getItem(position)?.let {
             (holder as ProductViewHolder<*>).bind(it)
+
         }
     }
 
@@ -59,6 +61,7 @@ class ProductAdapter(
         fun bind(data: Product) {
             if (viewType == ONE_COLUMN_VIEW_TYPE) {
                 with(binding as ProductListLayoutBinding) {
+                    binding.cardView.startAnimation(AnimationUtils.loadAnimation(itemView.context,R.anim.anim_one))
                     ivProduct.load(data.image) {
                         crossfade(true)
                         placeholder(R.drawable.product_image)
@@ -76,6 +79,7 @@ class ProductAdapter(
                 }
             } else {
                 with(binding as ProductGridLayoutBinding) {
+                    binding.cardView.startAnimation(AnimationUtils.loadAnimation(itemView.context,R.anim.anim_one))
                     ivProductImage.load(data.image) {
                         crossfade(true)
                         placeholder(R.drawable.product_image)
